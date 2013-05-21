@@ -6,13 +6,31 @@ id="org.apache.cordova.core.splashscreen">
     version="0.1.0">
     <name>Splashscreen</name>
 
+    <js-module src="www/splashscreen.js" name="SplashScreen">
+        <clobbers target="navigator.splashscreen" />
+    </js-module>
+
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <plugin name="SplashScreen" value="org.apache.cordova.core.splashscreen.SplashScreen"/>
+            <feature name="SplashScreen">
+            <param name="android-package" value="org.apache.cordova.core.splashscreen.SplashScreen"/>
+            </feature>
         </config-file>
 
         <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/core" />
-
     </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+		    <feature name="SplashScreen">
+			    <param name="ios-package" value="CDVSpashScreen"/>
+		    </feature>
+        </config-file>
+
+	    <header-file src="src/ios/CDVSplashScreen.h" />
+	    <source-file src="src/ios/CDVSplashScreen.m" />
+    </platform>
+
 </plugin>
