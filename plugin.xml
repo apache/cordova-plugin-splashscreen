@@ -2,17 +2,17 @@
 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
-id="org.apache.cordova.core">
+id="org.apache.cordova.core.splashscreen">
     version="0.1.0">
     <name>Splashscreen</name>
 
     <!-- android -->
     <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/cordova/plugins">
-            <plugin name="SplashScreen" value="org.apache.cordova.core.SplashScreen"/>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <plugin name="SplashScreen" value="org.apache.cordova.core.splashscreen.SplashScreen"/>
         </config-file>
 
-        <source-file src="SplashScreen.java" target-dir="org/apache/cordova/core" />
+        <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/core" />
 
-       </platform>
+    </platform>
 </plugin>
