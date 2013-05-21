@@ -25,7 +25,7 @@ id="org.apache.cordova.core.SplashScreen">
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
 		    <feature name="SplashScreen">
-			    <param name="ios-package" value="CDVSpashScreen"/>
+			    <param name="ios-package" value="CDVSplashScreen"/>
 		    </feature>
         </config-file>
 
