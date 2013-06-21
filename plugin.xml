@@ -33,4 +33,12 @@ id="org.apache.cordova.core.SplashScreen">
 	    <source-file src="src/ios/CDVSplashScreen.m" />
     </platform>
 
+    <!-- blackberry10 -->
+    <platform name="blackberry10">
+        <source-file src="src/blackberry10/index.js" target-dir="SplashScreen" />
+        <config-file target="www/config.xml" parent="/widget">
+            <feature name="SplashScreen" value="SplashScreen"/>
+        </config-file>
+    </platform>
+
 </plugin>
