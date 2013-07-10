@@ -25,7 +25,6 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Info;
 using System.Windows.Controls.Primitives;
 using System.Diagnostics;
-using my.test.project;
 using System.Windows.Media.Imaging;
 
 namespace WPCordovaClassLib.Cordova.Commands
