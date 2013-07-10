@@ -19,8 +19,8 @@
 
 package org.apache.cordova.core;
 
-import org.apache.cordova.api.CallbackContext;
-import org.apache.cordova.api.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 
 public class SplashScreen extends CordovaPlugin {
