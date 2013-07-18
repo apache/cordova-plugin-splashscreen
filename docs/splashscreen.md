@@ -78,7 +78,12 @@ Setup
    - Default@2x~iphone.png (640x960 pixels)
    - Default~iphone.png (320x480 pixels)
         
-        
+### BlackBerry10
+
+## Quirks
+
+The SplashScreen BlackBerry10 plugin implements hide(), but show() is not possible using the built in OS mechanism. The advantage to using this is the splash screen is displayed before WebKit boots and issupports multiple images for various device resolutions and orientations.
+We also implemented the AutoHideSplashScreen config.xml value, similar to iOS.
 
 
    
