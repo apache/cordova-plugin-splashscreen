@@ -30,6 +30,8 @@
 
 	    <header-file src="src/ios/CDVSplashScreen.h" />
 	    <source-file src="src/ios/CDVSplashScreen.m" />
+	    
+	    <framework src="CoreGraphics.framework" />
     </platform>
 
     <!-- blackberry10 -->
