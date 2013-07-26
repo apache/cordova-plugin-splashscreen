@@ -25,6 +25,7 @@
         <config-file target="config.xml" parent="/*">
 		    <feature name="SplashScreen">
 			    <param name="ios-package" value="CDVSplashScreen"/>
+			    <param name="onload" value="true"/>
 		    </feature>
         </config-file>
 
