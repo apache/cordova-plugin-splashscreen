@@ -17,7 +17,7 @@
        under the License.
 */
 
-package org.apache.cordova.core;
+package org.apache.cordova.splashscreen;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
