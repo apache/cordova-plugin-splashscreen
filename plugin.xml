@@ -70,4 +70,11 @@
 
     </platform>
 
+    <!-- windows8 -->
+    <platform name="windows8">
+        <js-module src="www/windows8/SplashScreenProxy.js" name="SplashScreenProxy">
+            <merges target="" />
+        </js-module>
+    </platform>
+
 </plugin>
