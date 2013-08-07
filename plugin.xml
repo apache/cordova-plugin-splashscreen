@@ -5,7 +5,7 @@
       version="0.1.0">
     <name>Splashscreen</name>
     <description>Cordova Splashscreen Plugin</description>
-    <license>Apache</license>
+    <license>Apache 2.0</license>
     <keywords>cordova,splashscreen</keywords>
 
     <js-module src="www/splashscreen.js" name="SplashScreen">
