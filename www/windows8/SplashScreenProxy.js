@@ -28,7 +28,7 @@
 */
 
     var position = { x: 0, y: 0, width: 0, height: 0 };  // defined by evt.detail.splashScreen.imageLocation
-    var splash = null; // 
+    var splash = null; //
     var localSplash; // the image to display
     var localSplashImage;
     var bgColor = "#464646";
@@ -100,5 +100,5 @@ channel.onCordovaReady.subscribe(function (evt) {
     }, false);
 });
 
-require("cordova/commandProxy").add("SplashScreen",SplashScreen);
+require("cordova/windows8/commandProxy").add("SplashScreen",SplashScreen);
 
