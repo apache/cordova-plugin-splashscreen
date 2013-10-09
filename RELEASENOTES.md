@@ -26,3 +26,9 @@
 * Rename CHANGELOG.md -> RELEASENOTES.md
 * [CB-4806] Update splashscreen image bounds for iOS 7
 * [CB-4752] Incremented plugin version on dev branch.
+
+### 0.2.3 (Oct 9, 2013)
+* [CB-4806] (Re-fix) Update splashscreen image bounds for iOS 7
+* [CB-4934] plugin-splashscreen should not show by default on Windows8
+* [CB-4929] plugin-splashscreen not loading proxy windows8
+* [CB-4915] Incremented plugin version on dev branch.

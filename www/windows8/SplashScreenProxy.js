@@ -19,75 +19,77 @@
  *
 */
 
-/*global Windows:true */
+/*jslint sloppy:true */
+/*global Windows:true, require, module, window, document, WinJS */
 
-    var cordova = require('cordova'),
-        channel = require('cordova/channel');
+var cordova = require('cordova'),
+    channel = require('cordova/channel');
 
 /* This is the actual implementation part that returns the result on Windows 8
 */
 
-    var position = { x: 0, y: 0, width: 0, height: 0 };  // defined by evt.detail.splashScreen.imageLocation
-    var splash = null; // 
-    var localSplash; // the image to display
-    var localSplashImage;
-    var bgColor = "#464646";
+var position = { x: 0, y: 0, width: 0, height: 0 };  // defined by evt.detail.splashScreen.imageLocation
+var splash = null; //
+var localSplash; // the image to display
+var localSplashImage;
+var bgColor = "#464646";
 
-    function onResize(evt) {
-        if (splash) {
-            position = splash.imageLocation;
-            updateImageLocation();
+
+
+function updateImageLocation() {
+    localSplash.style.width = window.innerWidth + "px";
+    localSplash.style.height = window.innerHeight + "px";
+    localSplash.style.top = "0px";
+    localSplash.style.left = "0px";
+
+    localSplashImage.style.top = position.y + "px";
+    localSplashImage.style.left = position.x + "px";
+    localSplashImage.style.height = position.height + "px";
+    localSplashImage.style.width = position.width + "px";
+}
+
+function onResize(evt) {
+    if (splash) {
+        position = splash.imageLocation;
+        updateImageLocation();
+    }
+}
+
+var SplashScreen = {
+    setBGColor: function (cssBGColor) {
+        bgColor = cssBGColor;
+        if (localSplash) {
+            localSplash.style.backgroundColor = bgColor;
         }
+    },
+    show: function () {
+        window.addEventListener("resize", onResize, false);
+        localSplash = document.createElement("div");
+        localSplash.style.backgroundColor = bgColor;
+        localSplash.style.position = "absolute";
+
+        localSplashImage = document.createElement("img");
+        localSplashImage.src = "img/splashscreen.png";
+        localSplashImage.style.position = "absolute";
+
+        updateImageLocation();
+
+        localSplash.appendChild(localSplashImage);
+        document.body.appendChild(localSplash);
+    },
+    hide: function () {
+        window.removeEventListener("resize", onResize, false);
+        document.body.removeChild(localSplash);
+        localSplash = null;
     }
+};
 
-    function updateImageLocation() {
-        localSplash.style.width = window.innerWidth + "px";
-        localSplash.style.height = window.innerHeight + "px";
-        localSplash.style.top = "0px";
-        localSplash.style.left = "0px";
-
-        localSplashImage.style.top = position.y + "px";
-        localSplashImage.style.left = position.x + "px";
-        localSplashImage.style.height = position.height + "px";
-        localSplashImage.style.width = position.width + "px";
-    }
-
-    var SplashScreen = {
-        setBGColor:function(cssBGColor) {
-            bgColor = cssBGColor;
-            if (localSplash) {
-                localSplash.style.backgroundColor = bgColor;
-            }
-        },
-        show:function(){
-            window.addEventListener("resize", onResize, false);
-            localSplash = document.createElement("div");
-            localSplash.style.backgroundColor = bgColor;;
-            localSplash.style.position = "absolute";
-
-            var img = localSplashImage = document.createElement("img");
-            img.src = "img/splashscreen.png";
-            img.style.position = "absolute";
-
-            updateImageLocation();
-
-            localSplash.appendChild(localSplashImage);
-            document.body.appendChild(localSplash);
-        },
-        hide:function(){
-            window.removeEventListener("resize", onResize, false);
-            document.body.removeChild(localSplash);
-            localSplash = null;
-        }
-    }
-
-    module.exports = SplashScreen;
+module.exports = SplashScreen;
 
 function activated(evt) {
     if (evt.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
         splash = evt.detail.splashScreen;
         position = evt.detail.splashScreen.imageLocation;
-        SplashScreen.show();
     }
 }
 
@@ -100,5 +102,5 @@ channel.onCordovaReady.subscribe(function (evt) {
     }, false);
 });
 
-require("cordova/commandProxy").add("SplashScreen",SplashScreen);
+require("cordova/windows8/commandProxy").add("SplashScreen", SplashScreen);
 
