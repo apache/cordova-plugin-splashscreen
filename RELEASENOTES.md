@@ -32,3 +32,7 @@
 * [CB-4934] plugin-splashscreen should not show by default on Windows8
 * [CB-4929] plugin-splashscreen not loading proxy windows8
 * [CB-4915] Incremented plugin version on dev branch.
+
+### 0.2.4 (Oct 28, 2013)
+* CB-5128: add repo + issue tag to plugin.xml for splashscreen plugin
+* [CB-5010] Incremented plugin version on dev branch.
