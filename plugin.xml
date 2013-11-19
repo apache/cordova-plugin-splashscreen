@@ -83,6 +83,7 @@
     <!-- tizen -->
     <platform name="tizen">
         <js-module src="src/tizen/SplashScreenProxy.js" name="SplashScreenProxy">
+            <runs />
         </js-module>
     </platform>
 </plugin>
