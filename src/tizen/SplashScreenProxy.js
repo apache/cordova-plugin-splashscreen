@@ -2,11 +2,15 @@ var exec = require('cordova/exec');
 
 module.exports = {
     splashscreen: {
+        win: null,
+
         show = function() {
-            exec(null, null, "SplashScreen", "show", []);
+            win= window.open('splashscreen.html');
         },
+
         hide = function() {
-            exec(null, null, "SplashScreen", "hide", []);
+            win.close();
+            win = null;
         }
     }
 };
