@@ -84,5 +84,5 @@
     <platform name="tizen">
         <js-module src="www/tizen/SplashScreenProxy.js" name="SplashScreenProxy">
         </js-module>
-    </platfom>
+    </platform>
 </plugin>
