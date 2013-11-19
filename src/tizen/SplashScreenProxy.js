@@ -4,11 +4,11 @@ module.exports = {
     splashscreen: {
         win: null,
 
-        show = function() {
+        show: function() {
             win= window.open('splashscreen.html');
         },
 
-        hide = function() {
+        hide: function() {
             win.close();
             win = null;
         }
