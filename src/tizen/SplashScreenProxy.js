@@ -1,14 +1,16 @@
-var exec = require('cordova/exec');
+( function() {
+
+win = null;
 
 module.exports = {
-    splashscreen: {
-        win: null,
+    show: function() {
+        if ( win === null ) {
+            win = window.open('splashscreen.html');
+        }
+    },
 
-        show: function() {
-            win= window.open('splashscreen.html');
-        },
-
-        hide: function() {
+    hide: function() {
+        if ( win !== null ) {
             win.close();
             win = null;
         }
@@ -16,3 +18,5 @@ module.exports = {
 };
 
 require("cordova/tizen/commandProxy").add("SplashScreen", module.exports);
+
+})();
