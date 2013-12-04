@@ -36,3 +36,8 @@
 ### 0.2.4 (Oct 28, 2013)
 * CB-5128: add repo + issue tag to plugin.xml for splashscreen plugin
 * [CB-5010] Incremented plugin version on dev branch.
+
+### 0.2.5 (Dec 4, 2013)
+* add ubuntu platform
+* Added amazon-fireos platform. Change to use amazon-fireos as a platform if the user agent string contains 'cordova-amazon-fireos'
+* CB-5124 - Remove splashscreen config.xml values from iOS Configuration Docs, move to plugin docs
