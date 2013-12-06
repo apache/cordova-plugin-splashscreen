@@ -163,7 +163,7 @@
 - (void)updateBounds
 {
     UIImage* img = _imageView.image;
-    CGRect imgBounds = CGRectMake(0, 0, img.size.width, img.size.height);
+    CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
     CGSize screenSize = [self.viewController.view convertRect:[UIScreen mainScreen].bounds fromView:nil].size;
 
@@ -172,8 +172,8 @@
         CGRect statusFrame = [self.viewController.view convertRect:[UIApplication sharedApplication].statusBarFrame fromView:nil];
         if (!(IsAtLeastiOSVersion(@"7.0"))) {
             imgBounds.origin.y -= statusFrame.size.height;
-        }        
-    } else {
+        }
+    } else if (imgBounds.size.width > 0) {
         CGRect viewBounds = self.viewController.view.bounds;
         CGFloat imgAspect = imgBounds.size.width / imgBounds.size.height;
         CGFloat viewAspect = viewBounds.size.width / viewBounds.size.height;
