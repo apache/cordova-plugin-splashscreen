@@ -115,45 +115,6 @@
     [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
 }
 
-// Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
-- (BOOL)isOrientationLocked
-{
-    NSMutableArray *supportedOrientations = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UISupportedInterfaceOrientations"];
-    
-    NSInteger supportedOrientationsCount = [supportedOrientations count];
-    
-    BOOL lockedOrientation = false;
-    if (supportedOrientationsCount == 1) {
-        NSString *selectedOrientation = [supportedOrientations objectAtIndex:0];
-        
-        if ([selectedOrientation rangeOfString:@"UIInterfaceOrientationLandscape"].location != NSNotFound) {
-            lockedOrientation = true;
-        }
-        
-        if ([selectedOrientation rangeOfString:@"UIInterfaceOrientationPortrait"].location != NSNotFound) {
-            lockedOrientation = true;
-        }
-    }
-    
-    if (supportedOrientationsCount == 2) {
-        NSString *firstSelectedOrientation = [supportedOrientations objectAtIndex:0];
-        NSString *secondSelectedOrientation = [supportedOrientations objectAtIndex:1];
-        
-        if ([firstSelectedOrientation rangeOfString:@"UIInterfaceOrientationLandscape"].location != NSNotFound
-            && [secondSelectedOrientation rangeOfString:@"UIInterfaceOrientationLandscape"].location != NSNotFound) {
-            lockedOrientation = true;
-        }
-        
-        if ([firstSelectedOrientation rangeOfString:@"UIInterfaceOrientationPortrait"].location != NSNotFound
-            && [secondSelectedOrientation rangeOfString:@"UIInterfaceOrientationPortrait"].location != NSNotFound) {
-            lockedOrientation = true;
-        }
-        
-    }
-    
-    return lockedOrientation;
-}
-
 // Sets the view's frame and image.
 - (void)updateImage
 {
@@ -161,6 +122,12 @@
 
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+
+    // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
+    CDVViewController* vc = (CDVViewController*)self.viewController;
+    BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
+    BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
+    BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
 
     if (imageName) {
         imageName = [imageName stringByDeletingPathExtension];
@@ -170,7 +137,7 @@
 
     if (CDV_IsIPhone5()) {
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad() || [self isOrientationLocked]) {
+    } else if (CDV_IsIPad() || isOrientationLocked) {
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:
             case UIInterfaceOrientationLandscapeRight:
