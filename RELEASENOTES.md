@@ -41,3 +41,7 @@
 * add ubuntu platform
 * Added amazon-fireos platform. Change to use amazon-fireos as a platform if the user agent string contains 'cordova-amazon-fireos'
 * CB-5124 - Remove splashscreen config.xml values from iOS Configuration Docs, move to plugin docs
+
+### 0.2.6 (Jan 02, 2014)
+* CB-5658 Add doc/index.md for Splashscreen plugin
+* Handle error when splash image is missing.
