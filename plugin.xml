@@ -54,7 +54,7 @@
 
 	    <header-file src="src/ios/CDVSplashScreen.h" />
 	    <source-file src="src/ios/CDVSplashScreen.m" />
-	    
+
 	    <framework src="CoreGraphics.framework" />
     </platform>
 
@@ -97,4 +97,10 @@
         </js-module>
     </platform>
 
+    <!-- tizen -->
+    <platform name="tizen">
+        <js-module src="src/tizen/SplashScreenProxy.js" name="SplashScreenProxy">
+            <runs />
+        </js-module>
+    </platform>
 </plugin>
