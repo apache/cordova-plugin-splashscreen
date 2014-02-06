@@ -28,7 +28,7 @@
 * [CB-4752] Incremented plugin version on dev branch.
 
 ### 0.2.3 (Oct 9, 2013)
-* [CB-4806] (Re-fix) Update splashscreen image bounds for iOS 7
+* [CB-4806] Re-fix Update splashscreen image bounds for iOS 7
 * [CB-4934] plugin-splashscreen should not show by default on Windows8
 * [CB-4929] plugin-splashscreen not loading proxy windows8
 * [CB-4915] Incremented plugin version on dev branch.
@@ -45,3 +45,7 @@
 ### 0.2.6 (Jan 02, 2014)
 * CB-5658 Add doc/index.md for Splashscreen plugin
 * Handle error when splash image is missing.
+
+### 0.2.7 (Feb 05, 2014)
+* [CB-3562] Fix aspect ratio on landscape-only iPhone applications
+* CB-4051 fix for splashscreen rotation problem
