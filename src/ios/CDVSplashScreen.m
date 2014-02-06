@@ -18,6 +18,7 @@
  */
 
 #import "CDVSplashScreen.h"
+#import <Cordova/CDVViewController.h>
 
 #define kSplashScreenDurationDefault 0.25f
 
@@ -123,6 +124,12 @@
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
 
+    // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
+    CDVViewController* vc = (CDVViewController*)self.viewController;
+    BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
+    BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
+    BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
+
     if (imageName) {
         imageName = [imageName stringByDeletingPathExtension];
     } else {
@@ -131,7 +138,7 @@
 
     if (CDV_IsIPhone5()) {
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad()) {
+    } else if (CDV_IsIPad() || isOrientationLocked) {
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:
             case UIInterfaceOrientationLandscapeRight:
@@ -166,6 +173,18 @@
     CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
     CGSize screenSize = [self.viewController.view convertRect:[UIScreen mainScreen].bounds fromView:nil].size;
+    UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
+    CGAffineTransform imgTransform = CGAffineTransformIdentity;
+
+    /* If and only if an iPhone application is landscape-only as per
+     * UISupportedInterfaceOrientations, the view controller's orientation is
+     * landscape. In this case the image must be rotated in order to appear
+     * correctly.
+     */
+    if (UIInterfaceOrientationIsLandscape(orientation) && !CDV_IsIPad()) {
+        imgTransform = CGAffineTransformMakeRotation(M_PI / 2);
+        imgBounds.size = CGSizeMake(imgBounds.size.height, imgBounds.size.width);
+    }
 
     // There's a special case when the image is the size of the screen.
     if (CGSizeEqualToSize(screenSize, imgBounds.size)) {
@@ -188,6 +207,7 @@
         imgBounds.size.width *= ratio;
     }
 
+    _imageView.transform = imgTransform;
     _imageView.frame = imgBounds;
 }
 
