@@ -147,6 +147,9 @@
         }
     }
 
+     // Provides device specific Launch Images for universal apps
+    imageName = CDV_IsIPad() ? [imageName stringByAppendingString:@"~ipad"] : [imageName stringByAppendingString:@"~iphone"];
+
     if (![imageName isEqualToString:_curImageName]) {
         UIImage* img = [UIImage imageNamed:imageName];
         _imageView.image = img;
