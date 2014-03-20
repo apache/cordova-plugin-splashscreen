@@ -120,38 +120,77 @@
 - (void)updateImage
 {
     UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
+    NSString* imageName = nil;
 
-    // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
-    NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+    if ( CDV_IsIPad() && IsAtLeastiOSVersion( @"7.0" ) )
+    {
+        NSString * targetOrientation = nil;
 
-    // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
-    CDVViewController* vc = (CDVViewController*)self.viewController;
-    BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
-    BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
-    BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
+        if (( orientation == UIInterfaceOrientationLandscapeLeft )
+            || ( orientation == UIInterfaceOrientationLandscapeRight ))
+        {
+            targetOrientation = @"Landscape";
+        }
+        else if (( orientation == UIInterfaceOrientationPortrait )
+                 || ( orientation == UIInterfaceOrientationPortraitUpsideDown ))
+        {
+            targetOrientation = @"Portrait";
+        }
 
-    if (imageName) {
-        imageName = [imageName stringByDeletingPathExtension];
-    } else {
-        imageName = @"Default";
-    }
+        if ( targetOrientation != nil )
+        {
+            NSObject * launchImages =
+                [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImages"];
 
-    if (CDV_IsIPhone5()) {
-        imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad() || isOrientationLocked) {
-        switch (orientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-            case UIInterfaceOrientationLandscapeRight:
-                imageName = [imageName stringByAppendingString:@"-Landscape"];
-                break;
-
-            case UIInterfaceOrientationPortrait:
-            case UIInterfaceOrientationPortraitUpsideDown:
-            default:
-                imageName = [imageName stringByAppendingString:@"-Portrait"];
-                break;
+            if ( launchImages && [launchImages isKindOfClass:[NSArray class]] )
+            {
+                for ( NSDictionary * launchImage in (NSArray *)launchImages )
+                {
+                    if ( [[launchImage objectForKey:@"UILaunchImageOrientation"]
+                          isEqualToString: targetOrientation] )
+                    {
+                        imageName = [launchImage objectForKey:@"UILaunchImageName"];
+                        break;
+                    }
+                }
+            }
         }
     }
+
+    if ( imageName == nil )
+    {
+		// Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
+		imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+
+		// Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
+		CDVViewController* vc = (CDVViewController*)self.viewController;
+		BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
+		BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
+		BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
+
+		if (imageName) {
+			imageName = [imageName stringByDeletingPathExtension];
+		} else {
+			imageName = @"Default";
+		}
+
+		if (CDV_IsIPhone5()) {
+			imageName = [imageName stringByAppendingString:@"-568h"];
+		} else if (CDV_IsIPad() && isOrientationLocked) {
+			switch (orientation) {
+				case UIInterfaceOrientationLandscapeLeft:
+				case UIInterfaceOrientationLandscapeRight:
+					imageName = [imageName stringByAppendingString:@"-Landscape"];
+					break;
+
+				case UIInterfaceOrientationPortrait:
+				case UIInterfaceOrientationPortraitUpsideDown:
+				default:
+					imageName = [imageName stringByAppendingString:@"-Portrait"];
+					break;
+			}
+		}
+	}
 
     if (![imageName isEqualToString:_curImageName]) {
         UIImage* img = [UIImage imageNamed:imageName];
