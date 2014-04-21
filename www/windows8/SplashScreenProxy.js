@@ -69,7 +69,7 @@ var SplashScreen = {
         localSplash.style.position = "absolute";
 
         localSplashImage = document.createElement("img");
-        localSplashImage.src = "img/splashscreen.png";
+        localSplashImage.src = "ms-appx:///images/splashscreen.png";
         localSplashImage.style.position = "absolute";
 
         updateImageLocation();
