@@ -102,5 +102,5 @@ channel.onCordovaReady.subscribe(function (evt) {
     }, false);
 });
 
-require("cordova/windows8/commandProxy").add("SplashScreen", SplashScreen);
+require("cordova/exec/proxy").add("SplashScreen", SplashScreen);
 
