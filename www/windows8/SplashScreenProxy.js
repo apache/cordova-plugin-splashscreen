@@ -69,7 +69,7 @@ var SplashScreen = {
         localSplash.style.position = "absolute";
 
         localSplashImage = document.createElement("img");
-        localSplashImage.src = "img/splashscreen.png";
+        localSplashImage.src = "ms-appx:///images/splashscreen.png";
         localSplashImage.style.position = "absolute";
 
         updateImageLocation();
@@ -102,5 +102,5 @@ channel.onCordovaReady.subscribe(function (evt) {
     }, false);
 });
 
-require("cordova/windows8/commandProxy").add("SplashScreen", SplashScreen);
+require("cordova/exec/proxy").add("SplashScreen", SplashScreen);
 

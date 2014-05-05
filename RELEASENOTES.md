@@ -49,3 +49,11 @@
 ### 0.2.7 (Feb 05, 2014)
 * [CB-3562] Fix aspect ratio on landscape-only iPhone applications
 * CB-4051 fix for splashscreen rotation problem
+
+### 0.3.0 (Apr 17, 2014)
+* Add Tizen support to plugin
+* CB-6422: [windows8] use cordova/exec/proxy
+* CB-4051: [ios] - Re-fix - Splashscreen rotation problem (closes #13)
+* CB-6460: Update license headers
+* CB-6465: Add license headers to Tizen code
+* Add NOTICE file

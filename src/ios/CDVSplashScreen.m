@@ -138,7 +138,7 @@
 
     if (CDV_IsIPhone5()) {
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad() || isOrientationLocked) {
+    } else if (CDV_IsIPad() && isOrientationLocked) {
         switch (orientation) {
             case UIInterfaceOrientationLandscapeLeft:
             case UIInterfaceOrientationLandscapeRight:
