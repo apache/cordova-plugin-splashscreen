@@ -19,7 +19,7 @@
 
 # org.apache.cordova.splashscreen
 
-This plugin displays and hides a splash screen during application launch.
+このプラグインが表示され、アプリケーションの起動中にスプラッシュ スクリーンを非表示にします。
 
 ## インストール
 
@@ -42,13 +42,13 @@ This plugin displays and hides a splash screen during application launch.
 
 ### Android の癖
 
-In your config.xml, you need to add the following preference
+あなた config.xml で、以下の設定を追加する必要があります。
 
 `<preference name="splashscreen" value="foo" />`
 
-Where foo is the name of the splashscreen file. Preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders.
+Foo は splashscreen ファイルの名前です。できれば 9 パッチ ファイルです。解像度/xml ディレクトリの適切なフォルダーの下に splashcreen ファイルを追加することを確認します。
 
-For Android, you also have to edit your projects main java file. You must add a second parameter representing a time delay to your super.loadUrl.
+アンドロイドのためまた、プロジェクトの主要な java ファイルを編集する必要があります。あなたの super.loadUrl への遅延時間を表す 2 番目のパラメーターを追加する必要があります。
 
 `super.loadUrl(Config.getStartUrl(), 10000);`
 
@@ -59,9 +59,9 @@ For Android, you also have to edit your projects main java file. You must add a 
     navigator.splashscreen.hide();
     
 
-### BlackBerry 10 Quirk
+### ブラックベリー 10 気まぐれ
 
-The `config.xml` file's `AutoHideSplashScreen` setting must be `false`.
+`config.xml`ファイルの `AutoHideSplashScreen` 設定する必要があります`false`.
 
 ### iOS の気まぐれ
 
@@ -79,6 +79,6 @@ The `config.xml` file's `AutoHideSplashScreen` setting must be `false`.
     navigator.splashscreen.show();
     
 
-Your application cannot call `navigator.splashscreen.show()` until the app has started and the `deviceready` event has fired. But since typically the splash screen is meant to be visible before your app has started, that would seem to defeat the purpose of the splash screen. Providing some configuration in `config.xml` will automatically `show` the splash screen immediately after your app launch and before it has fully started and received the `deviceready` event. See [Icons and Splash Screens][1] for more information on doing this configuration. For this reason, it is unlikely you need to call `navigator.splashscreen.show()` to make the splash screen visible for app startup.
+アプリケーションを呼び出すことはできません `navigator.splashscreen.show()` 、アプリが開始されるまで、 `deviceready` イベントが発生します。 しかし、以来、通常スプラッシュ画面アプリ開始前に表示するものですと思われる、スプラッシュ スクリーンの目的の敗北します。 いくつかの構成を提供する `config.xml` は自動的に `show` スプラッシュ画面、アプリを起動後すぐに、それが完全に起動し、受信する前に、 `deviceready` イベント。 詳細についてはこの構成を行うには、[アイコンとスプラッシュ画面][1]を参照してください。 このような理由から、それは可能性を呼び出す必要があります `navigator.splashscreen.show()` アプリ起動時のスプラッシュ画面を見やすくします。
 
  [1]: http://cordova.apache.org/docs/en/edge/config_ref_images.md.html
