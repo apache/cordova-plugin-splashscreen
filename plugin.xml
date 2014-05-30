@@ -89,6 +89,7 @@
         <config-file target="config.xml" parent="/*">
             <feature name="SplashScreen">
                 <param name="wp-package" value="SplashScreen"/>
+                <param name="onload" value="true"/>
             </feature>
         </config-file>
 
@@ -101,6 +102,7 @@
         <config-file target="config.xml" parent="/*">
             <feature name="SplashScreen">
                 <param name="wp-package" value="SplashScreen"/>
+                <param name="onload" value="true"/>
             </feature>
         </config-file>
 
