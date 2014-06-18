@@ -137,13 +137,12 @@ namespace WPCordovaClassLib.Cordova.Commands
 
         public void hide(string options = null)
         {
-            if (!popup.IsOpen)
-            {
-                return;
-            }
-
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
+                if (!popup.IsOpen)
+                {
+                    return;
+                }
                 popup.Child.Opacity = 1.0;
 
                 Storyboard story = new Storyboard();
