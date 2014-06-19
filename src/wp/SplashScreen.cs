@@ -95,13 +95,13 @@ namespace WPCordovaClassLib.Cordova.Commands
 
         public void show(string options = null)
         {
-            if (popup.IsOpen)
-            {
-                return;
-            }
-
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
+                if (popup.IsOpen)
+                {
+                    return;
+                }
+
                 popup.Child.Opacity = 0;
 
                 Storyboard story = new Storyboard();
@@ -143,6 +143,7 @@ namespace WPCordovaClassLib.Cordova.Commands
                 {
                     return;
                 }
+
                 popup.Child.Opacity = 1.0;
 
                 Storyboard story = new Storyboard();
