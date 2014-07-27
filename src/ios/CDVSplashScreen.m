@@ -111,9 +111,11 @@
     _activityView = nil;
     _curImageName = nil;
 
-    self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
-    [self.viewController.view removeObserver:self forKeyPath:@"frame"];
-    [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
+    if (self.viewController.view.userInteractionEnabled == NO) {
+        self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
+        [self.viewController.view removeObserver:self forKeyPath:@"frame"];
+        [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
+    }
 }
 
 // Sets the view's frame and image.
