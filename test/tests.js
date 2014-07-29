@@ -45,11 +45,18 @@ exports.defineManualTests = function (contentEl, createActionButton) {
         }, 1000 * duration);
     }
 
+    contentEl.innerHTML = '<h1>Splashscreen Tests</h1>' +
+        '<h3>Note for WP: AutoHideSplashScreen must be set to false in config.xml</h3>' +
+        '<div id="show1"></div>' +
+        'Expected result: Will show the Cordova splashscreen for 1 second' +
+        '</p> <div id="show5"></div>' +
+        'Expected result: Will show the Cordova splashscreen for 5 seconds';
+
     createActionButton('Show for 1 second', function () {
         showFor(1);
-    });
+    }, 'show1');
 
     createActionButton('Show for 5 seconds', function () {
         showFor(5);
-    });
+    }, 'show5');
 };
