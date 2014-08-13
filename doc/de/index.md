@@ -46,7 +46,7 @@ Sie müssen in der config.xml folgende Einstellungen vornehmen:
 
 `<preference name="SplashScreen" value="foo" />` `<preference name="SplashScreenDelay" value="10000" />`
 
-"foo" stellt hierbei den Namen der Splashscreen-Datei dar. Vorzugsweise ist dies eine "9-Patch-File". Stellen Sie sicher, dass Sie die erforderlichen Dateien für den Splashscreen auch Ihrem Res/XML-Verzeichnis hinzufügen und dorthin kopieren. Der zweite Parameter stellt dar, wie lange der Splashscreen in Millisekunden angezeigt wird. Standardmäßig beträgt dieser Wert 3000 ms. Weitere Informationen finden Sie unter [Symbole und Splash-Screens][1] .
+"foo" stellt hierbei den Namen der Splashscreen-Datei dar. Vorzugsweise ist dies ein "9-Patch-File". Stellen Sie sicher, dass Sie die erforderlichen Dateien für den Splashscreen auch Ihrem Res/XML-Verzeichnis hinzufügen und dorthin kopieren. Der zweite Parameter stellt dar, wie lange der Splashscreen in Millisekunden angezeigt wird. Standardmäßig beträgt dieser Wert 3000 ms. Weitere Informationen finden Sie unter [Symbole und Splash-Screens][1] .
 
  [1]: http://cordova.apache.org/docs/en/edge/config_ref_images.md.html
 
