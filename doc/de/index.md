@@ -40,13 +40,13 @@ Dieses Plugin zeigt und verbirgt einen Splash-Screen beim Start der Anwendung.
 *   SplashScreen.Show
 *   SplashScreen.Hide
 
-### Android Macken
+### Android Eigenarten
 
-Sie müssen in der Datei config.xml fügen Sie die folgenden Einstellungen:
+Sie müssen in der config.xml folgende Einstellungen vornehmen:
 
 `<preference name="SplashScreen" value="foo" />` `<preference name="SplashScreenDelay" value="10000" />`
 
-Wo Foo ist der Name der Datei Splashscreen, vorzugsweise eine 9-Patch-Datei. Stellen Sie sicher, Splashcreen Dateien zu Ihrem Res/Xml-Verzeichnis unter den entsprechenden Ordnern hinzuzufügen. Der zweite Parameter stellt dar, wie lange das Splashscreen in Millisekunden angezeigt werden. Es wird standardmäßig auf 3000 ms. Weitere Informationen finden Sie unter [Symbole und Splash-Screens][1] .
+"foo" stellt hierbei den Namen der SplashScreen-Datei dar. Vorzugsweise ist dies ein "9-Patch-File". Stellen Sie sicher, dass Sie die erforderlichen Dateien für den SplashScreen auch Ihrem Res/XML-Verzeichnis hinzufügen und dorthin kopieren. Der zweite Parameter stellt dar, wie lange der SplashScreen in Millisekunden angezeigt wird. Standardmäßig beträgt dieser Wert 3000ms. Weitere Informationen finden Sie unter [Symbole und Splash-Screens][1] .
 
  [1]: http://cordova.apache.org/docs/en/edge/config_ref_images.md.html
 
@@ -57,9 +57,9 @@ Schließen Sie den Splash-Screen.
     navigator.splashscreen.hide();
     
 
-### BlackBerry 10, WP8, iOS Quirk
+### BlackBerry 10, WP8, iOS Eigenarten
 
-Die `config.xml` der Datei `AutoHideSplashScreen` muss `false` . Verstecken des Begrüßungsbildschirms für zwei Sekunden Verzögerung, fügen Sie einen Timer wie die folgende in der `deviceready` -Ereignishandler:
+Der in der `config.xml` enthaltene Befehl `AutoHideSplashScreen` muss auf `false` gesetzt sein. Um das Verstecken des SplashScreens um zwei Sekunden zu verzögern, können Sie einen Countdown in den `deviceready` -Eventhändler wie folgt integrieren:
 
         setTimeout(function() {
             navigator.splashscreen.hide();
@@ -68,9 +68,9 @@ Die `config.xml` der Datei `AutoHideSplashScreen` muss `false` . Verstecken des 
 
 ## SplashScreen.Show
 
-Zeigt den Begrüßungsbildschirm.
+Zeigt den SplashScreen.
 
     navigator.splashscreen.show();
     
 
-Ihre Anwendung kann nicht aufgerufen werden `navigator.splashscreen.show()` bis die app gestartet hat und das `deviceready` -Ereignis ausgelöst hat. Aber da in der Regel der Splash-Screen soll sichtbar sein, bevor die Anwendung gestartet wurde, scheint die Niederlage der Zweck des Begrüßungsbildschirms. Somit einige Konfiguration in `config.xml` wird automatisch `show` den Splash-Screen unmittelbar nach Ihrer app starten und bevor es voll gestartet und hat das `deviceready` Ereignis. Weitere Informationen zu dieser Konfiguration finden Sie unter [Symbole und Splash-Screens][1] . Aus diesem Grund ist es unwahrscheinlich, dass Sie aufrufen müssen `navigator.splashscreen.show()` den Splash-Screen beim Starten der app sichtbar zu machen.
+Ihre Anwendung kann die Funktion `navigator.splashscreen.show()` nicht aufrufen, bis die App vollständig gestartet, und das `deviceready` -Event ausgelöst wurde. Aber da der SplashScreen eigentlich beabsichtigt, bereits vor dem vollständigen Laden der App sichtbar zu sein, würde dies die eigentliche Funktion des SplashScreens sinnlos machen. Vorausgesetzt von einigen Konfigurationen in der `config.xml` wird der Splashscreen also dennoch unmittelbar nach dem Laden der App gestartet `show` noch bevor das `deviceready` -Event ausgelöst wurde. Weitere Informationen zu dieser Konfiguration finden Sie unter [Symbole und Splash-Screens][1] . Aus diesem Grund ist es unpassend, dass Sie die Funktion `navigator.splashscreen.show()` aufrufen müssen, denn der Splashscreen erscheint unverzüglich nach dem Starten der App.
