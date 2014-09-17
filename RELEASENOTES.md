@@ -77,3 +77,9 @@
 * CB-7041 ios: Fix image filename logic when setting the iPad splash screen
 * fixes Splashscreen crash on WP8
 * Remove outdated doc
+
+### 0.3.3 (Sep 17, 2014)
+* CB-7249 cordova-plugin-splashscreen documentation translation
+* Renamed test dir, added nested plugin.xml
+* added documentation for manual tests
+* CB-7196 port splashscreen tests to framework
