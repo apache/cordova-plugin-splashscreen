@@ -22,7 +22,7 @@
 
 @interface CDVSplashScreen : CDVPlugin {
     UIActivityIndicatorView* _activityView;
-    UIImageView* _imageView;
+    UIView* _splashView;
     NSString* _curImageName;
     BOOL _visible;
 }
