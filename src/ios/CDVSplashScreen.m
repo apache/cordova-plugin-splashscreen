@@ -19,6 +19,7 @@
 
 #import "CDVSplashScreen.h"
 #import <Cordova/CDVViewController.h>
+#import "CDVViewController+SplashScreen.h"
 
 #define kSplashScreenDurationDefault 0.25f
 
@@ -66,6 +67,12 @@
      *     gray       = UIActivityIndicatorViewStyleGray
      *
      */
+    
+    [(CDVViewController *)self.viewController setEnabledAutorotation:[(CDVViewController *)self.viewController shouldAutorotateDefaultValue]];
+    if (!CDV_IsIPad()) {
+        [(CDVViewController *)self.viewController setEnabledAutorotation:NO];
+    }
+    
     NSString* topActivityIndicator = [self.commandDelegate.settings objectForKey:[@"TopActivityIndicator" lowercaseString]];
     UIActivityIndicatorViewStyle topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
 
@@ -105,6 +112,8 @@
 
 - (void)destroyViews
 {
+   [(CDVViewController *)self.viewController setEnabledAutorotation:[(CDVViewController *)self.viewController shouldAutorotateDefaultValue]];
+    
     [_imageView removeFromSuperview];
     [_activityView removeFromSuperview];
     _imageView = nil;
