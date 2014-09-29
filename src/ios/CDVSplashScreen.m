@@ -53,7 +53,7 @@
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
-    [self updateImage];
+    [self updateSplash];
 }
 
 - (void)createViews
@@ -85,10 +85,6 @@
         | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
     [_activityView startAnimating];
 
-    // Set the frame & image later.
-    _imageView = [[UIImageView alloc] init];
-    [parentView addSubview:_imageView];
-
     id showSplashScreenSpinnerValue = [self.commandDelegate.settings objectForKey:[@"ShowSplashScreenSpinner" lowercaseString]];
     // backwards compatibility - if key is missing, default to true
     if ((showSplashScreenSpinnerValue == nil) || [showSplashScreenSpinnerValue boolValue]) {
@@ -100,14 +96,14 @@
     [parentView addObserver:self forKeyPath:@"frame" options:0 context:nil];
     [parentView addObserver:self forKeyPath:@"bounds" options:0 context:nil];
 
-    [self updateImage];
+    [self updateSplash];
 }
 
 - (void)destroyViews
 {
-    [_imageView removeFromSuperview];
+    [_splashView removeFromSuperview];
     [_activityView removeFromSuperview];
-    _imageView = nil;
+    _splashView = nil;
     _activityView = nil;
     _curImageName = nil;
 
@@ -116,64 +112,104 @@
     [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
 }
 
-// Sets the view's frame and image.
-- (void)updateImage
+// Creates and sets up _splashView
+- (void)updateSplash
 {
-    UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
-
-    // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
-    NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
-
-    // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
-    CDVViewController* vc = (CDVViewController*)self.viewController;
-    BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
-    BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
-    BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
-
-    if (imageName) {
-        imageName = [imageName stringByDeletingPathExtension];
-    } else {
-        imageName = @"Default";
+    if (_splashView) {
+        [_splashView removeFromSuperview];
+        _splashView = nil;
     }
-
-    if (CDV_IsIPhone5()) {
-        imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad()) {
-        if (isOrientationLocked) {
-            imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
-        } else {
-            switch (orientation) {
-                case UIInterfaceOrientationLandscapeLeft:
-                case UIInterfaceOrientationLandscapeRight:
-                    imageName = [imageName stringByAppendingString:@"-Landscape"];
-                    break;
-
-                case UIInterfaceOrientationPortrait:
-                case UIInterfaceOrientationPortraitUpsideDown:
-                default:
-                    imageName = [imageName stringByAppendingString:@"-Portrait"];
-                    break;
+    
+    NSString *launchScreenName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchStoryboardName"];
+    
+    if (launchScreenName) {
+        // If a NIB is specified via UILaunchStoryboardName: use that. This is the iOS 8/resolution independent
+        // way. Only NIBs (not storyboards) are supported for now.
+        
+        UIView *launchScreenView = nil;
+        
+        // Grab the first UIView defined in the NIB.
+        NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:launchScreenName owner:nil options:nil];
+        for (id object in nibContents) {
+            if ([object isKindOfClass:[UIView class]]) {
+                launchScreenView = object;
+                break;
             }
         }
-    }
-
-    if (![imageName isEqualToString:_curImageName]) {
-        UIImage* img = [UIImage imageNamed:imageName];
-        _imageView.image = img;
-        _curImageName = imageName;
-    }
-
-    // Check that splash screen's image exists before updating bounds
-    if (_imageView.image) {
-        [self updateBounds];
+        
+        if (launchScreenView) {
+            _splashView = launchScreenView;
+            _splashView.frame = self.viewController.view.bounds;
+            [self.viewController.view insertSubview:_splashView belowSubview:_activityView];
+        } else {
+            NSLog(@"WARNING: No view found in launch screen NIB named %@", launchScreenName);
+        }
     } else {
-        NSLog(@"WARNING: The splashscreen image named %@ was not found", imageName);
+        // Otherwise fall back on using images. This is the old <= iOS 7 way.
+        
+        UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
+
+        // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
+        NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+
+        // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
+        CDVViewController* vc = (CDVViewController*)self.viewController;
+        BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
+        BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
+        BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
+
+        if (imageName) {
+            imageName = [imageName stringByDeletingPathExtension];
+        } else {
+            imageName = @"Default";
+        }
+
+        if (CDV_IsIPhone5()) {
+            imageName = [imageName stringByAppendingString:@"-568h"];
+        } else if (CDV_IsIPad()) {
+            if (isOrientationLocked) {
+                imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
+            } else {
+                switch (orientation) {
+                    case UIInterfaceOrientationLandscapeLeft:
+                    case UIInterfaceOrientationLandscapeRight:
+                        imageName = [imageName stringByAppendingString:@"-Landscape"];
+                        break;
+
+                    case UIInterfaceOrientationPortrait:
+                    case UIInterfaceOrientationPortraitUpsideDown:
+                    default:
+                        imageName = [imageName stringByAppendingString:@"-Portrait"];
+                        break;
+                }
+            }
+        }
+        
+        UIImage *image = nil;
+        
+        if (![imageName isEqualToString:_curImageName]) {
+            image = [UIImage imageNamed:imageName];
+            _curImageName = imageName;
+        }
+        
+        if (image) {
+            _splashView = [[UIImageView alloc] initWithImage:image];
+            [self.viewController.view insertSubview:_splashView belowSubview:_activityView];
+            
+            [self updateBounds];
+        } else {
+            NSLog(@"WARNING: The splashscreen image named %@ was not found", imageName);
+        }
     }
 }
 
 - (void)updateBounds
 {
-    UIImage* img = _imageView.image;
+    if (![_splashView isKindOfClass:[UIImageView class]])
+        return;
+    UIImageView *imageView = (UIImageView *)_splashView;
+    
+    UIImage *img = imageView.image;
     CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
     CGSize screenSize = [self.viewController.view convertRect:[UIScreen mainScreen].bounds fromView:nil].size;
@@ -211,8 +247,8 @@
         imgBounds.size.width *= ratio;
     }
 
-    _imageView.transform = imgTransform;
-    _imageView.frame = imgBounds;
+    _splashView.transform = imgTransform;
+    _splashView.frame = imgBounds;
 }
 
 - (void)setVisible:(BOOL)visible
@@ -233,7 +269,7 @@
 
     // Never animate the showing of the splash screen.
     if (visible) {
-        if (_imageView == nil) {
+        if (_splashView == nil) {
             [self createViews];
         }
     } else if (fadeDuration == 0) {
@@ -243,7 +279,7 @@
                           duration:fadeDuration
                            options:UIViewAnimationOptionTransitionNone
                         animations:^(void) {
-            [_imageView setAlpha:0];
+            [_splashView setAlpha:0];
             [_activityView setAlpha:0];
         }
 
