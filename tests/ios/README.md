@@ -18,4 +18,4 @@ First install cordova-ios:
 
 # Testing from the command line
 
-    xcodebuild -scheme CordovaLib && xcodebuild test -scheme CDVSplashScreenLibTests
+    npm test

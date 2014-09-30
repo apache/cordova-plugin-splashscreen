@@ -6,5 +6,8 @@
     "license": "Apache Version 2.0",
     "dependencies": {
         "cordova-ios": "^3.6.0"
-    }
+    },
+    "scripts": {
+        "test": "xcodebuild -scheme CordovaLib && xcodebuild test -scheme CDVSplashScreenLibTests"
+    }    
 }
