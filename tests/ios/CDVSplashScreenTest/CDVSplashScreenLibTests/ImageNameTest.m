@@ -23,6 +23,8 @@
 #import "CDVSplashScreen.h"
 #import "ImageNameTestDelegates.h"
 
+const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
+
 @interface ImageNameTest : XCTestCase
 
 @property (nonatomic, strong) CDVSplashScreen* plugin;
@@ -32,7 +34,7 @@
 @interface CDVSplashScreen ()
 
 // expose private interface
-- (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate isIPad:(BOOL)isIPad isIPhone5:(BOOL)isIPhone5;
+- (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate device:(CDV_iOSDevice)device;
 
 @end
 
@@ -53,35 +55,64 @@
 - (void) portraitHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
 {
     NSString* name = nil;
+    CDV_iOSDevice device;
     
     // Portrait, non-iPad, non-iPhone5
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:NO isIPhone5:NO];
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = NO;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default" isEqualToString:name], @"Portrait - 3.5\" iPhone failed (%@)", name);
     
     // Portrait, iPad, non-iPhone5
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:YES isIPhone5:NO];
+    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
     
     // Portrait, non-iPad, iPhone5
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:NO isIPhone5:YES];
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Portrait - iPhone 5 failed (%@)", name);
+
+    // Portrait, non-iPad, iPhone6
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Portrait - iPhone 6 failed (%@)", name);
+
+    // Portrait, non-iPad, iPhone6Plus
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-736h" isEqualToString:name], @"Portrait - iPhone 6Plus failed (%@)", name);
 }
 
 - (void) landscapeHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
 {
     NSString* name = nil;
+    CDV_iOSDevice device;
     
     // Landscape, non-iPad, non-iPhone5 (does NOT support landscape)
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:NO isIPhone5:NO];
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = NO;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default" isEqualToString:name], @"Landscape - 3.5\" iPhone failed (%@)", name );
     
     // Landscape, iPad, non-iPhone5 (supports landscape)
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:YES isIPhone5:NO];
+    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
     
     // Landscape, non-iPad, iPhone5 (does NOT support landscape)
-    name = [self.plugin getImageName:initialOrientation delegate:delegate isIPad:NO isIPhone5:YES];
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
     XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Landscape - iPhone5 failed (%@)", name);
+
+    // Landscape, non-iPad, iPhone6 (does NOT support landscape)
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Landscape - iPhone6 failed (%@)", name);
+
+    // Landscape, non-iPad, iPhone6Plus (does support landscape)
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Landscape-736h" isEqualToString:name], @"Landscape - iPhone6Plus failed (%@)", name);
+
 }
 
 - (void)testPortraitOnly {

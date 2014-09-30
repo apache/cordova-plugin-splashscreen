@@ -23,6 +23,7 @@
 
 #define kSplashScreenDurationDefault 0.25f
 
+
 @implementation CDVSplashScreen
 
 - (void)pluginInitialize
@@ -117,7 +118,27 @@
     [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
 }
 
-- (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate isIPad:(BOOL)isIPad isIPhone5:(BOOL)isIPhone5
+- (CDV_iOSDevice) getCurrentDevice
+{
+    CDV_iOSDevice device;
+    
+    UIScreen* mainScreen = [UIScreen mainScreen];
+    CGFloat mainScreenHeight = mainScreen.bounds.size.height;
+    
+    device.iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+    device.iPhone = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+    device.retina = ([mainScreen scale] == 2.0);
+    device.iPhone5 = (device.iPhone && mainScreenHeight == 568.0);
+    // note these below is not a true device detect, for example if you are on an
+    // iPhone 6/6+ but the app is scaled it will prob set iPhone5 as true, but
+    // this is appropriate for detecting the runtime screen environment
+    device.iPhone6 = (device.iPhone && mainScreenHeight == 667.0);
+    device.iPhone6Plus = (device.iPhone && mainScreenHeight == 736.0);
+    
+    return device;
+}
+
+- (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate device:(CDV_iOSDevice)device
 {
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
@@ -135,9 +156,9 @@
         imageName = @"Default";
     }
     
-    if (isIPhone5) {
+    if (device.iPhone5) {
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (isIPad) {
+    } else if (device.iPad) {
         if (isOrientationLocked) {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
         } else {
@@ -162,7 +183,7 @@
 // Sets the view's frame and image.
 - (void)updateImage
 {
-    NSString* imageName = [self getImageName:self.viewController.interfaceOrientation delegate:(id<CDVScreenOrientationDelegate>)self.viewController isIPad:CDV_IsIPad() isIPhone5:CDV_IsIPhone5()];
+    NSString* imageName = [self getImageName:self.viewController.interfaceOrientation delegate:(id<CDVScreenOrientationDelegate>)self.viewController device:[self getCurrentDevice]];
 
     if (![imageName isEqualToString:_curImageName]) {
         UIImage* img = [UIImage imageNamed:imageName];

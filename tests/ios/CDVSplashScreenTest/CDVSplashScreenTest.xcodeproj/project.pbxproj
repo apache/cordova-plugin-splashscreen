@@ -57,8 +57,8 @@
 		7E9F519519DA102000DA31AC /* libCDVSplashScreenLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCDVSplashScreenLib.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9F519F19DA102000DA31AC /* CDVSplashScreenLibTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CDVSplashScreenLibTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9F51A219DA102000DA31AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7E9F51A919DA10AE00DA31AC /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVSplashScreen.m; path = ../../../../src/ios/CDVSplashScreen.m; sourceTree = "<group>"; };
-		7E9F51AA19DA10AE00DA31AC /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVSplashScreen.h; path = ../../../../src/ios/CDVSplashScreen.h; sourceTree = "<group>"; };
+		7E9F51A919DA10AE00DA31AC /* CDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVSplashScreen.m; path = ../../../src/ios/CDVSplashScreen.m; sourceTree = SOURCE_ROOT; };
+		7E9F51AA19DA10AE00DA31AC /* CDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVSplashScreen.h; path = ../../../src/ios/CDVSplashScreen.h; sourceTree = SOURCE_ROOT; };
 		7E9F51B019DA114400DA31AC /* ImageNameTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageNameTest.m; sourceTree = "<group>"; };
 		7E9F51B219DA116500DA31AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7E9F51B419DA127E00DA31AC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -124,7 +124,7 @@
 				7E9F51AA19DA10AE00DA31AC /* CDVSplashScreen.h */,
 			);
 			path = CDVSplashScreenLib;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		7E9F51A019DA102000DA31AC /* CDVSplashScreenLibTests */ = {
 			isa = PBXGroup;
