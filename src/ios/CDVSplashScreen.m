@@ -117,17 +117,16 @@
     [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
 }
 
-- (NSString*)getImageName:(id<CDVScreenOrientationDelegate>)screenOrientationDelegate
+- (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate isIPad:(BOOL)isIPad isIPhone5:(BOOL)isIPhone5
 {
-    UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
-    
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
     
+    NSUInteger supportedOrientations = [orientationDelegate supportedInterfaceOrientations];
+    
     // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
-    CDVViewController* vc = (CDVViewController*)self.viewController;
-    BOOL supportsLandscape = [vc supportsOrientation:UIInterfaceOrientationLandscapeLeft] || [vc supportsOrientation:UIInterfaceOrientationLandscapeRight];
-    BOOL supportsPortrait = [vc supportsOrientation:UIInterfaceOrientationPortrait] || [vc supportsOrientation:UIInterfaceOrientationPortraitUpsideDown];
+    BOOL supportsLandscape = (supportedOrientations & UIInterfaceOrientationMaskLandscape);
+    BOOL supportsPortrait = (supportedOrientations & UIInterfaceOrientationMaskPortrait || supportedOrientations & UIInterfaceOrientationMaskPortraitUpsideDown);
     BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
     
     if (imageName) {
@@ -136,13 +135,13 @@
         imageName = @"Default";
     }
     
-    if (CDV_IsIPhone5()) {
+    if (isIPhone5) {
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (CDV_IsIPad()) {
+    } else if (isIPad) {
         if (isOrientationLocked) {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
         } else {
-            switch (orientation) {
+            switch (currentOrientation) {
                 case UIInterfaceOrientationLandscapeLeft:
                 case UIInterfaceOrientationLandscapeRight:
                     imageName = [imageName stringByAppendingString:@"-Landscape"];
@@ -163,7 +162,7 @@
 // Sets the view's frame and image.
 - (void)updateImage
 {
-    NSString* imageName = [self getImageName:(id<CDVScreenOrientationDelegate>)self.viewController];
+    NSString* imageName = [self getImageName:self.viewController.interfaceOrientation delegate:(id<CDVScreenOrientationDelegate>)self.viewController isIPad:CDV_IsIPad() isIPhone5:CDV_IsIPhone5()];
 
     if (![imageName isEqualToString:_curImageName]) {
         UIImage* img = [UIImage imageNamed:imageName];
