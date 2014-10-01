@@ -52,213 +52,39 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     [super tearDown];
 }
 
-- (void) portraitHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
-{
-    NSString* name = nil;
-    CDV_iOSDevice device;
-    
-    // Portrait, non-iPad, non-iPhone5
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = NO;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default" isEqualToString:name], @"Portrait - 3.5\" iPhone failed (%@)", name);
-    
-    // Portrait, iPad, non-iPhone5
-    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
-    
-    // Portrait, non-iPad, iPhone5
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Portrait - iPhone 5 failed (%@)", name);
-
-    // Portrait, non-iPad, iPhone6
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Portrait - iPhone 6 failed (%@)", name);
-
-    // Portrait, non-iPad, iPhone6Plus
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-736h" isEqualToString:name], @"Portrait - iPhone 6Plus failed (%@)", name);
-}
-
-- (void) landscapeHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
-{
-    NSString* name = nil;
-    CDV_iOSDevice device;
-    
-    // Landscape, non-iPad, non-iPhone5 (does NOT support landscape)
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = NO;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default" isEqualToString:name], @"Landscape - 3.5\" iPhone failed (%@)", name );
-    
-    // Landscape, iPad, non-iPhone5 (supports landscape)
-    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
-    
-    // Landscape, non-iPad, iPhone5 (does NOT support landscape)
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Landscape - iPhone5 failed (%@)", name);
-
-    // Landscape, non-iPad, iPhone6 (does NOT support landscape)
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Landscape - iPhone6 failed (%@)", name);
-
-    // Landscape, non-iPad, iPhone6Plus (does support landscape)
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-Landscape-736h" isEqualToString:name], @"Landscape - iPhone6Plus failed (%@)", name);
-
-}
-
-- (void) currentOrientationNotSupportedHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
-{
-    NSString* name = nil;
-    CDV_iOSDevice device;
-    
-    // Portrait, iPad, non-iPhone5
-    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
-    
-    // Portrait, non-iPad, iPhone5
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Portrait - iPhone 5 failed (%@)", name);
-    
-    // Portrait, non-iPad, iPhone6
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Portrait - iPhone 6 failed (%@)", name);
-    
-    // Portrait, non-iPad, iPhone6Plus
-    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
-    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
-    XCTAssertTrue([@"Default-736h" isEqualToString:name], @"Portrait - iPhone 6Plus failed (%@)", name);
-}
-
-
-- (void)testPortraitOnly {
-    
-    PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-}
-
-- (void)testPortraitUpsideDownOnly {
-    
-    PortraitUpsideDownOnly* delegate = [[PortraitUpsideDownOnly alloc] init];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-}
-
-- (void)testAllPortraitOnly {
-    
-    AllPortraitOnly* delegate = [[AllPortraitOnly alloc] init];
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-}
-
-- (void)testLandscapeLeftOnly {
-    
-    LandscapeLeftOnly* delegate = [[LandscapeLeftOnly alloc] init];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-}
-
-- (void)testLandscapeRightOnly {
-    
-    LandscapeRightOnly* delegate = [[LandscapeRightOnly alloc] init];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testAllLandscapeOnly {
-    
-    AllLandscapeOnly* delegate = [[AllLandscapeOnly alloc] init];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testAllOrientations {
-    
-    AllOrientations* delegate = [[AllOrientations alloc] init];
-    // try all orientations
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testPortraitAndLandscapeLeft {
-    
-    PortraitAndLandscapeLeftOnly* delegate = [[PortraitAndLandscapeLeftOnly alloc] init];
-    // try all orientations
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testPortraitAndLandscapeRight {
-    
-    PortraitAndLandscapeRightOnly* delegate = [[PortraitAndLandscapeRightOnly alloc] init];
-    // try all orientations
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testPortraitUpsideDownAndLandscapeLeft {
-    
-    PortraitUpsideDownAndLandscapeLeftOnly* delegate = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
-    // try all orientations
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void)testPortraitUpsideDownAndLandscapeRight {
-    
-    PortraitUpsideDownAndLandscapeRightOnly* delegate = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
-    // try all orientations
-    [self portraitHelper:UIInterfaceOrientationPortrait delegate:delegate];
-    [self portraitHelper:UIInterfaceOrientationPortraitUpsideDown delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
-    [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
-}
-
-- (void) lockedOrientationHelper:(id<CDVScreenOrientationDelegate>)delegate expectedImageName:(NSString*)expectedImageName orientationName:(NSString*)orientationName device:(CDV_iOSDevice)device{
+- (void) orientationHelper:(id<CDVScreenOrientationDelegate>)delegate expectedImageNameDictionary:(NSDictionary*)expectedImageNameDictionary device:(CDV_iOSDevice)device{
     
     NSString* name = nil;
+    NSString* expectedImageName = nil;
     UIInterfaceOrientation currentOrientation;
     NSString* deviceName = device.iPad? @"iPad" : device.iPhone6Plus? @"iPhone6Plus": device.iPhone6? @"iPhone6": device.iPhone5? @"iPhone5" : @"iPhone";
-
+    
     // LandscapeLeft, should always return expectedImageName
     currentOrientation = UIInterfaceOrientationLandscapeLeft;
     name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
-    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", orientationName, deviceName, name);
+    expectedImageName = [expectedImageNameDictionary objectForKey:@"landscapeLeft"];
+    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", @"Landscape", deviceName, name);
     
     // LandscapeRight - should always return expectedImageName
     currentOrientation = UIInterfaceOrientationLandscapeRight;
     name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
-    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", orientationName, deviceName, name);
+    expectedImageName = [expectedImageNameDictionary objectForKey:@"landscapeRight"];
+    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", @"Landscape", deviceName, name);
     
     // Portrait - should always return expectedImageName
     currentOrientation = UIInterfaceOrientationPortrait;
     name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
-    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", orientationName, deviceName, name);
+    expectedImageName = [expectedImageNameDictionary objectForKey:@"portrait"];
+    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", @"Portrait", deviceName, name);
     
     // PortraitUpsideDown - should always return expectedImageName
     currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
     name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
-    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", orientationName, deviceName, name);
-
+    expectedImageName = [expectedImageNameDictionary objectForKey:@"portraitUpsideDown"];
+    XCTAssertTrue([expectedImageName isEqualToString:name], @"%@ - %@ failed (%@)", @"Portrait", deviceName, name);
 }
 
-- (void)testiPadLockedOrientation {
+- (void)testiPadOrientation {
     
     CDV_iOSDevice device = CDV_iOSDeviceZero;
     device.iPad = YES;
@@ -266,29 +92,121 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     // One orientation
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate expectedImageName:@"Default-Portrait" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Portrait",
+                                                                    @"landscapeRight" : @"Default-Portrait",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
     
     PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
-    [self lockedOrientationHelper:delegate2 expectedImageName:@"Default-Portrait" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate2 expectedImageNameDictionary:@{
+                                                                   @"landscapeLeft" : @"Default-Portrait",
+                                                                   @"landscapeRight" : @"Default-Portrait",
+                                                                   @"portrait" : @"Default-Portrait",
+                                                                   @"portraitUpsideDown" : @"Default-Portrait"
+                                                                   }
+                     device:device];
     
     LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
-    [self lockedOrientationHelper:delegate3 expectedImageName:@"Default-Landscape" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate3 expectedImageNameDictionary:@{
+                                                                   @"landscapeLeft" : @"Default-Landscape",
+                                                                   @"landscapeRight" : @"Default-Landscape",
+                                                                   @"portrait" : @"Default-Landscape",
+                                                                   @"portraitUpsideDown" : @"Default-Landscape"
+                                                                   }
+                     device:device];
     
     LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
-    [self lockedOrientationHelper:delegate4 expectedImageName:@"Default-Landscape" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate4 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Landscape",
+                                                                    @"portraitUpsideDown" : @"Default-Landscape"
+                                                                    }
+                     device:device];
 
     // All Portrait
 
     AllPortraitOnly* delegate5 = [[AllPortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate5 expectedImageName:@"Default-Portrait" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate5 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Portrait",
+                                                                    @"landscapeRight" : @"Default-Portrait",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
 
     // All Landscape
     
     AllLandscapeOnly* delegate6 = [[AllLandscapeOnly alloc] init];
-    [self lockedOrientationHelper:delegate6 expectedImageName:@"Default-Landscape" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate6 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Landscape",
+                                                                    @"portraitUpsideDown" : @"Default-Landscape"
+                                                                    }
+                     device:device];
+    
+    
+    // All orientations
+    
+    AllOrientations* delegate7 = [[AllOrientations alloc] init];
+    [self orientationHelper:delegate7 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
+
+    // Portrait and Landscape Left
+    
+    PortraitAndLandscapeLeftOnly* delegate8 = [[PortraitAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate8 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
+
+    // Portrait and Landscape Right
+    
+    PortraitAndLandscapeRightOnly* delegate9 = [[PortraitAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate9 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
+
+    // PortraitUpsideDown and Landscape Left
+    
+    PortraitUpsideDownAndLandscapeLeftOnly* delegate10 = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate10 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape",
+                                                                    @"landscapeRight" : @"Default-Landscape",
+                                                                    @"portrait" : @"Default-Portrait",
+                                                                    @"portraitUpsideDown" : @"Default-Portrait"
+                                                                    }
+                     device:device];
+
+    // PortraitUpsideDown and Landscape Right
+    
+    PortraitUpsideDownAndLandscapeRightOnly* delegate11 = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate11 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-Landscape",
+                                                                     @"landscapeRight" : @"Default-Landscape",
+                                                                     @"portrait" : @"Default-Portrait",
+                                                                     @"portraitUpsideDown" : @"Default-Portrait"
+                                                                     }
+                     device:device];
 }
 
-- (void)testiPhoneLockedOrientation {
+- (void)testiPhoneOrientation {
     
     CDV_iOSDevice device = CDV_iOSDeviceZero;
     device.iPhone = YES;
@@ -296,29 +214,121 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     // One orientation
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate expectedImageName:@"Default" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
     
     PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
-    [self lockedOrientationHelper:delegate2 expectedImageName:@"Default" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate2 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
     
     LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
-    [self lockedOrientationHelper:delegate3 expectedImageName:@"Default" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate3 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
     
     LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
-    [self lockedOrientationHelper:delegate4 expectedImageName:@"Default" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate4 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
     
     // All Portrait
     
     AllPortraitOnly* delegate5 = [[AllPortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate5 expectedImageName:@"Default" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate5 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
     
     // All Landscape
     
     AllLandscapeOnly* delegate6 = [[AllLandscapeOnly alloc] init];
-    [self lockedOrientationHelper:delegate6 expectedImageName:@"Default" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate6 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
+    
+    
+    // All orientations
+    
+    AllOrientations* delegate7 = [[AllOrientations alloc] init];
+    [self orientationHelper:delegate7 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Left
+    
+    PortraitAndLandscapeLeftOnly* delegate8 = [[PortraitAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate8 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Right
+    
+    PortraitAndLandscapeRightOnly* delegate9 = [[PortraitAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate9 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default",
+                                                                    @"landscapeRight" : @"Default",
+                                                                    @"portrait" : @"Default",
+                                                                    @"portraitUpsideDown" : @"Default"
+                                                                    }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Left
+    
+    PortraitUpsideDownAndLandscapeLeftOnly* delegate10 = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate10 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default",
+                                                                     @"landscapeRight" : @"Default",
+                                                                     @"portrait" : @"Default",
+                                                                     @"portraitUpsideDown" : @"Default"
+                                                                     }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Right
+    
+    PortraitUpsideDownAndLandscapeRightOnly* delegate11 = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate11 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default",
+                                                                     @"landscapeRight" : @"Default",
+                                                                     @"portrait" : @"Default",
+                                                                     @"portraitUpsideDown" : @"Default"
+                                                                     }
+                     device:device];
 }
 
-- (void)testiPhone5LockedOrientation {
+- (void)testiPhone5Orientation {
     
     CDV_iOSDevice device = CDV_iOSDeviceZero;
     device.iPhone = YES;
@@ -327,29 +337,121 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     // One orientation
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate expectedImageName:@"Default-568h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate expectedImageNameDictionary:@{
+                                                                   @"landscapeLeft" : @"Default-568h",
+                                                                   @"landscapeRight" : @"Default-568h",
+                                                                   @"portrait" : @"Default-568h",
+                                                                   @"portraitUpsideDown" : @"Default-568h"
+                                                                   }
+                     device:device];
     
     PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
-    [self lockedOrientationHelper:delegate2 expectedImageName:@"Default-568h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate2 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
     
     LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
-    [self lockedOrientationHelper:delegate3 expectedImageName:@"Default-568h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate3 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
     
     LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
-    [self lockedOrientationHelper:delegate4 expectedImageName:@"Default-568h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate4 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
     
     // All Portrait
     
     AllPortraitOnly* delegate5 = [[AllPortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate5 expectedImageName:@"Default-568h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate5 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
     
     // All Landscape
     
     AllLandscapeOnly* delegate6 = [[AllLandscapeOnly alloc] init];
-    [self lockedOrientationHelper:delegate6 expectedImageName:@"Default-568h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate6 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
+    
+    
+    // All orientations
+    
+    AllOrientations* delegate7 = [[AllOrientations alloc] init];
+    [self orientationHelper:delegate7 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Left
+    
+    PortraitAndLandscapeLeftOnly* delegate8 = [[PortraitAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate8 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Right
+    
+    PortraitAndLandscapeRightOnly* delegate9 = [[PortraitAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate9 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-568h",
+                                                                    @"landscapeRight" : @"Default-568h",
+                                                                    @"portrait" : @"Default-568h",
+                                                                    @"portraitUpsideDown" : @"Default-568h"
+                                                                    }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Left
+    
+    PortraitUpsideDownAndLandscapeLeftOnly* delegate10 = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate10 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-568h",
+                                                                     @"landscapeRight" : @"Default-568h",
+                                                                     @"portrait" : @"Default-568h",
+                                                                     @"portraitUpsideDown" : @"Default-568h"
+                                                                     }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Right
+    
+    PortraitUpsideDownAndLandscapeRightOnly* delegate11 = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate11 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-568h",
+                                                                     @"landscapeRight" : @"Default-568h",
+                                                                     @"portrait" : @"Default-568h",
+                                                                     @"portraitUpsideDown" : @"Default-568h"
+                                                                     }
+                     device:device];
 }
 
-- (void)testiPhone6LockedOrientation {
+- (void)testiPhone6Orientation {
     
     CDV_iOSDevice device = CDV_iOSDeviceZero;
     device.iPhone = YES;
@@ -358,29 +460,121 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     // One orientation
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate expectedImageName:@"Default-667h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate expectedImageNameDictionary:@{
+                                                                   @"landscapeLeft" : @"Default-667h",
+                                                                   @"landscapeRight" : @"Default-667h",
+                                                                   @"portrait" : @"Default-667h",
+                                                                   @"portraitUpsideDown" : @"Default-667h"
+                                                                   }
+                     device:device];
     
     PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
-    [self lockedOrientationHelper:delegate2 expectedImageName:@"Default-667h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate2 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
     
     LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
-    [self lockedOrientationHelper:delegate3 expectedImageName:@"Default-667h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate3 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
     
     LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
-    [self lockedOrientationHelper:delegate4 expectedImageName:@"Default-667h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate4 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
     
     // All Portrait
     
     AllPortraitOnly* delegate5 = [[AllPortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate5 expectedImageName:@"Default-667h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate5 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
     
     // All Landscape
     
     AllLandscapeOnly* delegate6 = [[AllLandscapeOnly alloc] init];
-    [self lockedOrientationHelper:delegate6 expectedImageName:@"Default-667h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate6 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
+    
+    
+    // All orientations
+    
+    AllOrientations* delegate7 = [[AllOrientations alloc] init];
+    [self orientationHelper:delegate7 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Left
+    
+    PortraitAndLandscapeLeftOnly* delegate8 = [[PortraitAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate8 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Right
+    
+    PortraitAndLandscapeRightOnly* delegate9 = [[PortraitAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate9 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-667h",
+                                                                    @"landscapeRight" : @"Default-667h",
+                                                                    @"portrait" : @"Default-667h",
+                                                                    @"portraitUpsideDown" : @"Default-667h"
+                                                                    }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Left
+    
+    PortraitUpsideDownAndLandscapeLeftOnly* delegate10 = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate10 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-667h",
+                                                                     @"landscapeRight" : @"Default-667h",
+                                                                     @"portrait" : @"Default-667h",
+                                                                     @"portraitUpsideDown" : @"Default-667h"
+                                                                     }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Right
+    
+    PortraitUpsideDownAndLandscapeRightOnly* delegate11 = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate11 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-667h",
+                                                                     @"landscapeRight" : @"Default-667h",
+                                                                     @"portrait" : @"Default-667h",
+                                                                     @"portraitUpsideDown" : @"Default-667h"
+                                                                     }
+                     device:device];
 }
 
-- (void)testiPhone6PlusLockedOrientation {
+- (void)testiPhone6PlusOrientation {
     
     CDV_iOSDevice device = CDV_iOSDeviceZero;
     device.iPhone = YES;
@@ -389,26 +583,118 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     // One orientation
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate expectedImageName:@"Default-736h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate expectedImageNameDictionary:@{
+                                                                   @"landscapeLeft" : @"Default-736h",
+                                                                   @"landscapeRight" : @"Default-736h",
+                                                                   @"portrait" : @"Default-736h",
+                                                                   @"portraitUpsideDown" : @"Default-736h"
+                                                                   }
+                     device:device];
     
     PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
-    [self lockedOrientationHelper:delegate2 expectedImageName:@"Default-736h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate2 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-736h",
+                                                                    @"landscapeRight" : @"Default-736h",
+                                                                    @"portrait" : @"Default-736h",
+                                                                    @"portraitUpsideDown" : @"Default-736h"
+                                                                    }
+                     device:device];
     
     LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
-    [self lockedOrientationHelper:delegate3 expectedImageName:@"Default-Landscape-736h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate3 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-Landscape-736h",
+                                                                    @"portraitUpsideDown" : @"Default-Landscape-736h"
+                                                                    }
+                     device:device];
     
     LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
-    [self lockedOrientationHelper:delegate4 expectedImageName:@"Default-Landscape-736h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate4 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-Landscape-736h",
+                                                                    @"portraitUpsideDown" : @"Default-Landscape-736h"
+                                                                    }
+                     device:device];
     
     // All Portrait
     
     AllPortraitOnly* delegate5 = [[AllPortraitOnly alloc] init];
-    [self lockedOrientationHelper:delegate5 expectedImageName:@"Default-736h" orientationName:@"Portrait" device:device];
+    [self orientationHelper:delegate5 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-736h",
+                                                                    @"landscapeRight" : @"Default-736h",
+                                                                    @"portrait" : @"Default-736h",
+                                                                    @"portraitUpsideDown" : @"Default-736h"
+                                                                    }
+                     device:device];
     
     // All Landscape
     
     AllLandscapeOnly* delegate6 = [[AllLandscapeOnly alloc] init];
-    [self lockedOrientationHelper:delegate6 expectedImageName:@"Default-Landscape-736h" orientationName:@"Landscape" device:device];
+    [self orientationHelper:delegate6 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-Landscape-736h",
+                                                                    @"portraitUpsideDown" : @"Default-Landscape-736h"
+                                                                    }
+                     device:device];
+    
+    
+    // All orientations
+    
+    AllOrientations* delegate7 = [[AllOrientations alloc] init];
+    [self orientationHelper:delegate7 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-736h",
+                                                                    @"portraitUpsideDown" : @"Default-736h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Left
+    
+    PortraitAndLandscapeLeftOnly* delegate8 = [[PortraitAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate8 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-736h",
+                                                                    @"portraitUpsideDown" : @"Default-736h"
+                                                                    }
+                     device:device];
+    
+    // Portrait and Landscape Right
+    
+    PortraitAndLandscapeRightOnly* delegate9 = [[PortraitAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate9 expectedImageNameDictionary:@{
+                                                                    @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                    @"landscapeRight" : @"Default-Landscape-736h",
+                                                                    @"portrait" : @"Default-736h",
+                                                                    @"portraitUpsideDown" : @"Default-736h"
+                                                                    }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Left
+    
+    PortraitUpsideDownAndLandscapeLeftOnly* delegate10 = [[PortraitUpsideDownAndLandscapeLeftOnly alloc] init];
+    [self orientationHelper:delegate10 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                     @"landscapeRight" : @"Default-Landscape-736h",
+                                                                     @"portrait" : @"Default-736h",
+                                                                     @"portraitUpsideDown" : @"Default-736h"
+                                                                     }
+                     device:device];
+    
+    // PortraitUpsideDown and Landscape Right
+    
+    PortraitUpsideDownAndLandscapeRightOnly* delegate11 = [[PortraitUpsideDownAndLandscapeRightOnly alloc] init];
+    [self orientationHelper:delegate11 expectedImageNameDictionary:@{
+                                                                     @"landscapeLeft" : @"Default-Landscape-736h",
+                                                                     @"landscapeRight" : @"Default-Landscape-736h",
+                                                                     @"portrait" : @"Default-736h",
+                                                                     @"portraitUpsideDown" : @"Default-736h"
+                                                                     }
+                     device:device];
 }
 
 
