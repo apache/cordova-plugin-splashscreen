@@ -162,15 +162,17 @@
     } else if (device.iPhone6) { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-667h"];
     } else if (device.iPhone6Plus) { // supports landscape
-        switch (currentOrientation) {
-            case UIInterfaceOrientationLandscapeLeft:
-            case UIInterfaceOrientationLandscapeRight:
-                if (supportsLandscape) {
-                    imageName = [imageName stringByAppendingString:@"-Landscape"];
-                }
-                break;
-            default:
-                break;
+        if (isOrientationLocked) {
+            imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"")];
+        } else {
+            switch (currentOrientation) {
+                case UIInterfaceOrientationLandscapeLeft:
+                case UIInterfaceOrientationLandscapeRight:
+                        imageName = [imageName stringByAppendingString:@"-Landscape"];
+                    break;
+                default:
+                    break;
+            }
         }
         imageName = [imageName stringByAppendingString:@"-736h"];
 
