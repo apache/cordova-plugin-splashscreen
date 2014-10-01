@@ -148,6 +148,7 @@
     // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
     BOOL supportsLandscape = (supportedOrientations & UIInterfaceOrientationMaskLandscape);
     BOOL supportsPortrait = (supportedOrientations & UIInterfaceOrientationMaskPortrait || supportedOrientations & UIInterfaceOrientationMaskPortraitUpsideDown);
+    // this means there are no mixed orientations in there
     BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
     
     if (imageName) {
@@ -156,9 +157,24 @@
         imageName = @"Default";
     }
     
-    if (device.iPhone5) {
+    if (device.iPhone5) { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (device.iPad) {
+    } else if (device.iPhone6) { // does not support landscape
+        imageName = [imageName stringByAppendingString:@"-667h"];
+    } else if (device.iPhone6Plus) { // supports landscape
+        switch (currentOrientation) {
+            case UIInterfaceOrientationLandscapeLeft:
+            case UIInterfaceOrientationLandscapeRight:
+                if (supportsLandscape) {
+                    imageName = [imageName stringByAppendingString:@"-Landscape"];
+                }
+                break;
+            default:
+                break;
+        }
+        imageName = [imageName stringByAppendingString:@"-736h"];
+
+    } else if (device.iPad) { // supports landscape
         if (isOrientationLocked) {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
         } else {
