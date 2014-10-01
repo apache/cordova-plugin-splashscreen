@@ -115,6 +115,33 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
 
 }
 
+- (void) currentOrientationNotSupportedHelper:(UIInterfaceOrientation)initialOrientation delegate:(id<CDVScreenOrientationDelegate>)delegate
+{
+    NSString* name = nil;
+    CDV_iOSDevice device;
+    
+    // Portrait, iPad, non-iPhone5
+    device = CDV_iOSDeviceZero; device.iPad = YES; device.iPhone5 = NO;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    // Portrait, non-iPad, iPhone5
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone5 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-568h" isEqualToString:name], @"Portrait - iPhone 5 failed (%@)", name);
+    
+    // Portrait, non-iPad, iPhone6
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6 = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-667h" isEqualToString:name], @"Portrait - iPhone 6 failed (%@)", name);
+    
+    // Portrait, non-iPad, iPhone6Plus
+    device = CDV_iOSDeviceZero; device.iPad = NO; device.iPhone6Plus = YES;
+    name = [self.plugin getImageName:initialOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-736h" isEqualToString:name], @"Portrait - iPhone 6Plus failed (%@)", name);
+}
+
+
 - (void)testPortraitOnly {
     
     PortraitOnly* delegate = [[PortraitOnly alloc] init];
@@ -202,5 +229,129 @@ const CDV_iOSDevice CDV_iOSDeviceZero = { 0, 0, 0, 0, 0, 0 };
     [self landscapeHelper:UIInterfaceOrientationLandscapeLeft delegate:delegate];
     [self landscapeHelper:UIInterfaceOrientationLandscapeRight delegate:delegate];
 }
+
+- (void)testiPadCurrentOrientationNotSupported {
+    
+    NSString* name = nil;
+    CDV_iOSDevice device;
+    UIInterfaceOrientation currentOrientation;
+
+    /// PORTRAIT
+    
+    PortraitOnly* delegate = [[PortraitOnly alloc] init];
+    
+    // LandscapeLeft, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeLeft;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+
+    // LandscapeRight, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeRight;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    // Portrait, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortrait;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+
+    // PortraitUpsideDown, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    /// PORTRAIT UPSIDE DOWN
+    
+    PortraitUpsideDownOnly* delegate2 = [[PortraitUpsideDownOnly alloc] init];
+    
+    // LandscapeLeft, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeLeft;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate2 device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    // LandscapeRight, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeRight;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate2 device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    // Portrait, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortrait;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate2 device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    // PortraitUpsideDown, iPad - should always return Portrait
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate2 device:device];
+    XCTAssertTrue([@"Default-Portrait" isEqualToString:name], @"Portrait - iPad failed (%@)", name);
+    
+    
+    /// LANDSCAPE LEFT
+
+    LandscapeLeftOnly* delegate3 = [[LandscapeLeftOnly alloc] init];
+    
+    // LandscapeLeft, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeLeft;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate3 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // LandscapeRight, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeRight;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate3 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // Portrait, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortrait;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate3 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // PortraitUpsideDown, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate3 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+
+    /// LANDSCAPE RIGHT
+    
+    LandscapeRightOnly* delegate4 = [[LandscapeRightOnly alloc] init];
+    
+    // LandscapeLeft, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeLeft;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate4 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // LandscapeRight, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationLandscapeRight;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate4 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // Portrait, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortrait;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate4 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // PortraitUpsideDown, iPad - should always return Landscape
+    device = CDV_iOSDeviceZero; device.iPad = YES;
+    currentOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    name = [self.plugin getImageName:currentOrientation delegate:delegate4 device:device];
+    XCTAssertTrue([@"Default-Landscape" isEqualToString:name], @"Landscape - iPad failed (%@)", name);
+    
+    // TODO: Mixed environments
+
+}
+
 
 @end
