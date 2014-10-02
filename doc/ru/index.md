@@ -28,7 +28,7 @@
 
 ## Поддерживаемые платформы
 
-*   Amazon Fire ОС
+*   Amazon Fire OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -52,14 +52,14 @@
 
 ## splashscreen.hide
 
-Закройте экран-заставка.
+Закрывает экран-заставку.
 
     navigator.splashscreen.hide();
     
 
 ### Особенности BlackBerry 10, WP8, iOS
 
-`config.xml`Файла `AutoHideSplashScreen` должен быть `false` . Для задержки скрытия заставки на две секунды, добавить таймер, например в `deviceready` обработчик событий:
+Параметр `AutoHideSplashScreen` в файле `config.xml` должен иметь значение `false`. Для задержки скрытия заставки на две секунды, добавить таймер, например в `deviceready` обработчик событий:
 
         setTimeout(function() {
             navigator.splashscreen.hide();
