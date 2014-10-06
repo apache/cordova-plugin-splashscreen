@@ -21,16 +21,16 @@
 
 Ten plugin wyświetla i ukrywa ekran powitalny podczas uruchamiania aplikacji.
 
-## Instalacji
+## Instalacja
 
     cordova plugin add org.apache.cordova.splashscreen
     
 
 ## Obsługiwane platformy
 
-*   Amazon ogień OS
+*   Amazon Fire OS
 *   Android
-*   Jeżyna 10
+*   BlackBerry 10
 *   iOS
 *   Windows Phone 7 i 8
 *   Windows 8
@@ -40,7 +40,7 @@ Ten plugin wyświetla i ukrywa ekran powitalny podczas uruchamiania aplikacji.
 *   splashscreen.show
 *   splashscreen.Hide
 
-### Android dziwactwa
+### Dziwactwa Androida
 
 W pliku config.xml musisz dodać następujące preferencje:
 

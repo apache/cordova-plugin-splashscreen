@@ -28,7 +28,7 @@ Este plugin muestra y esconde una pantalla de bienvenida durante el inicio de la
 
 ## Plataformas soportadas
 
-*   Amazon fuego OS
+*   Amazon fire OS
 *   Android
 *   BlackBerry 10
 *   iOS
@@ -52,14 +52,14 @@ Donde foo es el nombre del archivo splashscreen, preferiblemente un archivo de 9
 
 ## splashscreen.hide
 
-Despedir a la pantalla de bienvenida.
+Despedir a la splash screen.
 
     navigator.splashscreen.hide();
     
 
 ### BlackBerry 10, WP8, iOS Quirk
 
-El `config.xml` del archivo `AutoHideSplashScreen` la configuración debe ser `false` . Para retrasar oculta la pantalla splash durante dos segundos, agregue un temporizador como la siguiente en el `deviceready` controlador de eventos:
+Ajuste de `AutoHideSplashScreen` del archivo `config.xml` debe ser `false`. Para retrasar oculta la pantalla splash durante dos segundos, agregue un temporizador como el siguiente en el controlador de eventos `deviceready`:
 
         setTimeout(function() {
             navigator.splashscreen.hide();
@@ -68,7 +68,7 @@ El `config.xml` del archivo `AutoHideSplashScreen` la configuración debe ser `f
 
 ## splashscreen.show
 
-Muestra la pantalla de bienvenida.
+Aparece la pantalla de splash.
 
     navigator.splashscreen.show();
     
