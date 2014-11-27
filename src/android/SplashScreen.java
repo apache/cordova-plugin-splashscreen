@@ -33,17 +33,22 @@ import android.widget.LinearLayout;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 public class SplashScreen extends CordovaPlugin {
+    private static final String LOG_TAG = "SplashScreen";
+    // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
+    // Enable functionality only if running on 4.x.x.
+    private static final boolean HAS_BUILT_IN_SPLASH_SCREEN = Integer.valueOf(CordovaWebView.CORDOVA_VERSION.split("\\.")[0]) < 4;
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
 
     @Override
     protected void pluginInitialize() {
-        if (!firstShow) {
+        if (HAS_BUILT_IN_SPLASH_SCREEN || !firstShow) {
             return;
         }
         // Make WebView invisible while loading URL
@@ -64,12 +69,18 @@ public class SplashScreen extends CordovaPlugin {
 
     @Override
     public void onPause(boolean multitasking) {
+        if (HAS_BUILT_IN_SPLASH_SCREEN) {
+            return;
+        }
         // hide the splash screen to avoid leaking a window
         this.removeSplashScreen();
     }
 
     @Override
     public void onDestroy() {
+        if (HAS_BUILT_IN_SPLASH_SCREEN) {
+            return;
+        }
         // hide the splash screen to avoid leaking a window
         this.removeSplashScreen();
         firstShow = true;
@@ -90,13 +101,15 @@ public class SplashScreen extends CordovaPlugin {
                 }
             });
         } else if (action.equals("spinnerStart")) {
-            final String title = args.getString(0);
-            final String message = args.getString(1);
-            cordova.getActivity().runOnUiThread(new Runnable() {
-                public void run() {
-                    spinnerStart(title, message);
-                }
-            });
+            if (!HAS_BUILT_IN_SPLASH_SCREEN) {
+                final String title = args.getString(0);
+                final String message = args.getString(1);
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        spinnerStart(title, message);
+                    }
+                });
+            }
         } else {
             return false;
         }
@@ -107,6 +120,9 @@ public class SplashScreen extends CordovaPlugin {
 
     @Override
     public Object onMessage(String id, Object data) {
+        if (HAS_BUILT_IN_SPLASH_SCREEN) {
+            return null;
+        }
         if ("splashscreen".equals(id)) {
             if ("hide".equals(data.toString())) {
                 this.removeSplashScreen();
