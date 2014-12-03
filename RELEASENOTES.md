@@ -94,3 +94,7 @@
 * Added 'npm test'
 * CB-7663 - iOS unit tests for splash screen
 * Properly formatted splashscreen preference docs.
+
+### 0.3.5 (Dec 02, 2014)
+* CB-7204 - Race condition when hiding and showing spinner (closes #21)
+* CB-7700 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
