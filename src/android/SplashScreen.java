@@ -46,13 +46,22 @@ public class SplashScreen extends CordovaPlugin {
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
 
+    // Helper to be compile-time compatable with both Cordova 3.x and 4.x.
+    private View getView() {
+        try {
+            return (View)webView.getClass().getMethod("getView").invoke(webView);
+        } catch (Exception e) {
+            return (View)webView;
+        }
+    }
+
     @Override
     protected void pluginInitialize() {
         if (HAS_BUILT_IN_SPLASH_SCREEN || !firstShow) {
             return;
         }
         // Make WebView invisible while loading URL
-        webView.setVisibility(View.INVISIBLE);
+        getView().setVisibility(View.INVISIBLE);
         int drawableId = preferences.getInteger("SplashDrawableId", 0);
         if (drawableId == 0) {
             String splashResource = preferences.getString("SplashScreen", null);
@@ -132,7 +141,7 @@ public class SplashScreen extends CordovaPlugin {
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
                 this.spinnerStop();
-                webView.setVisibility(View.VISIBLE);
+                getView().setVisibility(View.VISIBLE);
             }
         } else if ("onReceivedError".equals(id)) {
             spinnerStop();
