@@ -28,6 +28,9 @@
     <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git</repo>
     <issue>https://issues.apache.org/jira/browse/CB/component/12320653</issue>
 
+    <engines>
+        <engine name="cordova-android" version=">=3.6.0" /><!-- Requires CordovaPlugin.preferences -->
+    </engines>
 
     <js-module src="www/splashscreen.js" name="SplashScreen">
         <clobbers target="navigator.splashscreen" />
