@@ -163,8 +163,10 @@
     if (device.iPhone5) { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-568h"];
     } else if (device.iPhone6) { // does not support landscape
+        imageName = [imageName stringByAppendingString:@"-800"];
         imageName = [imageName stringByAppendingString:@"-667h"];
     } else if (device.iPhone6Plus) { // supports landscape
+        imageName = [imageName stringByAppendingString:@"-800"];
         if (isOrientationLocked) {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"")];
         } else {
@@ -174,6 +176,7 @@
                         imageName = [imageName stringByAppendingString:@"-Landscape"];
                     break;
                 default:
+                        imageName = [imageName stringByAppendingString:@"-Portrait"];
                     break;
             }
         }
