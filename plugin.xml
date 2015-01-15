@@ -134,4 +134,11 @@
             <runs />
         </js-module>
     </platform>
+
+    <!-- browser -->
+    <platform name="browser">
+        <js-module src="src/browser/SplashScreenProxy.js" name="SplashScreenProxy">
+            <runs />
+        </js-module>
+    </platform>
 </plugin>

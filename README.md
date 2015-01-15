@@ -36,6 +36,7 @@ This plugin displays and hides a splash screen during application launch.
 - iOS
 - Windows Phone 7 and 8
 - Windows 8
+- Browser
 
 
 ## Methods
@@ -45,13 +46,26 @@ This plugin displays and hides a splash screen during application launch.
 
 ### Android Quirks
 
-In your config.xml, you need to add the following preferences:
+In your `config.xml`, you need to add the following preferences:
 
     <preference name="SplashScreen" value="foo" />
     <preference name="SplashScreenDelay" value="10000" />
 
 Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
 for more information.
+
+### Browser Quirks
+
+You can use the following preferences in your `config.xml`:
+
+    <platform name="browser">
+        <preference name="SplashScreen" value="images/browser/splashscreen.jpg" /> <!-- defaults to "img/logo.png" -->
+        <preference name="SplashScreenDelay" value="10000" /> <!-- defaults to "3000" -->
+        <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
+        <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
+        <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
+        <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
+    </platform>
 
 ## splashscreen.hide
 
