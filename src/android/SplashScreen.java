@@ -76,7 +76,7 @@ public class SplashScreen extends CordovaPlugin {
 
         firstShow = false;
         loadSpinner();
-        showSplashScreen();
+        showSplashScreen(true);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class SplashScreen extends CordovaPlugin {
             if ("hide".equals(data.toString())) {
                 this.removeSplashScreen();
             } else {
-                this.showSplashScreen();
+                this.showSplashScreen(false);
             }
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
@@ -167,7 +167,7 @@ public class SplashScreen extends CordovaPlugin {
      * Shows the splash screen over the full Activity
      */
     @SuppressWarnings("deprecation")
-    private void showSplashScreen() {
+    private void showSplashScreen(final boolean hideAfterDelay) {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", 3000);
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
@@ -175,7 +175,7 @@ public class SplashScreen extends CordovaPlugin {
         if (this.splashDialog != null && splashDialog.isShowing()) {
             return;
         }
-        if (drawableId == 0 || splashscreenTime <= 0) {
+        if (drawableId == 0 || (splashscreenTime <= 0 && hideAfterDelay)) {
             return;
         }
 
@@ -211,12 +211,14 @@ public class SplashScreen extends CordovaPlugin {
                 splashDialog.show();
 
                 // Set Runnable to remove splash screen just in case
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        removeSplashScreen();
-                    }
-                }, splashscreenTime);
+                if (hideAfterDelay) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            removeSplashScreen();
+                        }
+                    }, splashscreenTime);
+                }
             }
         });
     }
