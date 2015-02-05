@@ -98,3 +98,8 @@
 ### 0.3.5 (Dec 02, 2014)
 * CB-7204 - Race condition when hiding and showing spinner (closes #21)
 * CB-7700 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
+
+### 1.0.0 (Feb 04, 2015)
+* CB-8351 ios: Stop using deprecated IsIpad macro
+* CB-3679 Add engine tag for Android >= 3.6.0 due to use of `preferences`
+* CB-3679 Make SplashScreen plugin compatible with cordova-android@4.0.x
