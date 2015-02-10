@@ -78,9 +78,12 @@ var SplashScreen = {
         document.body.appendChild(localSplash);
     },
     hide: function () {
-        window.removeEventListener("resize", onResize, false);
-        document.body.removeChild(localSplash);
-        localSplash = null;
+        // check if localSplash is defined. Method hide() could be called multiple times.
+        if (localSplash) {
+            window.removeEventListener("resize", onResize, false);
+            document.body.removeChild(localSplash);
+            localSplash = null;
+        }
     }
 };
 
