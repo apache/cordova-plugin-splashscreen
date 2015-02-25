@@ -44,7 +44,8 @@ Este plugin muestra y esconde una pantalla de bienvenida durante el inicio de la
 
 En el archivo config.xml, tienes que añadir las siguientes preferencias:
 
-`<preference name="SplashScreen" value="foo" />` `<preference name="SplashScreenDelay" value="10000" />`
+    < nombre de preferencia = "SplashScreen" value = "foo" / >< nombre de preferencia = "SplashScreenDelay" value = "10000" / >
+    
 
 Donde foo es el nombre del archivo splashscreen, preferiblemente un archivo de 9 parche. Asegúrese de agregar tus archivos splashcreen en tu directorio res/xml bajo las carpetas apropiadas. El segundo parámetro representa cuánto aparecerán el splashscreen en milisegundos. Valor predeterminado es ms 3000. Ver [los iconos y salpicadura pantallas][1] para obtener más información.
 
