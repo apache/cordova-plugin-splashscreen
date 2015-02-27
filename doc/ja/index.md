@@ -44,9 +44,11 @@
 
 あなたの config.xml を以下の設定を追加する必要があります。
 
-`<preference name="SplashScreen" value="foo" />` `<preference name="SplashScreenDelay" value="10000" />`
+    <preference name="SplashScreen" value="foo" />
+    <preference name="SplashScreenDelay" value="10000" />
+    
 
-Foo ができれば 9 パッチファイル splashscreen ファイルの名前です。 解像度/xml ディレクトリの適切なフォルダーの下に splashcreen ファイルを追加することを確認します。 2 番目のパラメーターは、スプラッシュ ・ スクリーンがの表示時間 (ミリ秒単位) を表します。 デフォルトでは 3000 ミリ秒です。 詳細については、[アイコンとスプラッシュ画面][1]を参照してください。
+Foo ができれば 9 パッチファイル splashscreen ファイルの名前です。 解像度/xml ディレクトリの適切なフォルダーの下に splashcreen ファイルを追加することを確認します。 2 番目のパラメーターは、スプラッシュ ・ スクリーンがの表示時間 (ミリ秒単位) を表します。 デフォルトでは 3000 ミリ秒です。 詳細については、[アイコンとスプラッシュ画面][1] を参照してください。
 
  [1]: http://cordova.apache.org/docs/en/edge/config_ref_images.md.html
 
@@ -59,9 +61,11 @@ Foo ができれば 9 パッチファイル splashscreen ファイルの名前�
 
 ### ブラックベリー 10、WP8、iOS の気まぐれ
 
-`config.xml`ファイルの `AutoHideSplashScreen` 設定する必要があります `false` 。 遅延を 2 秒間スプラッシュ スクリーンを非表示、タイマーを追加しますで次のように `deviceready` イベント ハンドラー。
+`config.xml` ファイルの `AutoHideSplashScreen` の設定は `false` である必要があります。 遅延を 2 秒間スプラッシュ スクリーンを非表示に `deviceready` イベント ハンドラーで、次のようタイマーを追加します。
 
-        setTimeout(function() {navigator.splashscreen.hide();}, 2000年);
+        setTimeout(function() {
+            navigator.splashscreen.hide();
+        }, 2000);
     
 
 ## splashscreen.show
@@ -71,4 +75,4 @@ Foo ができれば 9 パッチファイル splashscreen ファイルの名前�
     navigator.splashscreen.show();
     
 
-アプリケーションを呼び出すことはできません `navigator.splashscreen.show()` 、アプリが開始されるまで、 `deviceready` イベントが発生します。 しかし、以来、通常スプラッシュ画面アプリ開始前に表示するものですと思われる、スプラッシュ スクリーンの目的の敗北します。 いくつかの構成を提供する `config.xml` は自動的に `show` スプラッシュ画面、アプリを起動後すぐに、それが完全に起動し、受信する前に、 `deviceready` イベント。 詳細についてはこの構成を行うには、[アイコンとスプラッシュ画面][1]を参照してください。 このような理由から、それは可能性を呼び出す必要があります `navigator.splashscreen.show()` アプリ起動時のスプラッシュ画面を見やすくします。
+アプリが開始され、`deviceready` イベントが発生するまで、アプリケーションは `navigator.splashscreen.show()` を呼び出すことはできません。 しかし、以来、通常スプラッシュ画面アプリ開始前に表示するものですと思われる、スプラッシュ スクリーンの目的の敗北します。 `config.xml` にいくつかの構成を提供するは自動的に `表示` スプラッシュ画面、アプリを起動後すぐに、それが完全に起動し、`deviceready` イベントを受信する前に。 詳細についてはこの構成を行うには、[アイコンとスプラッシュ画面][1] を参照してください。 この理由のためにアプリ起動時のスプラッシュ スクリーンを確認 `navigator.splashscreen.show()` をコールする必要がある可能性が高いです。
