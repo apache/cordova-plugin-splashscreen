@@ -19,4 +19,6 @@
 
 # org.apache.cordova.splashscreen
 
+[![Build Status](https://travis-ci.org/apache/cordova-plugin-splashscreen.svg)](https://travis-ci.org/apache/cordova-plugin-splashscreen)
+
 Plugin documentation: [doc/index.md](doc/index.md)
