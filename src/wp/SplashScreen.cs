@@ -40,26 +40,35 @@ namespace WPCordovaClassLib.Cordova.Commands
     /// </summary>
     public class SplashScreen : BaseCommand
     {
+        private readonly Preferences preferences = new Preferences();
         private Popup popup;
-        private bool autohide = true;
 
         private static bool WasShown = false;
 
         public SplashScreen()
         {
-            Image SplashScreen = new Image();
-            BitmapImage splash_image = new BitmapImage();
-            splash_image.SetSource(Application.GetResourceStream(new Uri(@"SplashScreenImage.jpg", UriKind.Relative)).Stream);
-            SplashScreen.Source = splash_image;
+            this.LoadPreferencesFromConfiguration();
+
+            Image SplashScreen = new Image()
+            {
+                Height = Application.Current.Host.Content.ActualHeight,
+                Width = Application.Current.Host.Content.ActualWidth,
+                Stretch = Stretch.Fill
+            };
+
+            var imageResource = Application.GetResourceStream(preferences.SplashScreenImage);
+            if (imageResource != null)
+            {
+                BitmapImage splash_image = new BitmapImage();
+                splash_image.SetSource(imageResource.Stream);
+                SplashScreen.Source = splash_image;
+            }
 
             // Instansiate the popup and set the Child property of Popup to SplashScreen
-            popup = new Popup() {IsOpen = false, Child = SplashScreen };
+            this.popup = new Popup() { IsOpen = false, Child = SplashScreen };
             // Orient the popup accordingly
-            popup.HorizontalAlignment = HorizontalAlignment.Stretch;
-            popup.VerticalAlignment = VerticalAlignment.Center;
-            
-
-            LoadConfigValues();
+            this.popup.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this.popup.VerticalAlignment = VerticalAlignment.Center;
         }
 
         public override void OnInit()
@@ -68,27 +77,52 @@ namespace WPCordovaClassLib.Cordova.Commands
             if (!WasShown)
             {
                 WasShown = true;
-                show();
+                this.show();
             }
         }
 
-        void LoadConfigValues()
+        private static void GetPreference(XDocument document, string preferenceName, Action<string> action)
+        {
+            var attribute = from results in document.Descendants()
+                            where (string)results.Attribute("name") == preferenceName
+                            select (string)results.Attribute("value");
+
+            var value = attribute.FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                action(value);
+            }      
+        }
+
+        private void LoadPreferencesFromConfiguration()
         {
             StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri("config.xml", UriKind.Relative));
-
             if (streamInfo != null)
             {
-                StreamReader sr = new StreamReader(streamInfo.Stream);
-                //This will Read Keys Collection for the xml file
-                XDocument document = XDocument.Parse(sr.ReadToEnd());
-
-                var preferences = from results in document.Descendants()
-                                  where (string)results.Attribute("name") == "AutoHideSplashScreen"
-                                  select (string)results.Attribute("value") == "true";
-
-                if (preferences.Count() > 0 &&  preferences.First() == false)
+                using (StreamReader sr = new StreamReader(streamInfo.Stream))
                 {
-                    autohide = false;
+                    //This will Read Keys Collection for the xml file
+                    XDocument document = XDocument.Parse(sr.ReadToEnd());
+
+                    GetPreference(document, "AutoHideSplashScreen", value =>
+                    {
+                        var autoHideSplashScreen = false;
+                        if (bool.TryParse(value, out autoHideSplashScreen))
+                        {
+                            preferences.AutoHideSplashScreen = autoHideSplashScreen;
+                        }
+                    });
+
+                    GetPreference(document, "SplashScreenDelay", value =>
+                    {
+                        var splashScreenDelay = 0;
+                        if (int.TryParse(value, out splashScreenDelay))
+                        {
+                            preferences.SplashScreenDelay = splashScreenDelay;
+                        }
+                    });
+
+                    GetPreference(document, "SplashScreen", value => preferences.SplashScreenImage = new Uri(value, UriKind.Relative));
                 }
             }
         }
@@ -97,12 +131,12 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
-                if (popup.IsOpen)
+                if (this.popup.IsOpen)
                 {
                     return;
                 }
 
-                popup.Child.Opacity = 0;
+                this.popup.Child.Opacity = 0;
 
                 Storyboard story = new Storyboard();
                 DoubleAnimation animation;
@@ -119,21 +153,14 @@ namespace WPCordovaClassLib.Cordova.Commands
 
                 story.Begin();
 
-                popup.IsOpen = true;
+                this.popup.IsOpen = true;
 
-                if (autohide)
+                if (this.preferences.AutoHideSplashScreen)
                 {
-                    DispatcherTimer timer = new DispatcherTimer();
-                    timer.Tick += (object sender, EventArgs e) =>
-                    {
-                        hide();
-                    };
-                    timer.Interval = TimeSpan.FromSeconds(1.2);
-                    timer.Start();
+                    this.StartAutoHideTimer();
                 }
-            }); 
+            });
         }
-
 
         public void hide(string options = null)
         {
@@ -162,6 +189,31 @@ namespace WPCordovaClassLib.Cordova.Commands
                 };
                 story.Begin();
             });
+        }
+
+        private void StartAutoHideTimer()
+        {
+            var timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(preferences.SplashScreenDelay) };
+            timer.Tick += (object sender, EventArgs e) =>
+            {
+                this.hide();
+                timer.Stop();
+            };
+            timer.Start();
+        }
+
+        private class Preferences
+        {
+            public bool AutoHideSplashScreen { get; set; }
+            public Uri SplashScreenImage { get; set; }
+            public int SplashScreenDelay { get; set; }
+
+            public Preferences()
+            {
+                this.SplashScreenDelay = 3000;
+                this.AutoHideSplashScreen = true;
+                this.SplashScreenImage = new Uri("SplashScreenImage.jpg", UriKind.Relative);
+            }
         }
     }
 }
