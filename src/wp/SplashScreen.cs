@@ -40,14 +40,24 @@ namespace WPCordovaClassLib.Cordova.Commands
     /// </summary>
     public class SplashScreen : BaseCommand
     {
-        private readonly Preferences preferences = new Preferences();
         private Popup popup;
 
+        // Time until we dismiss the splashscreen
+        private int prefDelay = 3000; 
+
+        // Whether we hide it by default
+        private bool prefAutoHide = true;
+
+        // Path to image to use
+        private string prefImagePath = "SplashScreenImage.jpg";
+
+        // static because autodismiss is only ever applied once, at app launch
+        // subsequent page loads should not cause the SplashScreen to be shown.
         private static bool WasShown = false;
 
         public SplashScreen()
         {
-            this.LoadPreferencesFromConfiguration();
+            LoadConfigPrefs();
 
             Image SplashScreen = new Image()
             {
@@ -56,7 +66,8 @@ namespace WPCordovaClassLib.Cordova.Commands
                 Stretch = Stretch.Fill
             };
 
-            var imageResource = Application.GetResourceStream(preferences.SplashScreenImage);
+            Uri imagePath = new Uri(prefImagePath, UriKind.RelativeOrAbsolute);
+            var imageResource = Application.GetResourceStream(imagePath);
             if (imageResource != null)
             {
                 BitmapImage splash_image = new BitmapImage();
@@ -65,36 +76,26 @@ namespace WPCordovaClassLib.Cordova.Commands
             }
 
             // Instansiate the popup and set the Child property of Popup to SplashScreen
-            this.popup = new Popup() { IsOpen = false, Child = SplashScreen };
-            // Orient the popup accordingly
-            this.popup.HorizontalAlignment = HorizontalAlignment.Stretch;
-            this.popup.VerticalAlignment = VerticalAlignment.Center;
+            popup = new Popup() { IsOpen = false, 
+                                  Child = SplashScreen,
+                                  HorizontalAlignment = HorizontalAlignment.Stretch,
+                                  VerticalAlignment = VerticalAlignment.Center
+
+            };
         }
 
         public override void OnInit()
         {
-            // we only want to autoload the first time a page is loaded.
-            if (!WasShown)
+            // we only want to autoload on the first page load.
+            // but OnInit is called for every page load.
+            if (!SplashScreen.WasShown)
             {
-                WasShown = true;
-                this.show();
+                SplashScreen.WasShown = true;
+                show();
             }
         }
 
-        private static void GetPreference(XDocument document, string preferenceName, Action<string> action)
-        {
-            var attribute = from results in document.Descendants()
-                            where (string)results.Attribute("name") == preferenceName
-                            select (string)results.Attribute("value");
-
-            var value = attribute.FirstOrDefault();
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                action(value);
-            }      
-        }
-
-        private void LoadPreferencesFromConfiguration()
+        private void LoadConfigPrefs()
         {
             StreamResourceInfo streamInfo = Application.GetResourceStream(new Uri("config.xml", UriKind.Relative));
             if (streamInfo != null)
@@ -102,118 +103,105 @@ namespace WPCordovaClassLib.Cordova.Commands
                 using (StreamReader sr = new StreamReader(streamInfo.Stream))
                 {
                     //This will Read Keys Collection for the xml file
-                    XDocument document = XDocument.Parse(sr.ReadToEnd());
+                    XDocument configFile = XDocument.Parse(sr.ReadToEnd());
 
-                    GetPreference(document, "AutoHideSplashScreen", value =>
+                    string configAutoHide = configFile.Descendants()
+                                        .Where(x => (string)x.Attribute("name") == "AutoHideSplashScreen")
+                                        .Select(x => (string)x.Attribute("value"))
+                                        .FirstOrDefault();
+                    bool.TryParse(configAutoHide, out prefAutoHide);
+
+
+                    string configDelay = configFile.Descendants()
+                                      .Where(x => (string)x.Attribute("name") == "SplashScreenDelay")
+                                      .Select(x => (string)x.Attribute("value"))
+                                      .FirstOrDefault();
+                    int.TryParse(configDelay, out prefDelay);
+
+                    string configImage = configFile.Descendants()
+                                        .Where(x => (string)x.Attribute("name") == "SplashScreen")
+                                        .Select(x => (string)x.Attribute("value"))
+                                        .FirstOrDefault();
+
+                    if (!String.IsNullOrEmpty(configImage))
                     {
-                        var autoHideSplashScreen = false;
-                        if (bool.TryParse(value, out autoHideSplashScreen))
-                        {
-                            preferences.AutoHideSplashScreen = autoHideSplashScreen;
-                        }
-                    });
-
-                    GetPreference(document, "SplashScreenDelay", value =>
-                    {
-                        var splashScreenDelay = 0;
-                        if (int.TryParse(value, out splashScreenDelay))
-                        {
-                            preferences.SplashScreenDelay = splashScreenDelay;
-                        }
-                    });
-
-                    GetPreference(document, "SplashScreen", value => preferences.SplashScreenImage = new Uri(value, UriKind.Relative));
+                        prefImagePath = configImage;
+                    }
                 }
             }
         }
 
         public void show(string options = null)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+
+            if (!popup.IsOpen)    
             {
-                if (this.popup.IsOpen)
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    return;
-                }
+                    popup.Child.Opacity = 0;
 
-                this.popup.Child.Opacity = 0;
+                    Storyboard story = new Storyboard();
+                    DoubleAnimation animation = new DoubleAnimation()
+                                                    {
+                                                        From = 0.0,
+                                                        To = 1.0,
+                                                        Duration = new Duration(TimeSpan.FromSeconds(0.2))
+                                                    };
 
-                Storyboard story = new Storyboard();
-                DoubleAnimation animation;
-                animation = new DoubleAnimation();
-                animation.From = 0.0;
-                animation.To = 1.0;
-                animation.Duration = new Duration(TimeSpan.FromSeconds(0.2));
+                    Storyboard.SetTarget(animation, popup.Child);
+                    Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
+                    story.Children.Add(animation);
 
-                Storyboard.SetTarget(animation, popup.Child);
-                Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
-                story.Children.Add(animation);
+                    story.Begin();
 
-                Debug.WriteLine("Fading the splash screen in");
+                    popup.IsOpen = true;
 
-                story.Begin();
-
-                this.popup.IsOpen = true;
-
-                if (this.preferences.AutoHideSplashScreen)
-                {
-                    this.StartAutoHideTimer();
-                }
-            });
+                    if (prefAutoHide)
+                    {
+                        StartAutoHideTimer();
+                    }
+                });
+            }
         }
 
         public void hide(string options = null)
         {
-            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            if (popup.IsOpen)
             {
-                if (!popup.IsOpen)
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    return;
-                }
 
-                popup.Child.Opacity = 1.0;
+                    popup.Child.Opacity = 1.0;
 
-                Storyboard story = new Storyboard();
-                DoubleAnimation animation;
-                animation = new DoubleAnimation();
-                animation.From = 1.0;
-                animation.To = 0.0;
-                animation.Duration = new Duration(TimeSpan.FromSeconds(0.4));
+                    Storyboard story = new Storyboard();
+                    DoubleAnimation animation = new DoubleAnimation()
+                                                    {
+                                                        From = 1.0,
+                                                        To = 0.0,
+                                                        Duration = new Duration(TimeSpan.FromSeconds(0.4))
+                                                    };
 
-                Storyboard.SetTarget(animation, popup.Child);
-                Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
-                story.Children.Add(animation);
-                story.Completed += (object sender, EventArgs e) =>
-                {
-                    popup.IsOpen = false;
-                };
-                story.Begin();
-            });
+                    Storyboard.SetTarget(animation, popup.Child);
+                    Storyboard.SetTargetProperty(animation, new PropertyPath("Opacity"));
+                    story.Children.Add(animation);
+                    story.Completed += (object sender, EventArgs e) =>
+                    {
+                        popup.IsOpen = false;
+                    };
+                    story.Begin();
+                });
+            }
         }
 
         private void StartAutoHideTimer()
         {
-            var timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(preferences.SplashScreenDelay) };
+            var timer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(prefDelay) };
             timer.Tick += (object sender, EventArgs e) =>
             {
-                this.hide();
+                hide();
                 timer.Stop();
             };
             timer.Start();
-        }
-
-        private class Preferences
-        {
-            public bool AutoHideSplashScreen { get; set; }
-            public Uri SplashScreenImage { get; set; }
-            public int SplashScreenDelay { get; set; }
-
-            public Preferences()
-            {
-                this.SplashScreenDelay = 3000;
-                this.AutoHideSplashScreen = true;
-                this.SplashScreenImage = new Uri("SplashScreenImage.jpg", UriKind.Relative);
-            }
         }
     }
 }
