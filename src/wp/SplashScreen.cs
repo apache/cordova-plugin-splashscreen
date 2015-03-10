@@ -109,14 +109,16 @@ namespace WPCordovaClassLib.Cordova.Commands
                                         .Where(x => (string)x.Attribute("name") == "AutoHideSplashScreen")
                                         .Select(x => (string)x.Attribute("value"))
                                         .FirstOrDefault();
-                    bool.TryParse(configAutoHide, out prefAutoHide);
 
+                    bool bVal;
+                    prefAutoHide = bool.TryParse(configAutoHide, out bVal) ? bVal : prefAutoHide;
 
                     string configDelay = configFile.Descendants()
                                       .Where(x => (string)x.Attribute("name") == "SplashScreenDelay")
                                       .Select(x => (string)x.Attribute("value"))
                                       .FirstOrDefault();
-                    int.TryParse(configDelay, out prefDelay);
+                    int nVal;
+                    prefDelay = int.TryParse(configDelay, out nVal) ? nVal : prefDelay;
 
                     string configImage = configFile.Descendants()
                                         .Where(x => (string)x.Attribute("name") == "SplashScreen")
