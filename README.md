@@ -36,6 +36,7 @@ This plugin displays and hides a splash screen during application launch.
 - iOS
 - Windows Phone 7 and 8
 - Windows 8
+- Windows
 - Browser
 
 
