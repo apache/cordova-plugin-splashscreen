@@ -25,7 +25,7 @@ This plugin displays and hides a splash screen during application launch.
 
 ## Installation
 
-    cordova plugin add cordova-plugin-splashscreen
+    cordova plugin add org.apache.cordova.splashscreen
 
 
 ## Supported Platforms
