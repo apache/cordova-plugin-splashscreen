@@ -58,7 +58,7 @@
 
         <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
     </platform>
-    
+
     <!-- ubuntu -->
     <platform name="ubuntu">
         <header-file src="src/ubuntu/splashscreen.h" />
@@ -98,6 +98,7 @@
         </config-file>
 
         <source-file src="src/wp/SplashScreen.cs" />
+        <source-file src="src/wp/ResolutionHelper.cs" />
 
     </platform>
 
@@ -111,6 +112,7 @@
         </config-file>
 
         <source-file src="src/wp/SplashScreen.cs" />
+        <source-file src="src/wp/ResolutionHelper.cs" />
 
     </platform>
 
