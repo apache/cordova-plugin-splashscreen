@@ -61,10 +61,10 @@ public class SplashScreen extends CordovaPlugin {
             return;
         }
         // Make WebView invisible while loading URL
-       // getView().setVisibility(View.INVISIBLE);
+        getView().setVisibility(View.INVISIBLE);
         int drawableId = preferences.getInteger("SplashDrawableId", 0);
         if (drawableId == 0) {
-            String splashResource = preferences.getString("SplashScreen", "splash");
+            String splashResource = preferences.getString("SplashScreen", null);
             if (splashResource != null) {
                 drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
                 if (drawableId == 0) {
@@ -191,7 +191,7 @@ public class SplashScreen extends CordovaPlugin {
                 root.setMinimumWidth(display.getWidth());
                 root.setOrientation(LinearLayout.VERTICAL);
 
-                // TODO: Use the background color of the webView's parent instead of using the
+                // TODO: Use the background color of the webview's parent instead of using the
                 // preference.
                 root.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
                 root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -258,12 +258,12 @@ public class SplashScreen extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 spinnerStop();
-                /*spinnerDialog = ProgressDialog.show(webView.getContext(), title, message, true, true,
+                spinnerDialog = ProgressDialog.show(webView.getContext(), title, message, true, true,
                         new DialogInterface.OnCancelListener() {
                             public void onCancel(DialogInterface dialog) {
                                 spinnerDialog = null;
                             }
-                        });*/
+                        });
             }
         });
     }
