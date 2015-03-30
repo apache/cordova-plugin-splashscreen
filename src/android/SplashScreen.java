@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -206,16 +208,10 @@ public class SplashScreen extends CordovaPlugin {
     }
 
     private void reloadDrawable() {
-        if (isReloadOnOrientationChange() && splashImageView != null) {
-            final int drawableId = preferences.getInteger("SplashDrawableId", 0);
+        if (splashImageView != null && isReloadOnOrientationChange()) {
+            int drawableId = preferences.getInteger("SplashDrawableId", 0);
             if (drawableId != 0) {
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        if (splashImageView != null) {
-                            splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
-                        }
-                    }
-                });
+                splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
             }
         }
     }
