@@ -64,7 +64,7 @@ public class SplashScreen extends CordovaPlugin {
         getView().setVisibility(View.INVISIBLE);
         int drawableId = preferences.getInteger("SplashDrawableId", 0);
         if (drawableId == 0) {
-            String splashResource = preferences.getString("SplashScreen", null);
+            String splashResource = preferences.getString("SplashScreen", "screen");
             if (splashResource != null) {
                 drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
                 if (drawableId == 0) {
