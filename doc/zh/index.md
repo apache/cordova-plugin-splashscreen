@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.splashscreen
+# cordova-plugin-splashscreen
 
 這個外掛程式顯示和隱藏在應用程式啟動期間的初始螢幕。
 
 ## 安裝
 
-    cordova plugin add org.apache.cordova.splashscreen
+    cordova plugin add cordova-plugin-splashscreen
     
 
 ## 支援的平臺

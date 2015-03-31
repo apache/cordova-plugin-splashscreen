@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.splashscreen
+# cordova-plugin-splashscreen
 
 이 플러그인은 표시 하 고 응용 프로그램 실행 하는 동안 시작 화면을 숨깁니다.
 
 ## 설치
 
-    cordova plugin add org.apache.cordova.splashscreen
+    cordova plugin add cordova-plugin-splashscreen
     
 
 ## 지원 되는 플랫폼

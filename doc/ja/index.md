@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.splashscreen
+# cordova-plugin-splashscreen
 
 このプラグインが表示され、アプリケーションの起動中にスプラッシュ スクリーンを非表示にします。
 
 ## インストール
 
-    cordova plugin add org.apache.cordova.splashscreen
+    cordova plugin add cordova-plugin-splashscreen
     
 
 ## サポートされているプラットフォーム

@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.splashscreen
+# cordova-plugin-splashscreen
 
 Dieses Plugin zeigt und verbirgt einen Splash-Screen beim Start der Anwendung.
 
 ## Installation
 
-    cordova plugin add org.apache.cordova.splashscreen
+    cordova plugin add cordova-plugin-splashscreen
     
 
 ## Unterstützte Plattformen

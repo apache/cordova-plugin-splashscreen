@@ -17,13 +17,13 @@
     under the License.
 -->
 
-# org.apache.cordova.splashscreen
+# cordova-plugin-splashscreen
 
 Questo plugin Visualizza e nasconde una schermata iniziale durante l'avvio dell'applicazione.
 
 ## Installazione
 
-    cordova plugin add org.apache.cordova.splashscreen
+    cordova plugin add cordova-plugin-splashscreen
     
 
 ## Piattaforme supportate
