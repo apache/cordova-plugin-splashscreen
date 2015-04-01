@@ -3,7 +3,7 @@
   "version": "1.0.1-dev",
   "description": "Cordova Splashscreen Plugin",
   "cordova": {
-    "id": "org.apache.cordova.splashscreen",
+    "id": "cordova-plugin-splashscreen",
     "platforms": [
       "android",
       "amazon-fireos",
