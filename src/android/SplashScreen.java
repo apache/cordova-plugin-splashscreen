@@ -247,25 +247,18 @@ public class SplashScreen extends CordovaPlugin {
                 // Get reference to display
                 Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
                 Context context = webView.getContext();
-
-                // Create the layout for the dialog
-                LinearLayout root = new LinearLayout(context);
-                root.setMinimumHeight(display.getHeight());
-                root.setMinimumWidth(display.getWidth());
-                root.setOrientation(LinearLayout.VERTICAL);
-
-                // TODO: Use the background color of the webView's parent instead of using the
-                // preference.
-                root.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
-                
-                root.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT, 0.0F));
                 
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
                 splashImageView.setImageResource(drawableId);
                 LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 splashImageView.setLayoutParams(layoutParams);
+                
+                splashImageView.setMinimumHeight(display.getHeight());
+                splashImageView.setMinimumWidth(display.getWidth());
+
+                // TODO: Use the background color of the webView's parent instead of using the preference.
+                splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
 
                 if (isMaintainAspectRatio()) {
                     // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
@@ -275,7 +268,6 @@ public class SplashScreen extends CordovaPlugin {
                     // FIT_XY scales image non-uniformly to fit into image view.
                     splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 }
-                root.addView(splashImageView);
 
                 // Create and show the dialog
                 splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
@@ -285,7 +277,7 @@ public class SplashScreen extends CordovaPlugin {
                     splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
-                splashDialog.setContentView(root);
+                splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 splashDialog.show();
 
