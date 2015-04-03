@@ -27,7 +27,6 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -39,19 +38,6 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-/**
- * Splash Screen plugin. Uses the following preferences:
- * <ul>
- * <li>SplashScreen: Splash screen resource name.</li>
- * <li>SplashScreenDelay: How long splash screen should be shown in milliseconds.</li>
- * <li>SplashMaintainAspectRatio: Maintain aspect ratio of the drawable, like CSS
- *	background-size:cover. Defaults to false for backward compatibility.</li>
- * <li>SplashReloadOnOrientationChange: Reload splash drawable when orientation changes.
- * 	Defaults to false for performance reasons because there is no need to look up and
- *  reload the drawable if it does not change. App developer knows if they have different
- *  drawables per orientation and can set this to true in that case.</li>
- * </ul>
- */
 public class SplashScreen extends CordovaPlugin {
     private static final String LOG_TAG = "SplashScreen";
     // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
@@ -112,13 +98,6 @@ public class SplashScreen extends CordovaPlugin {
      */
     private boolean isMaintainAspectRatio () {
         return preferences.getBoolean("SplashMaintainAspectRatio", false);
-    }
-    
-    /**
-     * Shorter way to check value of "SplashReloadOnOrientationChange" preference.
-     */
-    private boolean isReloadOnOrientationChange () {
-        return preferences.getBoolean("SplashReloadOnOrientationChange", false);
     }
 
     @Override
@@ -198,18 +177,15 @@ public class SplashScreen extends CordovaPlugin {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        // Reload splash drawable when orientation changes if so configured.
         if (newConfig.orientation != orientation) {
             orientation = newConfig.orientation;
-            reloadDrawable();
-        }
-    }
-
-    private void reloadDrawable() {
-        if (splashImageView != null && isReloadOnOrientationChange()) {
-            int drawableId = preferences.getInteger("SplashDrawableId", 0);
-            if (drawableId != 0) {
-                splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
+            
+            // Splash drawable may change with orientation, so reload it.
+            if (splashImageView != null) {
+                int drawableId = preferences.getInteger("SplashDrawableId", 0);
+                if (drawableId != 0) {
+                    splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
+                }
             }
         }
     }
