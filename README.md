@@ -51,9 +51,14 @@ In your `config.xml`, you need to add the following preferences:
 
     <preference name="SplashScreen" value="foo" />
     <preference name="SplashScreenDelay" value="10000" />
+    <preference name="SplashMaintainAspectRatio" value="true|false" />
 
 Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
 for more information.
+
+"SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
+
+The plugin reloads splash drawable whenever orientation changes, so you can specify different drawables for portrait and landscape orientations.
 
 ### Browser Quirks
 
@@ -67,6 +72,25 @@ You can use the following preferences in your `config.xml`:
         <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
         <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
     </platform>
+
+
+### iOS Quirks
+
+- `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
+  prevent the splash screen from fading in and out when its display
+  state changes.
+
+        <preference name="FadeSplashScreen" value="false"/>
+
+- `FadeSplashScreenDuration` (float, defaults to `2`): Specifies the
+  number of seconds for the splash screen fade effect to execute.
+
+        <preference name="FadeSplashScreenDuration" value="4"/>
+
+- `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
+  to hide the splash-screen spinner.
+
+        <preference name="ShowSplashScreenSpinner" value="false"/>
 
 ## splashscreen.hide
 
