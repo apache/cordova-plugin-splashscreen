@@ -73,6 +73,25 @@ You can use the following preferences in your `config.xml`:
         <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
     </platform>
 
+
+### iOS Quirks
+
+- `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
+  prevent the splash screen from fading in and out when its display
+  state changes.
+
+        <preference name="FadeSplashScreen" value="false"/>
+
+- `FadeSplashScreenDuration` (float, defaults to `2`): Specifies the
+  number of seconds for the splash screen fade effect to execute.
+
+        <preference name="FadeSplashScreenDuration" value="4"/>
+
+- `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
+  to hide the splash-screen spinner.
+
+        <preference name="ShowSplashScreenSpinner" value="false"/>
+
 ## splashscreen.hide
 
 Dismiss the splash screen.
