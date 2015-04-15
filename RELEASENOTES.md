@@ -103,3 +103,28 @@
 * CB-8351 ios: Stop using deprecated IsIpad macro
 * CB-3679 Add engine tag for Android >= 3.6.0 due to use of `preferences`
 * CB-3679 Make SplashScreen plugin compatible with cordova-android@4.0.x
+
+### 2.0.0 (Apr 15, 2015)
+* give users a way to install the bleeding edge.
+* CB-8746 gave plugin major version bump
+* CB-8797 - Splashscreen preferences FadeSplashScreenDuration and FadeSplashScreen (iOS) are missing
+* CB-8836 - Crashes after animating splashscreen
+* CB-8753 android: Fix missing import in previous commit
+* CB-8753 android: Adds `SplashMaintainAspectRatio` preference (close #43)
+* CB-8683 changed plugin-id to pacakge-name
+* CB-8653 properly updated translated docs to use new id
+* CB-8653 updated translated docs to use new id
+* CB-8345 Make default for splashscreen resource "screen" (which is what template and CLI assume it to be)
+* Revert "CB-8345 android: Make "splash" the default resource ID instead of null"
+* Use TRAVIS_BUILD_DIR, install paramedic by npm
+* CB-8345 android: Make "splash" the default resource ID instead of null
+* docs: added Windows to supported platforms
+* CB-7964 Add cordova-plugin-splashscreen support for browser platform
+* CB-8653 Updated Readme
+* [wp8] oops, Added back config parse result checks
+* [WP8] code cleanup, minor refactors, comments to clarify some stuff.
+* Extend WP8 Splash Screen to respect SplashScreen and SplashScreenDelay preferences from config file
+* CB-8574 Integrate TravisCI
+* CB-8438 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
+* CB-8538 Added package.json file
+* CB-8397 Add support to 'windows' for showing the Windows Phone splashscreen
