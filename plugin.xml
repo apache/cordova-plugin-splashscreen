@@ -88,20 +88,6 @@
         </config-file>
     </platform>
 
-    <!-- wp7 -->
-    <platform name="wp7">
-        <config-file target="config.xml" parent="/*">
-            <feature name="SplashScreen">
-                <param name="wp-package" value="SplashScreen"/>
-                <param name="onload" value="true"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/wp/SplashScreen.cs" />
-        <source-file src="src/wp/ResolutionHelper.cs" />
-
-    </platform>
-
     <!-- wp8 -->
     <platform name="wp8">
         <config-file target="config.xml" parent="/*">
