@@ -1,10 +1,10 @@
-/*  
+/*
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
     http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ namespace WPCordovaClassLib.Cordova.Commands
         private Popup popup;
 
         // Time until we dismiss the splashscreen
-        private int prefDelay = 3000; 
+        private int prefDelay = 3000;
 
         // Whether we hide it by default
         private bool prefAutoHide = true;
@@ -66,8 +66,7 @@ namespace WPCordovaClassLib.Cordova.Commands
                 Stretch = Stretch.Fill
             };
 
-            Uri imagePath = new Uri(prefImagePath, UriKind.RelativeOrAbsolute);
-            var imageResource = Application.GetResourceStream(imagePath);
+            var imageResource = GetSplashScreenImageResource();
             if (imageResource != null)
             {
                 BitmapImage splash_image = new BitmapImage();
@@ -76,7 +75,7 @@ namespace WPCordovaClassLib.Cordova.Commands
             }
 
             // Instansiate the popup and set the Child property of Popup to SplashScreen
-            popup = new Popup() { IsOpen = false, 
+            popup = new Popup() { IsOpen = false,
                                   Child = SplashScreen,
                                   HorizontalAlignment = HorizontalAlignment.Stretch,
                                   VerticalAlignment = VerticalAlignment.Center
@@ -131,6 +130,52 @@ namespace WPCordovaClassLib.Cordova.Commands
                     }
                 }
             }
+        }
+
+        private StreamResourceInfo GetSplashScreenImageResource()
+        {
+            // Get the base filename for the splash screen images
+            string imageName = System.IO.Path.GetFileNameWithoutExtension(prefImagePath);
+            Uri imageUri = null;
+            StreamResourceInfo imageResource = null;
+
+            // First, try to get a resolution-specific splashscreen
+            try
+            {
+                // Determine the device's resolution
+                switch (ResolutionHelper.CurrentResolution)
+                {
+                    case Resolutions.HD:
+                        imageUri = new Uri(imageName + ".screen-720p.jpg", UriKind.Relative);
+                        break;
+
+                    case Resolutions.WVGA:
+                        imageUri = new Uri(imageName + ".screen-WVGA.jpg", UriKind.Relative);
+                        break;
+
+                    case Resolutions.WXGA:
+                    default:
+                        imageUri = new Uri(imageName + ".screen-WXGA.jpg", UriKind.Relative);
+                        break;
+                }
+
+                imageResource = Application.GetResourceStream(imageUri);
+            }
+            catch (Exception)
+            {
+                // It's OK if we didn't get a resolution-specific image
+            }
+
+            // Fallback to the default image name without decoration
+            if (imageResource == null)
+            {
+                imageUri = new Uri(prefImagePath, UriKind.Relative);
+                imageResource = Application.GetResourceStream(imageUri);
+            }
+
+            if (imageUri != null) Debug.WriteLine("INFO :: SplashScreen: using image {0}", imageUri.OriginalString);
+
+            return imageResource;
         }
 
         public void show(string options = null)
