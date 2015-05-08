@@ -20,6 +20,7 @@
 #import "CDVSplashScreen.h"
 #import <Cordova/CDVViewController.h>
 #import <Cordova/CDVScreenOrientationDelegate.h>
+#import "CDVViewController+SplashScreen.h"
 
 #define kSplashScreenDurationDefault 0.25f
 
@@ -68,6 +69,16 @@
      *     gray       = UIActivityIndicatorViewStyleGray
      *
      */
+
+    // Determine whether rotation should be enabled for this device
+    // Per iOS HIG, landscape is only supported on iPad and iPhone 6+
+    CDV_iOSDevice device = [self getCurrentDevice];
+    BOOL autorotateValue = (device.iPad || device.iPhone6Plus) ?
+        [(CDVViewController *)self.viewController shouldAutorotateDefaultValue] :
+        NO;
+    
+    [(CDVViewController *)self.viewController setEnabledAutorotation:autorotateValue];
+
     NSString* topActivityIndicator = [self.commandDelegate.settings objectForKey:[@"TopActivityIndicator" lowercaseString]];
     UIActivityIndicatorViewStyle topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
 
@@ -107,6 +118,8 @@
 
 - (void)destroyViews
 {
+    [(CDVViewController *)self.viewController setEnabledAutorotation:[(CDVViewController *)self.viewController shouldAutorotateDefaultValue]];
+
     [_imageView removeFromSuperview];
     [_activityView removeFromSuperview];
     _imageView = nil;
