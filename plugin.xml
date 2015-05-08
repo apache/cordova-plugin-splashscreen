@@ -74,8 +74,10 @@
 		    </feature>
         </config-file>
 
-	    <header-file src="src/ios/CDVSplashScreen.h" />
-	    <source-file src="src/ios/CDVSplashScreen.m" />
+        <header-file src="src/ios/CDVSplashScreen.h" />
+        <source-file src="src/ios/CDVSplashScreen.m" />
+        <header-file src="src/ios/CDVViewController+SplashScreen.h" />
+        <source-file src="src/ios/CDVViewController+SplashScreen.m" />
 
 	    <framework src="CoreGraphics.framework" />
     </platform>
