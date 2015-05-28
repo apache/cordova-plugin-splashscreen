@@ -91,7 +91,9 @@ public class SplashScreen extends CordovaPlugin {
 
         firstShow = false;
         loadSpinner();
-        showSplashScreen(true);
+
+        boolean hideAfterDelay = preferences.getBoolean("AutoHideSplashScreen", true);
+        showSplashScreen(hideAfterDelay);
     }
 
     /**

@@ -101,7 +101,7 @@ Dismiss the splash screen.
     navigator.splashscreen.hide();
 
 
-### BlackBerry 10, WP8, iOS Quirk
+### BlackBerry 10, WP8, iOS, Android Quirk
 
 The `config.xml` file's `AutoHideSplashScreen` setting must be
 `false`. To delay hiding the splash screen for two seconds, add a
