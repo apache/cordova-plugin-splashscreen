@@ -51,6 +51,7 @@ public class SplashScreen extends CordovaPlugin {
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
+    private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
 
     /**
      * Displays the splash drawable.
@@ -112,7 +113,7 @@ public class SplashScreen extends CordovaPlugin {
     }
 
     private int getFadeDuration () {
-        int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) == true ?
+        int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ?
             preferences.getInteger("FadeSplashScreenDuration", DEFAULT_SPLASHSCREEN_DURATION) : 0;
 
         if (fadeSplashScreenDuration < 30) {
@@ -265,6 +266,8 @@ public class SplashScreen extends CordovaPlugin {
         final int fadeSplashScreenDuration = getFadeDuration();
         final int effectiveSplashDuration = splashscreenTime - fadeSplashScreenDuration;
 
+        lastHideAfterDelay = hideAfterDelay;
+
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
@@ -317,7 +320,9 @@ public class SplashScreen extends CordovaPlugin {
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            removeSplashScreen();
+                            if (lastHideAfterDelay) {
+                                removeSplashScreen();
+                            }
                         }
                     }, effectiveSplashDuration);
                 }
