@@ -91,9 +91,7 @@ public class SplashScreen extends CordovaPlugin {
 
         firstShow = false;
         loadSpinner();
-
-        boolean hideAfterDelay = preferences.getBoolean("AutoHideSplashScreen", true);
-        showSplashScreen(hideAfterDelay);
+        showSplashScreen();
     }
 
     /**
@@ -160,11 +158,14 @@ public class SplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return null;
         }
+
+        boolean autoHide = preferences.getBoolean("AutoHideSplashScreen", true);
+
         if ("splashscreen".equals(id)) {
             if ("hide".equals(data.toString())) {
                 this.removeSplashScreen();
             } else {
-                this.showSplashScreen(false);
+                this.showSplashScreen();
             }
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
@@ -173,6 +174,8 @@ public class SplashScreen extends CordovaPlugin {
             }
         } else if ("onReceivedError".equals(id)) {
             spinnerStop();
+        } else if ("onPageFinished".equals(id) && autoHide) {
+            this.removeSplashScreen();
         }
         return null;
     }
@@ -208,15 +211,14 @@ public class SplashScreen extends CordovaPlugin {
      * Shows the splash screen over the full Activity
      */
     @SuppressWarnings("deprecation")
-    private void showSplashScreen(final boolean hideAfterDelay) {
-        final int splashscreenTime = preferences.getInteger("SplashScreenDelay", 3000);
+    private void showSplashScreen() {
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
         }
-        if (drawableId == 0 || (splashscreenTime <= 0 && hideAfterDelay)) {
+        if (drawableId == 0) {
             return;
         }
 
@@ -258,16 +260,6 @@ public class SplashScreen extends CordovaPlugin {
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 splashDialog.show();
-
-                // Set Runnable to remove splash screen just in case
-                if (hideAfterDelay) {
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        public void run() {
-                            removeSplashScreen();
-                        }
-                    }, splashscreenTime);
-                }
             }
         });
     }
