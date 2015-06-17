@@ -128,3 +128,16 @@
 * CB-8438 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
 * CB-8538 Added package.json file
 * CB-8397 Add support to 'windows' for showing the Windows Phone splashscreen
+
+### 2.1.0 (Jun 17, 2015)
+* added missing license headers
+* CB-9128 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
+* fix npm md issue
+* Fixed iOS unit tests.
+* CB-3562: Disable screen rotation for iPhone when splash screen is shown. (closes #47)
+* CB-8988: Fix rotation on iOS/iPad (closes #46)
+* CB-8904: Don't reset the static variable when it's destroyed, otherwise we might as well just have a member variable
+* Removed wp7 from plugin.xml and package.json
+* CB-8750 [wp8]: Rewrite resoultion helper
+* CB-8750 [wp8]: Allow resolution-specific splashscreen images
+* CB-8758 [wp8]: UnauthorizedAccessException on hide()
