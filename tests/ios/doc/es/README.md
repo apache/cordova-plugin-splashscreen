@@ -17,24 +17,23 @@
 #         under the License.
 -->
 
-# iOS Tests for CDVSplashScreen
+# Pruebas de iOS para CDVSplashScreen
 
-You need to install `node.js` to pull in `cordova-ios`.
+Necesita instalar `node.js` en `Córdoba-ios`.
 
-First install cordova-ios:
+Primero instalar cordova-ios:
 
     npm install
+    
 
-... in the current folder.
+... en la carpeta actual.
 
+# Prueba de Xcode
 
-# Testing from Xcode
+  1. Iniciar el archivo `CDVSplashScreenTest.xcworkspace` .
+  2. Elija "CDVSplashScreenLibTests" en el menú de lista desplegable esquema
+  3. Haga clic y mantenga el botón de `Play` y elegir el icono de `llave inglesa` para ejecutar las pruebas
 
-1. Launch the `CDVSplashScreenTest.xcworkspace` file.
-2. Choose "CDVSplashScreenLibTests" from the scheme drop-down menu
-3. Click and hold on the `Play` button, and choose the `Wrench` icon to run the tests
-
-
-# Testing from the command line
+# Pruebas desde la línea de comandos
 
     npm test

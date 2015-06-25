@@ -17,24 +17,23 @@
 #         under the License.
 -->
 
-# iOS Tests for CDVSplashScreen
+# CDVSplashScreen에 대 한 iOS 테스트
 
-You need to install `node.js` to pull in `cordova-ios`.
+`Node.js` `코르도바` ios에서를 설치 해야.
 
-First install cordova-ios:
+코르도바-ios를 설치 하는 첫번째는:
 
     npm install
+    
 
-... in the current folder.
+현재 폴더에....
 
+# Xcode에서 테스트
 
-# Testing from Xcode
+  1. `CDVSplashScreenTest.xcworkspace` 파일을 시작 합니다.
+  2. 구성표 드롭 다운 메뉴에서 "CDVSplashScreenLibTests"를 선택
+  3. 클릭 하 고 `재생` 버튼에는 테스트를 실행 하려면 `공구 모양` 아이콘을 선택
 
-1. Launch the `CDVSplashScreenTest.xcworkspace` file.
-2. Choose "CDVSplashScreenLibTests" from the scheme drop-down menu
-3. Click and hold on the `Play` button, and choose the `Wrench` icon to run the tests
-
-
-# Testing from the command line
+# 명령줄에서 테스트
 
     npm test
