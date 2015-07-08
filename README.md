@@ -19,8 +19,6 @@
 
 # cordova-plugin-splashscreen
 
-[![Build Status](https://travis-ci.org/apache/cordova-plugin-splashscreen.svg)](https://travis-ci.org/apache/cordova-plugin-splashscreen)
-
 This plugin displays and hides a splash screen during application launch.
 
 ## Installation 
