@@ -39,11 +39,22 @@ This plugin displays and hides a splash screen during application launch.
 - Windows
 - Browser
 
+## Preferences
 
-## Methods
+#### config.xml
 
-- splashscreen.show
-- splashscreen.hide
+-  __SplashScreen__ (string). The resource name which is used for the displaying splash screen. Different platforms use values for this.
+
+        <preference name="SplashScreen" value="resourcename" />
+
+-  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates wherether hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
+
+        <preference name="AutoHideSplashScreen" value="true" />
+
+-  __SplashScreenDelay__ (number, default to 10000). Amount of time in milliseconds to wait before automatically hide splash screen.
+
+        <preference name="SplashScreenDelay" value="resourcename" />
+
 
 ### Android Quirks
 
@@ -91,6 +102,11 @@ You can use the following preferences in your `config.xml`:
   to hide the splash-screen spinner.
 
         <preference name="ShowSplashScreenSpinner" value="false"/>
+
+## Methods
+
+- splashscreen.show
+- splashscreen.hide
 
 ## splashscreen.hide
 
