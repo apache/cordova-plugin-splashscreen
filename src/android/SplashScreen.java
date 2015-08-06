@@ -30,6 +30,8 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -194,9 +196,38 @@ public class SplashScreen extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 if (splashDialog != null && splashDialog.isShowing()) {
-                    splashDialog.dismiss();
-                    splashDialog = null;
-                    splashImageView = null;
+                    if (preferences.getBoolean("FadeSplashScreen", true)) {
+                        final int splashscreenDuration = preferences.getInteger("FadeSplashScreenDuration", 2) * 1000;
+
+                        AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setDuration(splashscreenDuration);
+
+                        splashImageView.setAnimation(fadeOut);
+                        splashImageView.startAnimation(fadeOut);
+
+                        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                if (splashDialog != null && splashDialog.isShowing()) {
+                                    splashDialog.dismiss();
+                                    splashDialog = null;
+                                    splashImageView = null;
+                                }
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                    } else {
+                        splashDialog.dismiss();
+                        splashDialog = null;
+                        splashImageView = null;
+                    }
                 }
             }
         });
