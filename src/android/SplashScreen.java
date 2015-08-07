@@ -199,7 +199,7 @@ public class SplashScreen extends CordovaPlugin {
             public void run() {
                 if (splashDialog != null && splashDialog.isShowing()) {
                     if (preferences.getBoolean("FadeSplashScreen", true)) {
-                        final int splashscreenDuration = preferences.getInteger("FadeSplashScreenDuration", 2) * 1000;
+                        final int splashscreenDuration = (int)(preferences.getDouble("FadeSplashScreenDuration", 2) * 1000);
 
                         AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
                         fadeOut.setInterpolator(new DecelerateInterpolator()); //add this
