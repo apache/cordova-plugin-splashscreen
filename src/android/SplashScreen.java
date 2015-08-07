@@ -32,6 +32,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -200,6 +201,7 @@ public class SplashScreen extends CordovaPlugin {
                         final int splashscreenDuration = preferences.getInteger("FadeSplashScreenDuration", 2) * 1000;
 
                         AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setInterpolator(new DecelerateInterpolator()); //add this
                         fadeOut.setDuration(splashscreenDuration);
 
                         splashImageView.setAnimation(fadeOut);
