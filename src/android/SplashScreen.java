@@ -50,6 +50,7 @@ public class SplashScreen extends CordovaPlugin {
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
+    private static boolean shouldAutoHide = true;
 
     /**
      * Displays the splash drawable.
@@ -243,6 +244,8 @@ public class SplashScreen extends CordovaPlugin {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", 3000);
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
+        shouldAutoHide = hideAfterDelay;
+
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
@@ -295,7 +298,7 @@ public class SplashScreen extends CordovaPlugin {
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            removeSplashScreen();
+                            if (shouldAutoHide) removeSplashScreen();
                         }
                     }, splashscreenTime);
                 }
