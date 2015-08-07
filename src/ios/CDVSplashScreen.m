@@ -302,28 +302,24 @@
     } else if (fadeDuration == 0) {
         [self destroyViews];
     } else {
-      __weak __typeof(self) weakSelf = self;
-
-      [UIView transitionWithView:self.viewController.view
-                        duration:fadeDuration
-                         options:UIViewAnimationOptionTransitionNone
-                      animations:^(void) {
-                          __typeof(self) strongSelf = weakSelf;
-                          if (strongSelf != nil) {
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                      [strongSelf->_activityView setAlpha:0];
-                                      [strongSelf->_imageView setAlpha:0];
-                              });
-                          }
-                      }
-                      completion:^(BOOL finished) {
-                          if (finished) {
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                      [weakSelf destroyViews];
-                              });
-                          }
-                      }
-      ];      
+        __weak __typeof(self) weakSelf = self;
+        
+        [UIView transitionWithView:self.viewController.view
+                          duration:fadeDuration
+                           options:UIViewAnimationOptionTransitionNone
+                        animations:^(void) {
+                            __typeof(self) strongSelf = weakSelf;
+                            if (strongSelf != nil) {
+                                [strongSelf->_activityView setAlpha:0];
+                                [strongSelf->_imageView setAlpha:0];
+                            }
+                        }
+                        completion:^(BOOL finished) {
+                            if (finished) {
+                                [weakSelf destroyViews];
+                            }
+                        }
+         ];      
     }
 }
 
