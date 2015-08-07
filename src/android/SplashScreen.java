@@ -30,6 +30,9 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -47,6 +50,7 @@ public class SplashScreen extends CordovaPlugin {
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
+    private static boolean shouldAutoHide = true;
 
     /**
      * Displays the splash drawable.
@@ -194,9 +198,39 @@ public class SplashScreen extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 if (splashDialog != null && splashDialog.isShowing()) {
-                    splashDialog.dismiss();
-                    splashDialog = null;
-                    splashImageView = null;
+                    if (preferences.getBoolean("FadeSplashScreen", true)) {
+                        final int splashscreenDuration = preferences.getInteger("FadeSplashScreenDuration", 2) * 1000;
+
+                        AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setInterpolator(new DecelerateInterpolator()); //add this
+                        fadeOut.setDuration(splashscreenDuration);
+
+                        splashImageView.setAnimation(fadeOut);
+                        splashImageView.startAnimation(fadeOut);
+
+                        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                if (splashDialog != null && splashDialog.isShowing()) {
+                                    splashDialog.dismiss();
+                                    splashDialog = null;
+                                    splashImageView = null;
+                                }
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                    } else {
+                        splashDialog.dismiss();
+                        splashDialog = null;
+                        splashImageView = null;
+                    }
                 }
             }
         });
@@ -209,6 +243,8 @@ public class SplashScreen extends CordovaPlugin {
     private void showSplashScreen(final boolean hideAfterDelay) {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", 3000);
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
+
+        shouldAutoHide = hideAfterDelay;
 
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
@@ -237,8 +273,8 @@ public class SplashScreen extends CordovaPlugin {
                 splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
 
                 if (isMaintainAspectRatio()) {
-                    // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
-                    splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    // Scale the image uniformly (maintain the image's aspect ratio) so that both dimensions (width and height) of the image will be equal to or less than the corresponding dimension of the view (minus padding).
+                    splashImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 }
                 else {
                     // FIT_XY scales image non-uniformly to fit into image view.
@@ -262,7 +298,7 @@ public class SplashScreen extends CordovaPlugin {
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            removeSplashScreen();
+                            if (shouldAutoHide) removeSplashScreen();
                         }
                     }, splashscreenTime);
                 }
