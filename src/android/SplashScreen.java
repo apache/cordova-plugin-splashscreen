@@ -122,7 +122,7 @@ public class SplashScreen extends CordovaPlugin {
         // hide the splash screen to avoid leaking a window
         this.removeSplashScreen();
         // If we set this to true onDestroy, we lose track when we go from page to page!
-        //firstShow = true;
+        firstShow = true;
     }
 
     @Override
