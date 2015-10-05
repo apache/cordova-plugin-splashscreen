@@ -116,6 +116,12 @@
     [self updateImage];
 }
 
+- (void)hideViews
+{
+    [_imageView setAlpha:0];
+    [_activityView setAlpha:0];
+}
+
 - (void)destroyViews
 {
     [(CDVViewController *)self.viewController setEnabledAutorotation:[(CDVViewController *)self.viewController shouldAutorotateDefaultValue]];
@@ -280,50 +286,48 @@
 
 - (void)setVisible:(BOOL)visible
 {
-    if (visible == _visible) {
-        return;
-    }
-    _visible = visible;
+    if (visible != _visible) {
 
-    id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreen" lowercaseString]];
-    id fadeSplashScreenDuration = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreenDuration" lowercaseString]];
+        _visible = visible;
 
-    float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
+        id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreen" lowercaseString]];
+        id fadeSplashScreenDuration = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreenDuration" lowercaseString]];
 
-    if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue]) {
-        fadeDuration = 0;
-    }
+        float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
 
-    // Never animate the showing of the splash screen.
-    if (visible) {
-        if (_imageView == nil) {
-            [self createViews];
+        if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue]) {
+            fadeDuration = 0;
         }
-    } else if (fadeDuration == 0) {
-        [self destroyViews];
-    } else {
-      __weak __typeof(self) weakSelf = self;
 
-      [UIView transitionWithView:self.viewController.view
-                        duration:fadeDuration
-                         options:UIViewAnimationOptionTransitionNone
-                      animations:^(void) {
-                          __typeof(self) strongSelf = weakSelf;
-                          if (strongSelf != nil) {
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                      [strongSelf->_activityView setAlpha:0];
-                                      [strongSelf->_imageView setAlpha:0];
-                              });
-                          }
-                      }
-                      completion:^(BOOL finished) {
-                          if (finished) {
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                      [weakSelf destroyViews];
-                              });
-                          }
-                      }
-      ];      
+        
+        if (_visible)
+        {
+            if (_imageView == nil)
+            {
+                [self createViews];
+            }
+        }
+        else if (fadeDuration == 0)
+        {
+            [self destroyViews];
+        }
+        else
+        {
+            __weak __typeof(self) weakSelf = self;
+            [UIView transitionWithView:self.viewController.view
+                            duration:fadeDuration
+                            options:UIViewAnimationOptionTransitionNone
+                            animations:^(void) {
+                                [weakSelf hideViews];
+                            }
+                            completion:^(BOOL finished) {
+                                if (finished) {
+                                    [weakSelf destroyViews];
+                                    // TODO: It might also be nice to have a js event happen here -jm
+                                }
+                            }
+             ];
+        }
     }
 }
 
