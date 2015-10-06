@@ -82,11 +82,16 @@
     NSString* topActivityIndicator = [self.commandDelegate.settings objectForKey:[@"TopActivityIndicator" lowercaseString]];
     UIActivityIndicatorViewStyle topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
 
-    if ([topActivityIndicator isEqualToString:@"whiteLarge"]) {
+    if ([topActivityIndicator isEqualToString:@"whiteLarge"])
+    {
         topActivityIndicatorStyle = UIActivityIndicatorViewStyleWhiteLarge;
-    } else if ([topActivityIndicator isEqualToString:@"white"]) {
+    }
+    else if ([topActivityIndicator isEqualToString:@"white"])
+    {
         topActivityIndicatorStyle = UIActivityIndicatorViewStyleWhite;
-    } else if ([topActivityIndicator isEqualToString:@"gray"]) {
+    }
+    else if ([topActivityIndicator isEqualToString:@"gray"])
+    {
         topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
     }
 
@@ -104,7 +109,8 @@
 
     id showSplashScreenSpinnerValue = [self.commandDelegate.settings objectForKey:[@"ShowSplashScreenSpinner" lowercaseString]];
     // backwards compatibility - if key is missing, default to true
-    if ((showSplashScreenSpinnerValue == nil) || [showSplashScreenSpinnerValue boolValue]) {
+    if ((showSplashScreenSpinnerValue == nil) || [showSplashScreenSpinnerValue boolValue])
+    {
         [parentView addSubview:_activityView];
     }
 
@@ -173,21 +179,33 @@
     // this means there are no mixed orientations in there
     BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
     
-    if (imageName) {
+    if (imageName)
+    {
         imageName = [imageName stringByDeletingPathExtension];
-    } else {
+    }
+    else
+    {
         imageName = @"Default";
     }
     
-    if (device.iPhone5) { // does not support landscape
+    if (device.iPhone5)
+    { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-568h"];
-    } else if (device.iPhone6) { // does not support landscape
+    }
+    else if (device.iPhone6)
+    { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-667h"];
-    } else if (device.iPhone6Plus) { // supports landscape
-        if (isOrientationLocked) {
+    }
+    else if (device.iPhone6Plus)
+    { // supports landscape
+        if (isOrientationLocked)
+        {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"")];
-        } else {
-            switch (currentOrientation) {
+        }
+        else
+        {
+            switch (currentOrientation)
+            {
                 case UIInterfaceOrientationLandscapeLeft:
                 case UIInterfaceOrientationLandscapeRight:
                         imageName = [imageName stringByAppendingString:@"-Landscape"];
@@ -198,11 +216,17 @@
         }
         imageName = [imageName stringByAppendingString:@"-736h"];
 
-    } else if (device.iPad) { // supports landscape
-        if (isOrientationLocked) {
+    }
+    else if (device.iPad)
+    {   // supports landscape
+        if (isOrientationLocked)
+        {
             imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"-Portrait")];
-        } else {
-            switch (currentOrientation) {
+        }
+        else
+        {
+            switch (currentOrientation)
+            {
                 case UIInterfaceOrientationLandscapeLeft:
                 case UIInterfaceOrientationLandscapeRight:
                     imageName = [imageName stringByAppendingString:@"-Landscape"];
@@ -225,16 +249,20 @@
 {
     NSString* imageName = [self getImageName:[[UIApplication sharedApplication] statusBarOrientation] delegate:(id<CDVScreenOrientationDelegate>)self.viewController device:[self getCurrentDevice]];
 
-    if (![imageName isEqualToString:_curImageName]) {
+    if (![imageName isEqualToString:_curImageName])
+    {
         UIImage* img = [UIImage imageNamed:imageName];
         _imageView.image = img;
         _curImageName = imageName;
     }
 
     // Check that splash screen's image exists before updating bounds
-    if (_imageView.image) {
+    if (_imageView.image)
+    {
         [self updateBounds];
-    } else {
+    }
+    else
+    {
         NSLog(@"WARNING: The splashscreen image named %@ was not found", imageName);
     }
 }
@@ -254,26 +282,34 @@
      * correctly.
      */
     BOOL isIPad = [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad;
-    if (UIInterfaceOrientationIsLandscape(orientation) && !isIPad) {
+    if (UIInterfaceOrientationIsLandscape(orientation) && !isIPad)
+    {
         imgTransform = CGAffineTransformMakeRotation(M_PI / 2);
         imgBounds.size = CGSizeMake(imgBounds.size.height, imgBounds.size.width);
     }
 
     // There's a special case when the image is the size of the screen.
-    if (CGSizeEqualToSize(screenSize, imgBounds.size)) {
+    if (CGSizeEqualToSize(screenSize, imgBounds.size))
+    {
         CGRect statusFrame = [self.viewController.view convertRect:[UIApplication sharedApplication].statusBarFrame fromView:nil];
-        if (!(IsAtLeastiOSVersion(@"7.0"))) {
+        if (!(IsAtLeastiOSVersion(@"7.0")))
+        {
             imgBounds.origin.y -= statusFrame.size.height;
         }
-    } else if (imgBounds.size.width > 0) {
+    }
+    else if (imgBounds.size.width > 0)
+    {
         CGRect viewBounds = self.viewController.view.bounds;
         CGFloat imgAspect = imgBounds.size.width / imgBounds.size.height;
         CGFloat viewAspect = viewBounds.size.width / viewBounds.size.height;
         // This matches the behaviour of the native splash screen.
         CGFloat ratio;
-        if (viewAspect > imgAspect) {
+        if (viewAspect > imgAspect)
+        {
             ratio = viewBounds.size.width / imgBounds.size.width;
-        } else {
+        }
+        else
+        {
             ratio = viewBounds.size.height / imgBounds.size.height;
         }
         imgBounds.size.height *= ratio;
@@ -286,8 +322,8 @@
 
 - (void)setVisible:(BOOL)visible
 {
-    if (visible != _visible) {
-
+    if (visible != _visible)
+    {
         _visible = visible;
 
         id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreen" lowercaseString]];
@@ -295,10 +331,10 @@
 
         float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
 
-        if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue]) {
+        if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue])
+        {
             fadeDuration = 0;
         }
-
         
         if (_visible)
         {
