@@ -94,10 +94,13 @@ You can use the following preferences in your `config.xml`:
 
         <preference name="FadeSplashScreen" value="false"/>
 
-- `FadeSplashScreenDuration` (float, defaults to `2`): Specifies the
-  number of seconds for the splash screen fade effect to execute.
+- `FadeSplashScreenDuration` (float, defaults to `3000`): Specifies the
+  number of milliseconds for the splash screen fade effect to execute.
 
-        <preference name="FadeSplashScreenDuration" value="4"/>
+        <preference name="FadeSplashScreenDuration" value="3000"/>
+
+Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. ( Consider this a deprecated patch that will disapear in some future version. )
+
 
 - `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
   to hide the splash-screen spinner.

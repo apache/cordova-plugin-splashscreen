@@ -22,7 +22,7 @@
 #import <Cordova/CDVScreenOrientationDelegate.h>
 #import "CDVViewController+SplashScreen.h"
 
-#define kSplashScreenDurationDefault 0.25f
+#define kSplashScreenDurationDefault 3000.0f
 
 
 @implementation CDVSplashScreen
@@ -335,6 +335,12 @@
         {
             fadeDuration = 0;
         }
+        else if(fadeDuration < 30)
+        {
+            // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
+            // they mean 10 seconds, and not the meaningless 10ms
+            fadeDuration *= 1000;
+        }
         
         if (_visible)
         {
@@ -351,7 +357,7 @@
         {
             __weak __typeof(self) weakSelf = self;
             [UIView transitionWithView:self.viewController.view
-                            duration:fadeDuration
+                            duration:(fadeDuration / 1000)
                             options:UIViewAnimationOptionTransitionNone
                             animations:^(void) {
                                 [weakSelf hideViews];
