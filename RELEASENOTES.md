@@ -20,6 +20,16 @@
 -->
 # Release Notes
 
+### 3.0.0 (Nov 18, 2015)
+* CB-10035 Updated `RELEASENOTES` to be newest to oldest
+* Fixing contribute link.
+* CB-9750 `FadeSplashDuration` is now in `msecs`
+* CB-8875 `FadeSplashScreen` was not fading
+* CB-9467 SplashScreen does not show any image in hosted app on **Windows 10**
+* CB-7282 Document `AutoHideSplashScreenpreference`
+* CB-9327 - Splashscreen not receiving `CDVPageLoadNotification`
+* WP8: Avoid config `value` of a wrong element.
+
 ### 2.1.0 (Jun 17, 2015)
 * added missing license headers
 * CB-9128 cordova-plugin-splashscreen documentation translation: cordova-plugin-splashscreen
