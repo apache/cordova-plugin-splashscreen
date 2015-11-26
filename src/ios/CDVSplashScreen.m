@@ -320,57 +320,61 @@
     _imageView.frame = imgBounds;
 }
 
-- (void)setVisible:(BOOL)visible
-{
-    if (visible != _visible)
-    {
-        _visible = visible;
+-(void) setVisible: (BOOL) visible {
+  if (visible != _visible) {
+    _visible = visible;
 
-        id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreen" lowercaseString]];
-        id fadeSplashScreenDuration = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreenDuration" lowercaseString]];
+    id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey: [@"FadeSplashScreen" lowercaseString]];
 
-        float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
+    id fadeSplashScreenDuration = [self.commandDelegate.settings objectForKey: [@"FadeSplashScreenDuration" lowercaseString]];
+    float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
 
-        if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue])
-        {
-            fadeDuration = 0;
-        }
-        else if(fadeDuration < 30)
-        {
-            // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
-            // they mean 10 seconds, and not the meaningless 10ms
-            fadeDuration *= 1000;
-        }
-        
-        if (_visible)
-        {
-            if (_imageView == nil)
-            {
-                [self createViews];
-            }
-        }
-        else if (fadeDuration == 0)
-        {
-            [self destroyViews];
-        }
-        else
-        {
-            __weak __typeof(self) weakSelf = self;
-            [UIView transitionWithView:self.viewController.view
-                            duration:(fadeDuration / 1000)
-                            options:UIViewAnimationOptionTransitionNone
-                            animations:^(void) {
-                                [weakSelf hideViews];
-                            }
-                            completion:^(BOOL finished) {
-                                if (finished) {
-                                    [weakSelf destroyViews];
-                                    // TODO: It might also be nice to have a js event happen here -jm
-                                }
-                            }
-             ];
-        }
+    id splashDurationString = [self.commandDelegate.settings objectForKey: [@"SplashScreenDelay" lowercaseString]];
+    float splashDuration = splashDurationString == nil ? kSplashScreenDurationDefault : [splashDurationString floatValue];
+
+    // Changes from https://github.com/apache/cordova-plugin-splashscreen/pull/65
+    if (fadeSplashScreenValue == nil) {
+      fadeSplashScreenValue = @ "true";
     }
+
+    if (![fadeSplashScreenValue boolValue]) {
+      fadeDuration = 0;
+    } else if (fadeDuration < 30) {
+      // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
+      // they mean 10 seconds, and not the meaningless 10ms
+      fadeDuration *= 1000;
+    }
+
+    if (![splashDurationString boolValue]) {
+      splashDuration = 0;
+    }
+
+    if (_visible) {
+      if (_imageView == nil) {
+       [self createViews];
+      }
+    } else if (fadeDuration == 0 && splashDuration == 0) {
+      [self destroyViews];
+    } else {
+      __weak __typeof(self) weakSelf = self;
+      float effectiveSplashDuration = (splashDuration - fadeDuration) / 1000;
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (uint64_t) effectiveSplashDuration * NSEC_PER_SEC), dispatch_get_main_queue(), CFBridgingRelease(CFBridgingRetain( ^ (void) {
+             [UIView transitionWithView: self.viewController.view
+                               duration: (fadeDuration / 1000)
+                                options: UIViewAnimationOptionTransitionNone
+                             animations: ^ (void) {
+                 [weakSelf hideViews];
+               }
+             completion: ^ (BOOL finished) {
+                 if (finished) {
+                   [weakSelf destroyViews];
+                   // TODO: It might also be nice to have a js event happen here -jm
+                 }
+               }
+              ];
+           })));
+    }
+  }
 }
 
 @end
