@@ -331,6 +331,9 @@
 
         float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
 
+        id splashDurationString = [self.commandDelegate.settings objectForKey: [@"SplashScreenDelay" lowercaseString]];
+        float splashDuration = splashDurationString == nil ? kSplashScreenDurationDefault : [splashDurationString floatValue];
+
         if (fadeSplashScreenValue == nil)
         {
             fadeSplashScreenValue = @"true";
@@ -340,7 +343,7 @@
         {
             fadeDuration = 0;
         }
-        else if(fadeDuration < 30)
+        else if (fadeDuration < 30)
         {
             // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
             // they mean 10 seconds, and not the meaningless 10ms
@@ -354,26 +357,29 @@
                 [self createViews];
             }
         }
-        else if (fadeDuration == 0)
+        else if (fadeDuration == 0 && splashDuration == 0)
         {
             [self destroyViews];
         }
         else
         {
             __weak __typeof(self) weakSelf = self;
-            [UIView transitionWithView:self.viewController.view
-                            duration:(fadeDuration / 1000)
-                            options:UIViewAnimationOptionTransitionNone
-                            animations:^(void) {
-                                [weakSelf hideViews];
-                            }
-                            completion:^(BOOL finished) {
-                                if (finished) {
-                                    [weakSelf destroyViews];
-                                    // TODO: It might also be nice to have a js event happen here -jm
-                                }
-                            }
-             ];
+            float effectiveSplashDuration = (splashDuration - fadeDuration) / 1000;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (uint64_t) effectiveSplashDuration * NSEC_PER_SEC), dispatch_get_main_queue(), CFBridgingRelease(CFBridgingRetain(^(void) {
+                   [UIView transitionWithView:self.viewController.view
+                                   duration:(fadeDuration / 1000)
+                                   options:UIViewAnimationOptionTransitionNone
+                                   animations:^(void) {
+                                       [weakSelf hideViews];
+                                   }
+                                   completion:^(BOOL finished) {
+                                       if (finished) {
+                                           [weakSelf destroyViews];
+                                           // TODO: It might also be nice to have a js event happen here -jm
+                                       }
+                                     }
+                    ];
+            })));
         }
     }
 }
