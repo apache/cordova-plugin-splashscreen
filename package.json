@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "3.0.0",
+  "version": "3.0.1-dev",
   "description": "Cordova Splashscreen Plugin",
   "cordova": {
     "id": "cordova-plugin-splashscreen",
