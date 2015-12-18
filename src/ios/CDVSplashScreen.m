@@ -331,7 +331,12 @@
 
         float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
 
-        if ((fadeSplashScreenValue == nil) || ![fadeSplashScreenValue boolValue])
+        if (fadeSplashScreenValue == nil)
+        {
+            fadeSplashScreenValue = @"true";
+        }
+
+        if (![fadeSplashScreenValue boolValue])
         {
             fadeDuration = 0;
         }
@@ -341,7 +346,7 @@
             // they mean 10 seconds, and not the meaningless 10ms
             fadeDuration *= 1000;
         }
-        
+
         if (_visible)
         {
             if (_imageView == nil)
