@@ -101,6 +101,10 @@ public class SplashScreen extends CordovaPlugin {
         return preferences.getBoolean("SplashMaintainAspectRatio", false);
     }
 
+    private boolean isForceFullScreen() {
+        return preferences.getBoolean("SplashForceFullScreen", false);
+    }
+
     @Override
     public void onPause(boolean multitasking) {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
@@ -255,6 +259,10 @@ public class SplashScreen extends CordovaPlugin {
                 }
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
+                if (isForceFullScreen()) {
+                    splashDialog.getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+                }
                 splashDialog.show();
 
                 // Set Runnable to remove splash screen just in case
