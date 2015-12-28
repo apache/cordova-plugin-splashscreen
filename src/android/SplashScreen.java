@@ -47,6 +47,7 @@ public class SplashScreen extends CordovaPlugin {
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
+    private static boolean autoHide = false;
 
     /**
      * Displays the splash drawable.
@@ -89,12 +90,11 @@ public class SplashScreen extends CordovaPlugin {
         // Save initial orientation.
         orientation = cordova.getActivity().getResources().getConfiguration().orientation;
 
-        if (preferences.getBoolean("SplashShowOnlyFirstTime", true)) {
-            firstShow = false;
-        }
-
+        firstShow = false;
         loadSpinner();
-        showSplashScreen(true);
+
+        autoHide = preferences.getBoolean("AutoHideSplashScreen", false);
+        showSplashScreen(autoHide);
     }
 
     /**
@@ -110,7 +110,9 @@ public class SplashScreen extends CordovaPlugin {
             return;
         }
         // hide the splash screen to avoid leaking a window
-        this.removeSplashScreen();
+        if(autoHide){
+            this.removeSplashScreen();
+        }
     }
 
     @Override
