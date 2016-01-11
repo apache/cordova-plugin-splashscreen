@@ -91,7 +91,7 @@ You can use the following preferences in your `config.xml`:
     </platform>
 
 
-### iOS Quirks
+### Android and iOS Quirks
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
@@ -106,6 +106,24 @@ You can use the following preferences in your `config.xml`:
 
 Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. ( Consider this a deprecated patch that will disapear in some future version. )
 
+_Note_: `FadeSplashScreenDuration` is included into `SplashScreenDelay`, for example if you have `<preference name="SplashScreenDelay" value="3000" />` and `<preference name="FadeSplashScreenDuration" value="1000"/>` defined in `config.xml`:
+
+- 00:00 - splashscreen is shown
+- 00:02 - fading has started
+- 00:03 - splashscreen is hidden
+
+Turning the fading off via `<preference name="FadeSplashScreen" value="false"/>` technically means fading duration to be `0` so that in this example the overall splash delay will still be 3 seconds.
+
+_Note_: This only applies to the app startup - you need to take the fading timeout into account when manually showing/hiding the splashscreen in the code:
+
+```javascript
+navigator.splashscreen.show();
+window.setTimeout(function () {
+    navigator.splashscreen.hide();
+}, splashDuration - fadeDuration);
+```
+
+### iOS Quirks
 
 - `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
   to hide the splash-screen spinner.
