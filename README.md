@@ -126,45 +126,6 @@ projectRoot
     <preference name="SplashScreenDelay" value="3000" />
 ```
 
-### Android Quirks
-
-In your `config.xml`, you need to add the following preferences:
-
-```xml
-<preference name="SplashScreenDelay" value="3000" />
-<preference name="SplashMaintainAspectRatio" value="true|false" />
-<preference name="SplashShowOnlyFirstTime" value="true|false" />
-```
-
-The first parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms.
-
-"SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
-
-The plugin reloads splash drawable whenever orientation changes, so you can specify different drawables for portrait and landscape orientations.
-
-"SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
-
-### Browser Quirks
-
-You can use the following preferences in your `config.xml`:
-
-```xml
-<platform name="browser">
-    <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
-    <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
-    <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
-    <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
-    <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
-    <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
-</platform>
-```
-
-__Note__: `SplashScreen` value should be absolute in order to work in a sub-page. The `SplashScreen` value is used only for the browser platform. The value will be ignored for other platforms.
-
-### Android and iOS Quirks
-
-- In iOS, the splashscreen images are called launch images. These images are mandatory on iOS.
-
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
   state changes.
@@ -205,6 +166,58 @@ window.setTimeout(function () {
 ```xml
     <preference name="ShowSplashScreenSpinner" value="false"/>
 ```
+
+### Android Quirks
+
+In your `config.xml`, you need to add the following preferences:
+
+```xml
+<preference name="SplashScreenDelay" value="3000" />
+<preference name="SplashMaintainAspectRatio" value="true|false" />
+<preference name="SplashShowOnlyFirstTime" value="true|false" />
+```
+
+The first parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms.
+
+"SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
+
+The plugin reloads splash drawable whenever orientation changes, so you can specify different drawables for portrait and landscape orientations.
+
+"SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
+
+### Browser Quirks
+
+You can use the following preferences in your `config.xml`:
+
+```xml
+<platform name="browser">
+    <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
+    <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
+    <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
+    <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
+    <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
+    <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
+</platform>
+```
+
+__Note__: `SplashScreen` value should be absolute in order to work in a sub-page. The `SplashScreen` value is used only for the browser platform. The value will be ignored for other platforms.
+
+### iOS Quirks
+
+- In iOS, the splashscreen images are called launch images. These images are mandatory on iOS.
+
+### Windows Quirks
+
+- `SplashScreenSpinnerColor` (string, defaults to system accent color): hash, rgb notation or CSS color name.
+
+        <preference name="SplashScreenSpinnerColor" value="#242424"/>
+        <preference name="SplashScreenSpinnerColor" value="DarkRed"/>
+        <preference name="SplashScreenSpinnerColor" value="rgb(50,128,128)"/>
+
+- `SplashScreenBackgroundColor` (string, defaults to #464646): hex notation.
+
+        <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
+
 
 ## Methods
 
