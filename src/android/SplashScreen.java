@@ -25,8 +25,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -35,6 +37,8 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -96,7 +100,6 @@ public class SplashScreen extends CordovaPlugin {
 
         if (firstShow) {
             boolean autoHide = preferences.getBoolean("AutoHideSplashScreen", true);
-            loadSpinner();
             showSplashScreen(autoHide);
         }
 
@@ -159,16 +162,6 @@ public class SplashScreen extends CordovaPlugin {
                     webView.postMessage("splashscreen", "show");
                 }
             });
-        } else if (action.equals("spinnerStart")) {
-            if (!HAS_BUILT_IN_SPLASH_SCREEN) {
-                final String title = args.getString(0);
-                final String message = args.getString(1);
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        spinnerStart(title, message);
-                    }
-                });
-            }
         } else {
             return false;
         }
@@ -190,11 +183,10 @@ public class SplashScreen extends CordovaPlugin {
             }
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
-                this.spinnerStop();
                 getView().setVisibility(View.VISIBLE);
             }
         } else if ("onReceivedError".equals(id)) {
-            spinnerStop();
+            this.spinnerStop();
         }
         return null;
     }
@@ -230,6 +222,7 @@ public class SplashScreen extends CordovaPlugin {
                         fadeOut.setAnimationListener(new Animation.AnimationListener() {
                             @Override
                             public void onAnimationStart(Animation animation) {
+                                spinnerStop();
                             }
 
                             @Override
@@ -246,6 +239,7 @@ public class SplashScreen extends CordovaPlugin {
                             }
                         });
                     } else {
+                        spinnerStop();
                         splashDialog.dismiss();
                         splashDialog = null;
                         splashImageView = null;
@@ -315,6 +309,10 @@ public class SplashScreen extends CordovaPlugin {
                 splashDialog.setCancelable(false);
                 splashDialog.show();
 
+                if (preferences.getBoolean("ShowSplashScreenSpinner", true)) {
+                    spinnerStart();
+                }
+
                 // Set Runnable to remove splash screen just in case
                 if (hideAfterDelay) {
                     final Handler handler = new Handler();
@@ -330,47 +328,38 @@ public class SplashScreen extends CordovaPlugin {
         });
     }
 
-    /*
-     * Load the spinner
-     */
-    private void loadSpinner() {
-        // If loadingDialog property, then show the App loading dialog for first page of app
-        String loading = null;
-        if (webView.canGoBack()) {
-            loading = preferences.getString("LoadingDialog", null);
-        }
-        else {
-            loading = preferences.getString("LoadingPageDialog", null);
-        }
-        if (loading != null) {
-            String title = "";
-            String message = "Loading Application...";
-
-            if (loading.length() > 0) {
-                int comma = loading.indexOf(',');
-                if (comma > 0) {
-                    title = loading.substring(0, comma);
-                    message = loading.substring(comma + 1);
-                }
-                else {
-                    title = "";
-                    message = loading;
-                }
-            }
-            spinnerStart(title, message);
-        }
-    }
-
-    private void spinnerStart(final String title, final String message) {
+    // Show only spinner in the center of the screen
+    private void spinnerStart() {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 spinnerStop();
-                spinnerDialog = ProgressDialog.show(webView.getContext(), title, message, true, true,
-                        new DialogInterface.OnCancelListener() {
-                            public void onCancel(DialogInterface dialog) {
-                                spinnerDialog = null;
-                            }
-                        });
+
+                spinnerDialog = new ProgressDialog(webView.getContext());
+                spinnerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                        spinnerDialog = null;
+                    }
+                });
+
+                spinnerDialog.setCancelable(false);
+                spinnerDialog.setIndeterminate(true);
+
+                RelativeLayout centeredLayout = new RelativeLayout(cordova.getActivity());
+                centeredLayout.setGravity(Gravity.CENTER);
+                centeredLayout.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+                ProgressBar progressBar = new ProgressBar(webView.getContext());
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                progressBar.setLayoutParams(layoutParams);
+
+                centeredLayout.addView(progressBar);
+
+                spinnerDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                spinnerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                spinnerDialog.show();
+                spinnerDialog.setContentView(centeredLayout);
             }
         });
     }
