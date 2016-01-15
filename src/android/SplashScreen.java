@@ -73,7 +73,7 @@ public class SplashScreen extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
-        if (HAS_BUILT_IN_SPLASH_SCREEN || !firstShow) {
+        if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
         // Make WebView invisible while loading URL
@@ -93,12 +93,15 @@ public class SplashScreen extends CordovaPlugin {
         // Save initial orientation.
         orientation = cordova.getActivity().getResources().getConfiguration().orientation;
 
+        if (firstShow) {
+            boolean autoHide = preferences.getBoolean("AutoHideSplashScreen", true);
+            loadSpinner();
+            showSplashScreen(autoHide);
+        }
+
         if (preferences.getBoolean("SplashShowOnlyFirstTime", true)) {
             firstShow = false;
         }
-
-        loadSpinner();
-        showSplashScreen(true);
     }
 
     /**
