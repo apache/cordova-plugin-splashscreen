@@ -20,6 +20,16 @@
 -->
 # Release Notes
 
+### 3.1.0 (Jan 15, 2016)
+* CB-9538 Implementing `FadeSplashScreen` feature for **Android**
+* CB-9240 Cordova splash screen plugin **iPad** landscape mode issue
+* CB-10263 Fix splashscreen plugin filenames for Asset Catalog
+* CB-9374 **Android** add `SplashShowOnlyFirstTime` as preference
+* CB-10244 Don't rotate the **iPhone 6 Plus** splash
+* CB-9043 Fix the **ios** splashscreen being deformed on orientation change
+* CB-10079 Splashscreen plugin does not honor `SplashScreenDelay` on **iOS**
+* CB-10231 Fix `FadeSplashScreen` to default to true on **iOS**
+
 ### 3.0.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest
 * Fixing contribute link.
