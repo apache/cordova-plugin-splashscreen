@@ -258,7 +258,7 @@ public class SplashScreen extends CordovaPlugin {
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
         final int fadeSplashScreenDuration = getFadeDuration();
-        final int effectiveSplashDuration = splashscreenTime - fadeSplashScreenDuration;
+        final int effectiveSplashDuration = Math.max(0, splashscreenTime - fadeSplashScreenDuration);
 
         lastHideAfterDelay = hideAfterDelay;
 
@@ -266,7 +266,7 @@ public class SplashScreen extends CordovaPlugin {
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
         }
-        if (drawableId == 0 || (effectiveSplashDuration <= 0 && hideAfterDelay)) {
+        if (drawableId == 0 || (splashscreenTime <= 0 && hideAfterDelay)) {
             return;
         }
 
