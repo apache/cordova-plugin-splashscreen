@@ -388,6 +388,19 @@
         id splashDurationString = [self.commandDelegate.settings objectForKey: [@"SplashScreenDelay" lowercaseString]];
         float splashDuration = splashDurationString == nil ? kSplashScreenDurationDefault : [splashDurationString floatValue];
 
+        id autoHideSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"AutoHideSplashScreen" lowercaseString]];
+        BOOL autoHideSplashScreen = true;
+
+        if (autoHideSplashScreenValue != nil) {
+            autoHideSplashScreen = [autoHideSplashScreenValue boolValue];
+        }
+
+        if (!autoHideSplashScreen) {
+            // CB-10412 SplashScreenDelay does not make sense if the splashscreen is hidden manually
+            splashDuration = 0;
+        }
+
+
         if (fadeSplashScreenValue == nil)
         {
             fadeSplashScreenValue = @"true";
@@ -418,7 +431,14 @@
         else
         {
             __weak __typeof(self) weakSelf = self;
-            float effectiveSplashDuration = (splashDuration - fadeDuration) / 1000;
+            float effectiveSplashDuration;
+
+            if (!autoHideSplashScreen) {
+                effectiveSplashDuration = (fadeDuration) / 1000;
+            } else {
+                effectiveSplashDuration = (splashDuration - fadeDuration) / 1000;
+            }
+
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (uint64_t) effectiveSplashDuration * NSEC_PER_SEC), dispatch_get_main_queue(), CFBridgingRelease(CFBridgingRetain(^(void) {
                    [UIView transitionWithView:self.viewController.view
                                    duration:(fadeDuration / 1000)
