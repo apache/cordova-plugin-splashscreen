@@ -327,7 +327,7 @@
     CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
     CGSize screenSize = [self.viewController.view convertRect:[UIScreen mainScreen].bounds fromView:nil].size;
-    UIInterfaceOrientation orientation = self.viewController.interfaceOrientation;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     CGAffineTransform imgTransform = CGAffineTransformIdentity;
 
     /* If and only if an iPhone application is landscape-only as per
