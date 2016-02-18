@@ -341,7 +341,13 @@ public class SplashScreen extends CordovaPlugin {
                     }
                 });
 
-                spinnerDialog.setCancelable(false);
+                if(preferences.getBoolean("cacelDialog",true)){
+                    spinnerDialog.setCancelable(true);
+                }
+                else
+                {
+                    spinnerDialog.setCancelable(false);
+                }
                 spinnerDialog.setIndeterminate(true);
 
                 RelativeLayout centeredLayout = new RelativeLayout(cordova.getActivity());
