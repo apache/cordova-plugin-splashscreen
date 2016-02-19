@@ -84,7 +84,7 @@ The plugin reloads splash drawable whenever orientation changes, so you can spec
 You can use the following preferences in your `config.xml`:
 
     <platform name="browser">
-        <preference name="SplashScreen" value="images/browser/splashscreen.jpg" /> <!-- defaults to "img/logo.png" -->
+        <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
         <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
         <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
         <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
@@ -92,6 +92,7 @@ You can use the following preferences in your `config.xml`:
         <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
     </platform>
 
+__Note__: `SplashScreen` value should be absolute in order to work in a sub-page.
 
 ### Android and iOS Quirks
 
