@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+/* global PluginResult */
+
 module.exports = {
     show: function (success, fail, args, env) {
         var result = new PluginResult(args, env);

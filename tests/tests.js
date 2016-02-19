@@ -19,18 +19,20 @@
  *
 */
 
-exports.defineAutoTest = function () {
+/* jshint jasmine: true */
+
+exports.defineAutoTests = function () {
     describe('Splashscreen (cordova)', function () {
         it("splashscreen.spec.1 should exist", function () {
             expect(navigator.splashscreen).toBeDefined();
         });
 
-        it("splashscreen.spec.2 exec method should exist", function () {
+        it("splashscreen.spec.2 show method should exist", function () {
             expect(navigator.splashscreen.show).toBeDefined();
             expect(typeof navigator.splashscreen.show).toBe('function');
         });
 
-        it("splashscreen.spec.3 exec method should exist", function () {
+        it("splashscreen.spec.3 hide method should exist", function () {
             expect(navigator.splashscreen.hide).toBeDefined();
             expect(typeof navigator.splashscreen.hide).toBe('function');
         });

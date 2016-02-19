@@ -18,17 +18,18 @@
  * under the License.
  *
 */
+
 // Default parameter values including image size can be changed in `config.xml`
 var splashImageWidth = 170;
 var splashImageHeight = 200;
 var position = { x: 0, y: 0, width: splashImageWidth, height: splashImageHeight }; 
-var splash = null; //
 var localSplash; // the image to display
 var localSplashImage;
 var bgColor = "#464646";
 var imageSrc = 'img/logo.png';
 var splashScreenDelay = 3000; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
+var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
 
 function updateImageLocation() {
@@ -103,7 +104,6 @@ function readPreferencesFromCfg(cfg) {
     } catch(e) {
         var msg = '[Browser][SplashScreen] Error occured on loading preferences from config.xml: ' + JSON.stringify(e);
         console.error(msg);
-        error(msg);
     }
 }
 

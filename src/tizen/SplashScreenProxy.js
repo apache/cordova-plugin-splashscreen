@@ -19,6 +19,8 @@
  *
 */
 
+/* global win:true */
+
 ( function() {
 
 win = null;
