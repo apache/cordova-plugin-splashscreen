@@ -133,8 +133,6 @@ public class SplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
-        // hide the splash screen to avoid leaking a window
-        this.removeSplashScreen();
     }
 
     @Override
