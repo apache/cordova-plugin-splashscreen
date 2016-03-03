@@ -23,7 +23,7 @@
 
 This plugin displays and hides a splash screen during application launch.
 
-:warning: Report issues on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Splashscreen%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
+Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cordova issue tracker].
 
 ## Installation
 
@@ -170,3 +170,5 @@ event. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/con
 for more information on doing this configuration. For this reason, it is
 unlikely you need to call `navigator.splashscreen.show()` to make the splash
 screen visible for app startup.
+
+[Apache Cordova issue tracker]: https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Splashscreen%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC
