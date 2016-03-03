@@ -21,7 +21,7 @@
 
 # cordova-plugin-splashscreen
 
-This plugin displays and hides a splash screen during application launch.
+This plugin is required to work with splash screens. This plugin displays and hides a splash screen during application launch.
 
 Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cordova issue tracker].
 
@@ -44,34 +44,81 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 - Windows
 - Browser
 
+## Example Configuration
+In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
+
+Please notice that the value of the "src" attribute is relative to the project directory and not to the www directory. You can name the source image whatever you like. The internal name in the app is determined by Cordova.
+
+```xml
+<platform name="android">
+    <!-- you can use any density that exists in the Android project -->
+    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
+    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
+    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
+    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
+
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+</platform>
+
+<platform name="ios">
+    <!-- images are determined by width and height. The following are supported -->
+    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
+    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
+    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
+    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
+    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
+    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
+    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
+    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
+    <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
+</platform>
+
+<platform name="windows">
+    <!-- images are determined by width and height. The following are supported -->
+    <splash src="res/screen/windows/splashscreen.png" width="620" height="300"/>
+    <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
+</platform>
+
+<platform name="blackberry10">
+    <!-- Add a rim:splash element for each resolution and locale you wish -->
+    <!-- http://developer.blackberry.com/html5/documentation/rim_splash_element.html -->
+    <rim:splash src="res/screen/blackberry/splashscreen.png"/>
+</platform>
+
+<preference name="SplashScreenDelay" value="10000" />
+```
+
 ## Preferences
 
 #### config.xml
 
--  __SplashScreen__ (string). The resource name which is used for the displaying splash screen. Different platforms use values for this.
-
-        <preference name="SplashScreen" value="resourcename" />
-
 -  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates wherether hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
 
-        <preference name="AutoHideSplashScreen" value="true" />
+```xml
+    <preference name="AutoHideSplashScreen" value="true" />
+```
 
 -  __SplashScreenDelay__ (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen.
 
-        <preference name="SplashScreenDelay" value="3000" />
-
+```xml
+    <preference name="SplashScreenDelay" value="3000" />
+```
 
 ### Android Quirks
 
 In your `config.xml`, you need to add the following preferences:
 
-    <preference name="SplashScreen" value="foo" />
-    <preference name="SplashScreenDelay" value="3000" />
-    <preference name="SplashMaintainAspectRatio" value="true|false" />
-    <preference name="SplashShowOnlyFirstTime" value="true|false" />
+```xml
+<preference name="SplashScreenDelay" value="3000" />
+<preference name="SplashMaintainAspectRatio" value="true|false" />
+<preference name="SplashShowOnlyFirstTime" value="true|false" />
+```
 
-Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
-for more information.
+The first parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms.
 
 "SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
 
@@ -83,29 +130,37 @@ The plugin reloads splash drawable whenever orientation changes, so you can spec
 
 You can use the following preferences in your `config.xml`:
 
-    <platform name="browser">
-        <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
-        <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
-        <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
-        <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
-        <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
-        <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
-    </platform>
+```xml
+<platform name="browser">
+    <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
+    <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
+    <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
+    <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->
+    <preference name="SplashScreenWidth" value="600" /> <!-- defaults to "170" -->
+    <preference name="SplashScreenHeight" value="300" /> <!-- defaults to "200" -->
+</platform>
+```
 
-__Note__: `SplashScreen` value should be absolute in order to work in a sub-page.
+__Note__: `SplashScreen` value should be absolute in order to work in a sub-page. The `SplashScreen` value is used only for the browser platform. The value will be ignored for other platforms.
 
 ### Android and iOS Quirks
+
+- In iOS, the splashscreen images are called launch images. These images are mandatory on iOS.
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
   state changes.
 
-        <preference name="FadeSplashScreen" value="false"/>
+```xml
+    <preference name="FadeSplashScreen" value="false"/>
+```
 
 - `FadeSplashScreenDuration` (float, defaults to `3000`): Specifies the
   number of milliseconds for the splash screen fade effect to execute.
 
-        <preference name="FadeSplashScreenDuration" value="3000"/>
+```xml
+    <preference name="FadeSplashScreenDuration" value="3000"/>
+```
 
 Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. ( Consider this a deprecated patch that will disapear in some future version. )
 
@@ -129,7 +184,9 @@ window.setTimeout(function () {
 - `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
   to hide the splash-screen spinner.
 
-        <preference name="ShowSplashScreenSpinner" value="false"/>
+```xml
+    <preference name="ShowSplashScreenSpinner" value="false"/>
+```
 
 ## Methods
 
@@ -140,7 +197,9 @@ window.setTimeout(function () {
 
 Dismiss the splash screen.
 
-    navigator.splashscreen.hide();
+```js
+navigator.splashscreen.hide();
+```
 
 
 ### BlackBerry 10, WP8, iOS Quirk
@@ -149,16 +208,19 @@ The `config.xml` file's `AutoHideSplashScreen` setting must be
 `false`. To delay hiding the splash screen for two seconds, add a
 timer such as the following in the `deviceready` event handler:
 
-        setTimeout(function() {
-            navigator.splashscreen.hide();
-        }, 2000);
+```js
+setTimeout(function() {
+    navigator.splashscreen.hide();
+}, 2000);
+```
 
 ## splashscreen.show
 
 Displays the splash screen.
 
-    navigator.splashscreen.show();
-
+```js
+navigator.splashscreen.show();
+```
 
 Your application cannot call `navigator.splashscreen.show()` until the app has
 started and the `deviceready` event has fired. But since typically the splash
@@ -166,9 +228,7 @@ screen is meant to be visible before your app has started, that would seem to
 defeat the purpose of the splash screen.  Providing some configuration in
 `config.xml` will automatically `show` the splash screen immediately after your
 app launch and before it has fully started and received the `deviceready`
-event. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
-for more information on doing this configuration. For this reason, it is
-unlikely you need to call `navigator.splashscreen.show()` to make the splash
+event. For this reason, it is unlikely you need to call `navigator.splashscreen.show()` to make the splash
 screen visible for app startup.
 
 [Apache Cordova issue tracker]: https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Splashscreen%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC
