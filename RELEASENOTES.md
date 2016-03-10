@@ -21,10 +21,10 @@
 # Release Notes
 
 ### 3.2.1 (Mar 09, 2016)
-* CB-10764: Remove emoji in cordova-plugin-splashscreen
-* CB-10650 Non-index content.src causes Splashscreen to be not displayed on ** Browser **
-* CB-10636 Add JSHint for plugins
-* CB-10606 fix deprecation warning for interfaceOrientation on ** iOS **
+* [CB-10764](https://issues.apache.org/jira/browse/CB-10764) Remove emoji in cordova-plugin-splashscreen
+* [CB-10650](https://issues.apache.org/jira/browse/CB-10650) Non-index content.src causes Splashscreen to be not displayed on **Browser**
+* [CB-10636](https://issues.apache.org/jira/browse/CB-10636) Add JSHint for plugins
+* [CB-10606](https://issues.apache.org/jira/browse/CB-10606) fix deprecation warning for interfaceOrientation on **iOS**
 * chore: edit package.json license to match SPDX id
 
 ### 3.2.0 (Feb 09, 2016)
