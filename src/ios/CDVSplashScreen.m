@@ -456,7 +456,10 @@
                                         [weakSelf hideViews];
                                     }
                                     completion:^(BOOL finished) {
-                                        if (finished && !_destroyed) {
+                                        // Always destroy views, otherwise you could have an 
+                                        // invisible splashscreen that is overlayed over your active views
+                                        // which causes that no touch events are passed
+                                        if (!_destroyed) {
                                             [weakSelf destroyViews];
                                             // TODO: It might also be nice to have a js event happen here -jm
                                         }
