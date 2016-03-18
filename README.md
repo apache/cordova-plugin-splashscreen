@@ -70,7 +70,7 @@ In your `config.xml`, you need to add the following preferences:
     <preference name="SplashMaintainAspectRatio" value="true|false" />
     <preference name="SplashShowOnlyFirstTime" value="true|false" />
 
-Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
+Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/drawable(-hdpi/-xhdpi,etc) directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
 for more information.
 
 "SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
