@@ -52,7 +52,7 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 
         <preference name="SplashScreen" value="resourcename" />
 
--  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates wherether hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
+-  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
 
         <preference name="AutoHideSplashScreen" value="true" />
 
