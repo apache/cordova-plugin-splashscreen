@@ -69,6 +69,7 @@ In your `config.xml`, you need to add the following preferences:
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="SplashMaintainAspectRatio" value="true|false" />
     <preference name="SplashShowOnlyFirstTime" value="true|false" />
+    <preference name="spinnerCancelable" value="true|false" />
 
 Where foo is the name of the splashscreen file, preferably a 9 patch file. Make sure to add your splashcreen files to your res/xml directory under the appropriate folders. The second parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms. See [Icons and Splash Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html)
 for more information.
@@ -79,6 +80,7 @@ The plugin reloads splash drawable whenever orientation changes, so you can spec
 
 "SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
 
+"spinnerCancelable" is an optional preference which defaults to value `true`. When set to `true`, dialog can be dismissed by user. When set to `false`, dialog will keep showing until the splash screen is visible.
 ### Browser Quirks
 
 You can use the following preferences in your `config.xml`:
