@@ -33,6 +33,11 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
     // you may also install directly from this repo
     cordova plugin add https://github.com/apache/cordova-plugin-splashscreen.git
 
+## Platform specific UI Notes
+### iOS
+The Material Design inspired loading indicator developed by Mike Maxwell has been included and enabled on iOS 7+ if the user enables support for it in the plugin.xml configuration.
+iPad Pro splashscreen support has been added and some rotation bugs on iOS 8 have been addressed.
+
 ## Supported Platforms
 
 - Amazon Fire OS
@@ -89,23 +94,58 @@ Please notice that the value of the "src" attribute is relative to the project d
     <rim:splash src="res/screen/blackberry/splashscreen.png"/>
 </platform>
 
-<preference name="SplashScreenDelay" value="10000" />
+<preference name="SplashScreenDelay" value="3000" />
 ```
 
 ## Preferences
 
 #### config.xml
 
--  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates wherether hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
+-  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates wether hide splash screen automatically or not after page load. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
 
 ```xml
     <preference name="AutoHideSplashScreen" value="true" />
 ```
 
--  __SplashScreenDelay__ (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen.
-
+-  __SplashScreenDelay__ (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen after page load.
 ```xml
     <preference name="SplashScreenDelay" value="3000" />
+```
+
+-  __SplashScreenTimeout__ (number, default to 20000). Amount of time in milliseconds to wait before automatically hide splash screen.
+
+```xml
+    <preference name="SplashScreenTimeout" value="20000" />
+```
+
+-  __MaterialLikeSpinner__ (boolean, default to `true`). Indicates whether we should use the Material Design inspired spinner on iOS 7+ or the default Activity Indicator.
+
+```xml
+    <preference name="MaterialLikeSpinner" value="true" />
+```
+
+-  __MaterialLikeSpinner__ (boolean, default to `true`). Indicates whether we should use the Material Design inspired spinner on iOS 7+ or the default Activity Indicator.
+
+```xml
+    <preference name="MaterialLikeSpinner" value="true" />
+```
+
+-  __MaterialLikeSpinnerTrackRadius__ (number, default to 20). Radius of the material design inspired spinner track.
+
+```xml
+    <preference name="MaterialLikeSpinnerTrackRadius" value="20" />
+```
+
+-  __MaterialLikeSpinnerTrackWidth__ (number, default to 2). Width of the material design inspired spinner track.
+
+```xml
+    <preference name="MaterialLikeSpinnerTrackWidth" value="2" />
+```
+
+-  __MaterialLikeSpinnerTrackTintHexColor__ (number, default to #d3d3d3). Hex color for the material design inspired spinner track.
+
+```xml
+    <preference name="MaterialLikeSpinnerTrackTintHexColor" value="#d3d3d3" />
 ```
 
 ### Android Quirks
