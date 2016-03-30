@@ -27,6 +27,12 @@ var splashscreen = {
     },
     hide:function() {
         exec(null, null, "SplashScreen", "hide", []);
+    },
+    onPageLoading:function() {
+        exec(null, null, "SplashScreen", "onPageLoading", []);
+    },
+    onPageLoaded:function() {
+        exec(null, null, "SplashScreen", "onPageLoaded", []);
     }
 };
 

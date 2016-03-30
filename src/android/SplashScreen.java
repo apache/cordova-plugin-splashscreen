@@ -51,11 +51,12 @@ public class SplashScreen extends CordovaPlugin {
     // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
     // Enable functionality only if running on 4.x.x.
     private static final boolean HAS_BUILT_IN_SPLASH_SCREEN = Integer.valueOf(CordovaWebView.CORDOVA_VERSION.split("\\.")[0]) < 4;
-    private static final int DEFAULT_SPLASHSCREEN_DURATION = 3000;
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
+
+    private static boolean splashShown;
 
     /**
      * Displays the splash drawable.
@@ -81,8 +82,7 @@ public class SplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
-        // Make WebView invisible while loading URL
-        getView().setVisibility(View.INVISIBLE);
+
         int drawableId = preferences.getInteger("SplashDrawableId", 0);
         if (drawableId == 0) {
             String splashResource = preferences.getString("SplashScreen", "screen");
@@ -116,8 +116,7 @@ public class SplashScreen extends CordovaPlugin {
     }
 
     private int getFadeDuration () {
-        int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ?
-            preferences.getInteger("FadeSplashScreenDuration", DEFAULT_SPLASHSCREEN_DURATION) : 0;
+        int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ? preferences.getInteger("FadeSplashScreenDuration", 0) : 0;
 
         if (fadeSplashScreenDuration < 30) {
             // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
@@ -153,13 +152,29 @@ public class SplashScreen extends CordovaPlugin {
         if (action.equals("hide")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
+                    splashShown = false;
                     webView.postMessage("splashscreen", "hide");
                 }
             });
         } else if (action.equals("show")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
+                    splashShown = true;
                     webView.postMessage("splashscreen", "show");
+                }
+            });
+        } else if (action.equals("onPageLoading")) {
+        	cordova.getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                    splashShown = true;
+                    webView.postMessage("splashscreen", "onPageLoading");
+                    }
+                });
+        } else if (action.equals("onPageLoaded")) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    splashShown = false;
+                    webView.postMessage("splashscreen", "onPageLoaded");
                 }
             });
         } else {
@@ -177,9 +192,15 @@ public class SplashScreen extends CordovaPlugin {
         }
         if ("splashscreen".equals(id)) {
             if ("hide".equals(data.toString())) {
-                this.removeSplashScreen(false);
-            } else {
+                if(splashShown){
+                    this.removeSplashScreen(false);
+                }
+            } else if ("show".equals(data.toString())){
                 this.showSplashScreen(false);
+            } else if ("onPageLoading".equals(data.toString())) {
+                this.showSplashScreen(false);
+            } else if ("onPageLoaded".equals(data.toString())) {
+                this.removeSplashScreen(false);
             }
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
@@ -255,11 +276,10 @@ public class SplashScreen extends CordovaPlugin {
      */
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
-        final int splashscreenTime = preferences.getInteger("SplashScreenDelay", DEFAULT_SPLASHSCREEN_DURATION);
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
         final int fadeSplashScreenDuration = getFadeDuration();
-        final int effectiveSplashDuration = Math.max(0, splashscreenTime - fadeSplashScreenDuration);
+        final int maxSplashDuration = preferences.getInteger("SplashScreenTimeout", 25000 - fadeSplashScreenDuration);
 
         lastHideAfterDelay = hideAfterDelay;
 
@@ -267,7 +287,7 @@ public class SplashScreen extends CordovaPlugin {
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
         }
-        if (drawableId == 0 || (splashscreenTime <= 0 && hideAfterDelay)) {
+        if (drawableId == 0 || (maxSplashDuration <= 0 && hideAfterDelay)) {
             return;
         }
 
@@ -323,7 +343,7 @@ public class SplashScreen extends CordovaPlugin {
                                 removeSplashScreen(false);
                             }
                         }
-                    }, effectiveSplashDuration);
+                    }, maxSplashDuration);
                 }
             }
         });

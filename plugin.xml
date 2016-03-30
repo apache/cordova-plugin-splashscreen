@@ -34,6 +34,7 @@
 
     <js-module src="www/splashscreen.js" name="SplashScreen">
         <clobbers target="navigator.splashscreen" />
+        <clobbers target="window.nativeWrapper.splashscreen" />
     </js-module>
 
     <!-- android -->
@@ -74,10 +75,14 @@
 		    </feature>
         </config-file>
 
+        <header-file src="src/ios/CDVSplashScreenSystemVersion.h" />
         <header-file src="src/ios/CDVSplashScreen.h" />
         <source-file src="src/ios/CDVSplashScreen.m" />
         <header-file src="src/ios/CDVViewController+SplashScreen.h" />
         <source-file src="src/ios/CDVViewController+SplashScreen.m" />
+        <header-file src="src/ios/MMMaterialDesignSpinner.h" />
+        <source-file src="src/ios/MMMaterialDesignSpinner.m" />
+        <header-file src="src/ios/ActivityTracking.h" />
 
 	    <framework src="CoreGraphics.framework" />
     </platform>

@@ -18,6 +18,8 @@
  */
 
 #import "CDVViewController+SplashScreen.h"
+
+#import "CDVSplashScreenSystemVersion.h"
 #import <objc/runtime.h>
 
 @implementation CDVViewController (SplashScreen)
@@ -35,13 +37,13 @@
 - (BOOL)enabledAutorotation
 {
     NSNumber *number =  (NSNumber *)objc_getAssociatedObject(self, @selector(enabledAutorotation));
-
+    
     // Defaulting to YES to correspond parent CDVViewController behavior
     if (number == nil)
     {
         return YES;
     }
-
+    
     return [number boolValue];
 }
 
@@ -84,6 +86,17 @@
 - (BOOL)shouldAutorotateDefaultValue
 {
     return [self splash_shouldAutorotate];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0") && SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(@"8.3")) {
+        [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+            [self.view setFrame:[context containerView].frame];
+        } completion:nil];
+    }
 }
 
 @end
