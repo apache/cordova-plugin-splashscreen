@@ -47,7 +47,25 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 ## Example Configuration
 In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
 
-Please notice that the value of the "src" attribute is relative to the project directory and not to the www directory. You can name the source image whatever you like. The internal name in the app is determined by Cordova.
+Please notice that the value of the "src" attribute is relative to the project root directory and not to the www directory (see `Directory structure` below). You can name the source image whatever you like. The internal name in the app is determined by Cordova.
+
+Directory structure:
+
+```
+projectRoot
+    hooks
+    platforms
+    plugins
+    www
+        css
+        img
+        js
+    res
+        screen
+            android
+            ios
+            windows
+```
 
 ```xml
 <platform name="android">
