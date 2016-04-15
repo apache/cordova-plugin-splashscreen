@@ -20,6 +20,13 @@
 -->
 # Release Notes
 
+### 3.2.2 (Apr 15, 2016)
+* CB-10979 Fix splashscreen **iOS** native tests. Added `jshintignore` for tests/ios
+* CB-10895 Transparent Splashscreen view sometimes remains
+* CB-10562 `hide()` not working in latest splashscreen plug in 3.1.0 in **iOS**
+* CB-10688 Plugin Splashscreen Readme must have examples.
+* CB-10864 Run **iOS** native tests on Travis
+
 ### 3.2.1 (Mar 09, 2016)
 * [CB-10764](https://issues.apache.org/jira/browse/CB-10764) Remove emoji in cordova-plugin-splashscreen
 * [CB-10650](https://issues.apache.org/jira/browse/CB-10650) Non-index content.src causes Splashscreen to be not displayed on **Browser**
