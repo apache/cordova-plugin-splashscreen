@@ -21,7 +21,7 @@
 
 # cordova-plugin-splashscreen
 
-This plugin is required to work with splash screens. This plugin displays and hides a splash screen during application launch.
+This plugin is required to allow your application to work with splash screens. This plugin displays and hides a splash screen during application launch.
 
 Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cordova issue tracker].
 
@@ -47,7 +47,7 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 ## Example Configuration
 In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
 
-Please notice that the value of the "src" attribute is relative to the project directory and not to the www directory. You can name the source image whatever you like. The internal name in the app is determined by Cordova.
+The value of the "src" attribute is relative to the project directory and NOT to the www directory. You can name the source image file whatever you like. The internal name in the application is automatically determined by Cordova.
 
 ```xml
 <platform name="android">
@@ -56,11 +56,13 @@ Please notice that the value of the "src" attribute is relative to the project d
     <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
     <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
     <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
+    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi"/>
 
     <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
     <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
     <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
     <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi"/>
 </platform>
 
 <platform name="ios">
@@ -96,7 +98,7 @@ Please notice that the value of the "src" attribute is relative to the project d
 
 #### config.xml
 
--  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
+-  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates whether to hide the splash screen automatically or not. The splash screen is hidden after the amount of time specified in the `SplashScreenDelay` preference.
 
 ```xml
     <preference name="AutoHideSplashScreen" value="true" />
@@ -118,13 +120,13 @@ In your `config.xml`, you need to add the following preferences:
 <preference name="SplashShowOnlyFirstTime" value="true|false" />
 ```
 
-The first parameter represents how long the splashscreen will appear in milliseconds. It defaults to 3000 ms.
+"SplashScreenDelay" preference is optional and defaults to 3000 milliseconds.  It represents how long the splashscreen will appear in milliseconds.
 
-"SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
+"SplashMaintainAspectRatio" preference is optional. If set to "true", the splash screen is not stretched to fit the full screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
 
-The plugin reloads splash drawable whenever orientation changes, so you can specify different drawables for portrait and landscape orientations.
+The splash screen plugin reloads the splash screen whenever the orientation changes so that you can specify different splash screen images for portrait and landscape orientations.
 
-"SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
+"SplashShowOnlyFirstTime" preference is optional and defaults to `true`. When set to `true` the splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close the application and force the splash screen appear on the application's next launch, you should set this property to `false` (this also applies to closing the application with the Back button).
 
 ### Browser Quirks
 
@@ -145,7 +147,7 @@ __Note__: `SplashScreen` value should be absolute in order to work in a sub-page
 
 ### Android and iOS Quirks
 
-- In iOS, the splashscreen images are called launch images. These images are mandatory on iOS.
+- In iOS, the splash screen images are called launch images. These images are mandatory on iOS.
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
@@ -156,13 +158,13 @@ __Note__: `SplashScreen` value should be absolute in order to work in a sub-page
 ```
 
 - `FadeSplashScreenDuration` (float, defaults to `3000`): Specifies the
-  number of milliseconds for the splash screen fade effect to execute.
+  number of milliseconds for the splash screen fade effect to execute.  1500 seems to be a better values for an improved user experience.
 
 ```xml
     <preference name="FadeSplashScreenDuration" value="3000"/>
 ```
 
-Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. ( Consider this a deprecated patch that will disapear in some future version. )
+This value used to be in seconds (but is now milliseconds) so values less than 30 will continue to be treated as seconds. ( Consider this a deprecated temporary measure that will disapear in some future version. )
 
 _Note_: `FadeSplashScreenDuration` is included into `SplashScreenDelay`, for example if you have `<preference name="SplashScreenDelay" value="3000" />` and `<preference name="FadeSplashScreenDuration" value="1000"/>` defined in `config.xml`:
 
@@ -170,9 +172,9 @@ _Note_: `FadeSplashScreenDuration` is included into `SplashScreenDelay`, for exa
 - 00:02 - fading has started
 - 00:03 - splashscreen is hidden
 
-Turning the fading off via `<preference name="FadeSplashScreen" value="false"/>` technically means fading duration to be `0` so that in this example the overall splash delay will still be 3 seconds.
+Turning the fading off via `<preference name="FadeSplashScreen" value="false"/>` technically means fading duration to be `0` so that in this example the overall splash screen delay will still be 3 seconds.
 
-_Note_: This only applies to the app startup - you need to take the fading timeout into account when manually showing/hiding the splashscreen in the code:
+_Note_: This only applies to the application startup - you need to take the fading timeout into account when manually showing/hiding the splash screen in your application's code:
 
 ```javascript
 navigator.splashscreen.show();
@@ -182,7 +184,7 @@ window.setTimeout(function () {
 ```
 
 - `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
-  to hide the splash-screen spinner.
+  to hide the splash screen spinner.  Does not work on Browser or Windows platforms.
 
 ```xml
     <preference name="ShowSplashScreenSpinner" value="false"/>
@@ -222,13 +224,13 @@ Displays the splash screen.
 navigator.splashscreen.show();
 ```
 
-Your application cannot call `navigator.splashscreen.show()` until the app has
+Your application cannot call `navigator.splashscreen.show()` until the application has
 started and the `deviceready` event has fired. But since typically the splash
-screen is meant to be visible before your app has started, that would seem to
-defeat the purpose of the splash screen.  Providing some configuration in
+screen is meant to be visible before your application has started, that would seem to
+defeat the purpose of the splash screen.  Providing any parameters in
 `config.xml` will automatically `show` the splash screen immediately after your
-app launch and before it has fully started and received the `deviceready`
-event. For this reason, it is unlikely you need to call `navigator.splashscreen.show()` to make the splash
-screen visible for app startup.
+application is launched and before it has fully started and received the `deviceready`
+event. For this reason, it is unlikely you will need to call `navigator.splashscreen.show()` to make the splash
+screen visible for application startup.
 
 [Apache Cordova issue tracker]: https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Splashscreen%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC
