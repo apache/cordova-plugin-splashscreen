@@ -1,8 +1,9 @@
 language: objective-c
+osx_image: xcode7
 sudo: false
 node_js:
   - "4.2"
 env:
   - TEST_DIR=.
   - TEST_DIR=./tests/ios
-script: cd $TEST_DIR && npm install && npm test
+script: cd $TEST_DIR && npm install && (npm test || npm test)
