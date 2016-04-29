@@ -47,6 +47,8 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 - Windows (`cordova-windows` version >= 4.4.0 is required)
 - Browser
 
+__Note__: Extended splashscreen does not require the plugin on Windows (as opposed to Android and iOS) in case you don't use the plugin API, i.e. programmatic hide/show.
+
 ## Example Configuration
 In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
 
@@ -117,19 +119,26 @@ projectRoot
 
 #### config.xml
 
--  __AutoHideSplashScreen__ (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
+- `AutoHideSplashScreen` (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
 
 ```xml
     <preference name="AutoHideSplashScreen" value="true" />
 ```
 
--  __SplashScreenDelay__ (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen.
+- `SplashScreenDelay` (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen.
 
 ```xml
     <preference name="SplashScreenDelay" value="3000" />
 ```
 
 Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. ( Consider this a deprecated patch that will disapear in some future version. )
+
+To disable the splashscreen add the following preference to `config.xml`: 
+```xml
+<preference name="SplashScreenDelay" value="0"/>
+```
+
+**iOS Quirk**: to disable the splashscreen on `ios` platform you should also add `<preference name="FadeSplashScreenDuration" value="0"/>` to `config.xml`.
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
@@ -221,7 +230,6 @@ __Note__: `SplashScreen` value should be absolute in order to work in a sub-page
 ```xml
 <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
 ```
-
 
 ## Methods
 
