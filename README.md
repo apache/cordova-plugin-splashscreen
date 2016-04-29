@@ -44,8 +44,7 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 - BlackBerry 10
 - iOS
 - Windows Phone 7 and 8
-- Windows 8
-- Windows
+- Windows (`cordova-windows` version >= 4.4.0 is required)
 - Browser
 
 ## Example Configuration
