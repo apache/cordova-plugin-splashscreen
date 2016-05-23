@@ -26,11 +26,19 @@ var position = { x: 0, y: 0, width: splashImageWidth, height: splashImageHeight 
 var localSplash; // the image to display
 var localSplashImage;
 var bgColor = "#464646";
-var imageSrc = '/img/logo.png';
+
 var splashScreenDelay = 3000; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
 var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
+
+var imageSrc = '/img/logo.png';
+// https://issues.apache.org/jira/browse/CB-11274
+// Handles cordova serve case
+var pathsToTry = [
+    '/' + cordova.platformId + '/www',
+    '/' + cordova.platformId + '/assets/www'
+];
 
 function updateImageLocation() {
     position.width = Math.min(splashImageWidth, window.innerWidth);
@@ -70,6 +78,16 @@ var SplashScreen = {
             localSplashImage = document.createElement("img");
             localSplashImage.src = imageSrc;
             localSplashImage.style.position = "absolute";
+
+            var triedPathIndex = 0;
+            localSplashImage.onerror = function (err) {
+                if (triedPathIndex < pathsToTry.length) {
+                    localSplashImage.src = imageSrc.indexOf('/') === 0 ?
+                        pathsToTry[triedPathIndex] + imageSrc :
+                        pathsToTry[triedPathIndex] + '/' + imageSrc;
+                }
+                triedPathIndex++;
+            };
 
             updateImageLocation();
 
