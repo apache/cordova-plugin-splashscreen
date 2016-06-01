@@ -142,8 +142,18 @@
     _curImageName = nil;
 
     self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
-    [self.viewController.view removeObserver:self forKeyPath:@"frame"];
-    [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
+    
+    @try { 
+     [self.viewController.view removeObserver:self forKeyPath:@"frame"]; 
+    } @catch (NSException *exception) { 
+     NSLog(@"frame observer was not attached"); 
+    }
+    
+    @try { 
+     [self.viewController.view removeObserver:self forKeyPath:@"bounds"]; 
+    } @catch (NSException *exception) { 
+     NSLog(@"bounds observer was not attached"); 
+    }
 }
 
 - (CDV_iOSDevice) getCurrentDevice
