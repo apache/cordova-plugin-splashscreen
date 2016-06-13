@@ -141,9 +141,6 @@
     _activityView = nil;
     _curImageName = nil;
 
-    self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
-    [self.viewController.view removeObserver:self forKeyPath:@"frame"];
-    [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
 }
 
 - (CDV_iOSDevice) getCurrentDevice
@@ -434,6 +431,9 @@
         }
         else if (fadeDuration == 0 && splashDuration == 0)
         {
+            self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
+            [self.viewController.view removeObserver:self forKeyPath:@"frame"];
+            [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
             [self destroyViews];
         }
         else
@@ -450,6 +450,9 @@
 
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (uint64_t) effectiveSplashDuration * NSEC_PER_SEC), dispatch_get_main_queue(), CFBridgingRelease(CFBridgingRetain(^(void) {
                 if (!_destroyed) {
+                    self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
+                    [self.viewController.view removeObserver:self forKeyPath:@"frame"];
+                    [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
                     [UIView transitionWithView:self.viewController.view
                                     duration:(fadeDuration / 1000)
                                     options:UIViewAnimationOptionTransitionNone
