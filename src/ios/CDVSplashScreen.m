@@ -154,6 +154,7 @@
     } @catch (NSException *exception) { 
      NSLog(@"bounds observer was not attached"); 
     }
+    
 }
 
 - (CDV_iOSDevice) getCurrentDevice
