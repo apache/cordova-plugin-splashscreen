@@ -97,6 +97,8 @@ function readPreferencesFromCfg(cfg) {
         }
 
         splashScreenDelay = cfg.getPreferenceValue('SplashScreenDelay') || splashScreenDelay;
+        splashScreenDelay = parseInt(splashScreenDelay, 10);
+
         imageSrc = cfg.getPreferenceValue('SplashScreen') || imageSrc;
         bgColor = cfg.getPreferenceValue('SplashScreenBackgroundColor') || bgColor;
         splashImageWidth = cfg.getPreferenceValue('SplashScreenWidth') || splashImageWidth;
