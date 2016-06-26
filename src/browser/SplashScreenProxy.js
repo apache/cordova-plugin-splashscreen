@@ -67,6 +67,7 @@ var SplashScreen = {
             localSplash = document.createElement("div");
             localSplash.style.backgroundColor = bgColor;
             localSplash.style.position = "absolute";
+            localSplash.style["z-index"] = "99999";
 
             localSplashImage = document.createElement("img");
             localSplashImage.src = imageSrc;
@@ -81,8 +82,19 @@ var SplashScreen = {
     hide: function () {
         if(localSplash) {
             window.removeEventListener("resize", onResize, false);
-            document.body.removeChild(localSplash);
-            localSplash = null;
+
+            localSplash.style.opacity = '0';
+            localSplash.style["-webkit-transition"] = "opacity 1s ease-in-out";
+            localSplash.style["-moz-transition"] = "opacity 1s ease-in-out";
+            localSplash.style["-ms-transition"] = "opacity 1s ease-in-out";
+            localSplash.style["-o-transition"] = "opacity 1s ease-in-out";
+
+            window.setTimeout(function () {
+                document.body.removeChild(localSplash);
+                localSplash = null;
+            }, 1000);
+
+
         }
     }
 };
