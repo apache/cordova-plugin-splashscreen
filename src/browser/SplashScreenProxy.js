@@ -31,6 +31,7 @@ var splashScreenDelay = 3000; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
 var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
+var autoHideSplashScreen = true;
 
 function updateImageLocation() {
     position.width = Math.min(splashImageWidth, window.innerWidth);
@@ -103,8 +104,10 @@ function readPreferencesFromCfg(cfg) {
         bgColor = cfg.getPreferenceValue('SplashScreenBackgroundColor') || bgColor;
         splashImageWidth = cfg.getPreferenceValue('SplashScreenWidth') || splashImageWidth;
         splashImageHeight = cfg.getPreferenceValue('SplashScreenHeight') || splashImageHeight;
+        autoHideSplashScreen = cfg.getPreferenceValue('AutoHideSplashScreen') || autoHideSplashScreen;
+        autoHideSplashScreen = (autoHideSplashScreen === true || autoHideSplashScreen.toLowerCase() === 'true');
     } catch(e) {
-        var msg = '[Browser][SplashScreen] Error occured on loading preferences from config.xml: ' + JSON.stringify(e);
+        var msg = '[Browser][SplashScreen] Error occurred on loading preferences from config.xml: ' + JSON.stringify(e);
         console.error(msg);
     }
 }
@@ -123,12 +126,17 @@ function showAndHide() {
 }
 
 /**
- * Tries to read config.xml and override default properties and then shows and hides splashcreen if it is enabled.
+ * Tries to read config.xml and override default properties and then shows and hides splashscreen if it is enabled.
  */
 (function initAndShow() {
     configHelper.readConfig(function(config) {
         readPreferencesFromCfg(config);
-        showAndHide();
+        if (autoHideSplashScreen) {
+            showAndHide();
+        } else {
+            SplashScreen.show();
+        }
+
     }, function(err) {
         console.error(err);
     });
