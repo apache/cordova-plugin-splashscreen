@@ -81,17 +81,19 @@ var SplashScreen = {
     },
     hide: function () {
         if(localSplash) {
+            var innerLocalSplash = localSplash;
+            localSplash = null;
             window.removeEventListener("resize", onResize, false);
 
-            localSplash.style.opacity = '0';
-            localSplash.style["-webkit-transition"] = "opacity 1s ease-in-out";
-            localSplash.style["-moz-transition"] = "opacity 1s ease-in-out";
-            localSplash.style["-ms-transition"] = "opacity 1s ease-in-out";
-            localSplash.style["-o-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style.opacity = '0';
+            innerLocalSplash.style["-webkit-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-moz-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-ms-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-o-transition"] = "opacity 1s ease-in-out";
 
             window.setTimeout(function () {
-                document.body.removeChild(localSplash);
-                localSplash = null;
+                document.body.removeChild(innerLocalSplash);
+                innerLocalSplash = null;
             }, 1000);
 
 
