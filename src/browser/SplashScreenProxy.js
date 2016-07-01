@@ -77,6 +77,14 @@ var SplashScreen = {
 
             localSplash.appendChild(localSplashImage);
             document.body.appendChild(localSplash);
+
+            // deviceready fires earlier than the plugin init on cold-start
+            if (SplashScreen.shouldHideImmediately) {
+                SplashScreen.shouldHideImmediately = false;
+                window.setTimeout(function () {
+                    SplashScreen.hide();
+                }, 1000);
+            }
         }
     },
     hide: function () {
@@ -95,8 +103,8 @@ var SplashScreen = {
                 document.body.removeChild(innerLocalSplash);
                 innerLocalSplash = null;
             }, 1000);
-
-
+        } else {
+            SplashScreen.shouldHideImmediately = true;
         }
     }
 };
