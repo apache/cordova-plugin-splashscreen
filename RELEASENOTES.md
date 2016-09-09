@@ -20,12 +20,26 @@
 -->
 # Release Notes
 
+### 4.0.0 (Sep 08, 2016)
+* [CB-11795](https://issues.apache.org/jira/browse/CB-11795) Add 'protective' entry to cordovaDependencies
+* [CB-11326](https://issues.apache.org/jira/browse/CB-11326) Prevent crash when initializing plugin after navigating to another URL
+* Fix crash on **iOS** when reloading page from remote **Safari**
+* Add badges for paramedic builds on Jenkins
+* Add pull request template.
+* [CB-11179](https://issues.apache.org/jira/browse/CB-11179) Extend the windows-splashscreen docs
+* [CB-11159](https://issues.apache.org/jira/browse/CB-11159) Fix flaky splashscreen native tests
+* [CB-11156](https://issues.apache.org/jira/browse/CB-11156) Change default `FadeSplashScreenDuration` value
+* [CB-8056](https://issues.apache.org/jira/browse/CB-8056) Updated the dependency version, added it to the docs
+* [CB-10996](https://issues.apache.org/jira/browse/CB-10996) Adding front matter to README.md
+* [CB-8056](https://issues.apache.org/jira/browse/CB-8056) Implement splashscreen for **Windows** platform
+* [CB-6498](https://issues.apache.org/jira/browse/CB-6498) Misleading documentation in **Android** Quirks
+
 ### 3.2.2 (Apr 15, 2016)
-* CB-10979 Fix splashscreen **iOS** native tests. Added `jshintignore` for tests/ios
-* CB-10895 Transparent Splashscreen view sometimes remains
-* CB-10562 `hide()` not working in latest splashscreen plug in 3.1.0 in **iOS**
-* CB-10688 Plugin Splashscreen Readme must have examples.
-* CB-10864 Run **iOS** native tests on Travis
+* [CB-10979](https://issues.apache.org/jira/browse/CB-10979) Fix splashscreen **iOS** native tests. Added `jshintignore` for tests/ios
+* [CB-10895](https://issues.apache.org/jira/browse/CB-10895) Transparent Splashscreen view sometimes remains
+* [CB-10562](https://issues.apache.org/jira/browse/CB-10562) `hide()` not working in latest splashscreen plug in 3.1.0 in **iOS**
+* [CB-10688](https://issues.apache.org/jira/browse/CB-10688) Plugin Splashscreen Readme must have examples.
+* [CB-10864](https://issues.apache.org/jira/browse/CB-10864) Run **iOS** native tests on Travis
 
 ### 3.2.1 (Mar 09, 2016)
 * [CB-10764](https://issues.apache.org/jira/browse/CB-10764) Remove emoji in cordova-plugin-splashscreen
@@ -42,14 +56,14 @@
 * [CB-8396](https://issues.apache.org/jira/browse/CB-8396) Add AutoHideSplashScreen logic to Android's Splashscreen
 
 ### 3.1.0 (Jan 15, 2016)
-* CB-9538 Implementing `FadeSplashScreen` feature for **Android**
-* CB-9240 Cordova splash screen plugin **iPad** landscape mode issue
-* CB-10263 Fix splashscreen plugin filenames for Asset Catalog
-* CB-9374 **Android** add `SplashShowOnlyFirstTime` as preference
-* CB-10244 Don't rotate the **iPhone 6 Plus** splash
-* CB-9043 Fix the **ios** splashscreen being deformed on orientation change
-* CB-10079 Splashscreen plugin does not honor `SplashScreenDelay` on **iOS**
-* CB-10231 Fix `FadeSplashScreen` to default to true on **iOS**
+* [CB-9538](https://issues.apache.org/jira/browse/CB-9538) Implementing `FadeSplashScreen` feature for **Android**
+* [CB-9240](https://issues.apache.org/jira/browse/CB-9240) Cordova splash screen plugin **iPad** landscape mode issue
+* [CB-10263](https://issues.apache.org/jira/browse/CB-10263) Fix splashscreen plugin filenames for Asset Catalog
+* [CB-9374](https://issues.apache.org/jira/browse/CB-9374) **Android** add `SplashShowOnlyFirstTime` as preference
+* [CB-10244](https://issues.apache.org/jira/browse/CB-10244) Don't rotate the **iPhone 6 Plus** splash
+* [CB-9043](https://issues.apache.org/jira/browse/CB-9043) Fix the **ios** splashscreen being deformed on orientation change
+* [CB-10079](https://issues.apache.org/jira/browse/CB-10079) Splashscreen plugin does not honor `SplashScreenDelay` on **iOS**
+* [CB-10231](https://issues.apache.org/jira/browse/CB-10231) Fix `FadeSplashScreen` to default to true on **iOS**
 
 ### 3.0.0 (Nov 18, 2015)
 * [CB-10035](https://issues.apache.org/jira/browse/CB-10035) Updated `RELEASENOTES` to be newest to oldest
