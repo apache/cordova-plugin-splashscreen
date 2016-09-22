@@ -178,10 +178,25 @@
     return device;
 }
 
+- (BOOL) isUsingCDVLaunchScreen {
+    NSString* launchStoryboardName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchStoryboardName"];
+    if (launchStoryboardName) {
+        return ([launchStoryboardName isEqualToString:@"CDVLaunchScreen"]);
+    } else {
+        return NO;
+    }
+}
+
 - (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate device:(CDV_iOSDevice)device
 {
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+
+    // detect if we are using CB-9762 Launch Storyboard; if so, return the associated image instead
+    if ([self isUsingCDVLaunchScreen]) {
+        imageName = @"LaunchStoryboard";
+        return imageName;
+    }
 
     NSUInteger supportedOrientations = [orientationDelegate supportedInterfaceOrientations];
 
@@ -334,6 +349,14 @@
 
 - (void)updateBounds
 {
+    if ([self isUsingCDVLaunchScreen]) {
+        // CB-9762's launch screen expects the image to fill the screen and be scaled using AspectFill.
+        CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
+        _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        return; 
+    }
+
     UIImage* img = _imageView.image;
     CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
