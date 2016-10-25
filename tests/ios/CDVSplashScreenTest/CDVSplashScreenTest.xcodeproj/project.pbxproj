@@ -14,6 +14,8 @@
 		7E9F51B819DA14FD00DA31AC /* ImageNameTestDelegates.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9F51B719DA14FD00DA31AC /* ImageNameTestDelegates.m */; };
 		7E9F51B919DA1B1600DA31AC /* libCDVSplashScreenLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9F519519DA102000DA31AC /* libCDVSplashScreenLib.a */; };
 		7E9F51BA19DA1B2000DA31AC /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9F519019DA0F8300DA31AC /* libCordova.a */; };
+		E45AF2771DBF974D000C5AFE /* ViewFrameObservingTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E45AF2761DBF974D000C5AFE /* ViewFrameObservingTest.m */; };
+		E45AF27D1DBFA4D0000C5AFE /* TestCDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = E45AF27C1DBFA4D0000C5AFE /* TestCDVSplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,9 @@
 		7E9F51B419DA127E00DA31AC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		7E9F51B619DA12C600DA31AC /* ImageNameTestDelegates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageNameTestDelegates.h; sourceTree = "<group>"; };
 		7E9F51B719DA14FD00DA31AC /* ImageNameTestDelegates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageNameTestDelegates.m; sourceTree = "<group>"; };
+		E45AF2761DBF974D000C5AFE /* ViewFrameObservingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewFrameObservingTest.m; sourceTree = "<group>"; };
+		E45AF27B1DBFA4D0000C5AFE /* TestCDVSplashScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCDVSplashScreen.h; sourceTree = "<group>"; };
+		E45AF27C1DBFA4D0000C5AFE /* TestCDVSplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCDVSplashScreen.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +138,9 @@
 				7E9F51B019DA114400DA31AC /* ImageNameTest.m */,
 				7E9F51B619DA12C600DA31AC /* ImageNameTestDelegates.h */,
 				7E9F51B719DA14FD00DA31AC /* ImageNameTestDelegates.m */,
+				E45AF2761DBF974D000C5AFE /* ViewFrameObservingTest.m */,
+				E45AF27B1DBFA4D0000C5AFE /* TestCDVSplashScreen.h */,
+				E45AF27C1DBFA4D0000C5AFE /* TestCDVSplashScreen.m */,
 			);
 			path = CDVSplashScreenLibTests;
 			sourceTree = "<group>";
@@ -257,7 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E45AF27D1DBFA4D0000C5AFE /* TestCDVSplashScreen.m in Sources */,
 				7E9F51B119DA114400DA31AC /* ImageNameTest.m in Sources */,
+				E45AF2771DBF974D000C5AFE /* ViewFrameObservingTest.m in Sources */,
 				7E9F51B819DA14FD00DA31AC /* ImageNameTestDelegates.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

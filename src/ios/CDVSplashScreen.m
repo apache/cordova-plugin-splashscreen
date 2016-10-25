@@ -24,9 +24,143 @@
 
 #define kSplashScreenDurationDefault 3000.0f
 #define kFadeDurationDefault 500.0f
+#import <objc/runtime.h>
+#import <objc/message.h>
 
+
+@interface CDVSafeObserver : NSObject
+
+@property (nonatomic, weak, readwrite) UIView * view;
+@property (nonatomic, assign, readwrite) BOOL attached;
+@property (nonatomic, copy, readwrite) void (^updateBlock)(UIView *);
+
+- (instancetype)initWithView:(UIView *)view updateBlock:(void (^)(UIView *))updateBlock;
+- (void)detach:(UIView *)view;
+
+@end
+
+@implementation UIView (CDVSafeObserver)
+
+static char *_kvoObserverKey = "kvoObserver";
+
+- (CDVSafeObserver *)cordovaFrameObserver
+{
+    return objc_getAssociatedObject(self, _kvoObserverKey);
+}
+
+- (void)setCordovaFrameObserver:(CDVSafeObserver *)kvoObserver
+{
+    CDVSafeObserver * oldObserver = [self cordovaFrameObserver];
+    if (oldObserver && oldObserver != kvoObserver) {
+        [oldObserver detach:oldObserver.view];
+    }
+    objc_setAssociatedObject(self, _kvoObserverKey, kvoObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)cordovaObserveFrameAndBoundsWithBlock:(void (^)(UIView *))updateBlock
+{
+    CDVSafeObserver * observer = [[CDVSafeObserver alloc] initWithView:self updateBlock:updateBlock];
+    [self setCordovaFrameObserver:observer];
+}
+
+@end
+
+@implementation CDVSafeObserver
+
+- (instancetype)initWithView:(UIView *)view updateBlock:(void (^)(UIView *))updateBlock
+{
+    self = [super init];
+    if (self) {
+        self.updateBlock = [updateBlock copy];
+        self.attached = YES;
+        self.view = view;
+
+        [view addObserver:self forKeyPath:@"frame" options:0 context:nil];
+        [view addObserver:self forKeyPath:@"bounds" options:0 context:nil];
+    }
+
+    return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+                       context:(void *)context
+{
+    void (^updateBlock)(UIView *) = self.updateBlock;
+    if (updateBlock) {
+        updateBlock(object);
+    }
+}
+
+- (void)detach:(UIView *)view
+{
+    if (self.attached) {
+        self.attached = NO;
+        [view removeObserver:self forKeyPath:@"frame"];
+        [view removeObserver:self forKeyPath:@"bounds"];
+    }
+}
+
+- (void)dealloc
+{
+    [self detach:self.view];
+}
+
+@end
+
+/**
+ *  Here we swizzling deallocation of specified class (UIView)
+ *  On deallocation we'll detach observer
+ */
+static void swizzleDeallocForCordova(Class classToSwizzle)
+{
+    SEL deallocSelector = sel_registerName("dealloc");
+
+    __block void (*originalDealloc)(__unsafe_unretained id, SEL) = NULL;
+
+    id newDealloc = ^(__unsafe_unretained UIView *self) {
+
+        // Detaching all observers here
+        CDVSafeObserver * frameObserver = [self cordovaFrameObserver];
+        if (frameObserver) {
+            [frameObserver detach:self];
+        }
+
+        if (originalDealloc == NULL) {
+            struct objc_super superInfo = {
+                .receiver = self,
+                .super_class = class_getSuperclass(classToSwizzle)
+            };
+
+            void (*msgSend)(struct objc_super *, SEL) = (__typeof__(msgSend)) objc_msgSendSuper;
+            msgSend(&superInfo, deallocSelector);
+        } else {
+            originalDealloc(self, deallocSelector);
+        }
+    };
+
+    IMP newDeallocIMP = imp_implementationWithBlock(newDealloc);
+
+    if (!class_addMethod(classToSwizzle, deallocSelector, newDeallocIMP, "v@:")) {
+        // The class already contains a method implementation.
+        Method deallocMethod = class_getInstanceMethod(classToSwizzle, deallocSelector);
+
+        // We need to store original implementation before setting new implementation
+        // in case method is called at the time of setting.
+        originalDealloc = (__typeof__(originalDealloc)) method_getImplementation(deallocMethod);
+
+        // We need to store original implementation again, in case it just changed.
+        originalDealloc = (__typeof__(originalDealloc)) method_setImplementation(deallocMethod, newDeallocIMP);
+    }
+
+}
 
 @implementation CDVSplashScreen
+
++ (void)initialize {
+    if (self == [CDVSplashScreen class]) {
+        swizzleDeallocForCordova([UIView class]);
+    }
+}
 
 - (void)pluginInitialize
 {
@@ -53,11 +187,6 @@
     if ((autoHideSplashScreenValue == nil) || [autoHideSplashScreenValue boolValue]) {
         [self setVisible:NO];
     }
-}
-
-- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
-{
-    [self updateImage];
 }
 
 - (void)createViews
@@ -115,10 +244,11 @@
         [parentView addSubview:_activityView];
     }
 
-    // Frame is required when launching in portrait mode.
-    // Bounds for landscape since it captures the rotation.
-    [parentView addObserver:self forKeyPath:@"frame" options:0 context:nil];
-    [parentView addObserver:self forKeyPath:@"bounds" options:0 context:nil];
+    __weak CDVSplashScreen* weakSelf = self;
+    [parentView cordovaObserveFrameAndBoundsWithBlock:^(__unused UIView * view) {
+        CDVSplashScreen* strongSelf = weakSelf;
+        [strongSelf updateImage];
+    }];
 
     [self updateImage];
     _destroyed = NO;
@@ -142,16 +272,8 @@
     _curImageName = nil;
 
     self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
-    @try {
-        [self.viewController.view removeObserver:self forKeyPath:@"frame"];
-        [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
-    }
-    @catch (NSException *exception) {
-        // When reloading the page from a remotely connected Safari, there
-        // are no observers, so the removeObserver method throws an exception,
-        // that we can safely ignore.
-        // Alternatively we can check whether there are observers before calling removeObserver
-    }
+
+    [self.viewController.view.cordovaFrameObserver detach:self.viewController.view];
 }
 
 - (CDV_iOSDevice) getCurrentDevice
