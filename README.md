@@ -384,6 +384,9 @@ To disable the splashscreen add the following preference to `config.xml`:
 <preference name="SplashScreenDelay" value="0"/>
 ```
 
+**Windows Quirk**: You should disable the splashscreen in case you are updating the entire document body dynamically (f.e. with a SPA router) to avoid affecting UI/controls.  
+Note that you should also directly reference `WinJS/base.js` in the page HTML in this case to avoid the issues with activation context ([CB-11658](https://issues.apache.org/jira/browse/CB-11658)).
+
 **iOS Quirk**: to disable the splashscreen on `ios` platform you should also add `<preference name="FadeSplashScreenDuration" value="0"/>` to `config.xml`.
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
