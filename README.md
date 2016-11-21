@@ -251,6 +251,30 @@ The above looks like the following in `config.xml`:
 3. **`anyany` must be provided for other variations to be used**
    If you don't provide an `anyany` version of the launch image for a specific scale and idiom, the other variations (like `anycom`, `comany`, and `comcom`) will ignored. 
 
+## Windows-specific information
+
+Splash screen images can be defined using the [MRT](https://cordova.apache.org/docs/en/dev/config_ref/images.html#windows) concept.  
+If you specify src="res/windows/splashscreen.png" the following files will be copied into the application's images folder:  
+`res/windows/splashscreen.png` | `res/windows/splashscreen.scale-100.png`, `res/windows/splashscreen.scale-125.png`, etc.  
+The following are supported:
+
+|   Scale, %   |       Project       |    Width    |    Height    |             Filename              |
+|:------------:|:-------------------:|:-----------:|:------------:|:---------------------------------:|
+|     100      |  Windows 10/8.1     |     620     |     300      | `splashscreen.png` \| `splashscreen.scale-100.png`              |
+|     125      |  Windows 10         |     775     |     375      | `splashscreen.scale-125.png`      |
+|     150      |  Windows 10         |     930     |     450      | `splashscreen.scale-150.png`      |
+|     200      |  Windows 10         |     1240    |     600      | `splashscreen.scale-200.png`      |
+|     400      |  Windows 10         |     2480    |     1200     | `splashscreen.scale-400.png`      |
+|     140      |  Windows 8.1        |     868     |     420      | `splashscreen.scale-140.png`      |
+|     180      |  Windows 8.1        |     1116    |     540      | `splashscreen.scale-180.png`      |
+|     100      |  Windows Phone 8.1  |     480     |     800      | `splashscreenphone.png` \| `splashscreenphone.scale-100.png`         |
+|     140      |  Windows Phone 8.1  |     672     |     1120     | `splashscreenphone.scale-140.png` |
+|     240      |  Windows Phone 8.1  |     1152    |     1920     | `splashscreenphone.scale-240.png` |
+
+__Note__: SplashScreens size for Windows 10 project should not exceed 200 KBytes.  
+__Note__: Supported formats are `.png`, `.jpg`, `.jpeg`. Mixing of the extensions within a target is not supported. I.e. you can have `splashscreen.jpg` and `splashscreenphone.png` but not `splashscreen.scale-100.png`, `splashscreen.scale-400.jpg`.  
+__Note__: You may need to reopen Visual Studio solution after changing the images and doing a `cordova prepare` for the changes to take effect.
+
 ## Example Configuration
 In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
 
@@ -316,11 +340,17 @@ projectRoot
     
 </platform>
 
+<!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
 <platform name="windows">
-    <!-- images are determined by width and height. The following are supported -->
+    <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
+    <splash src="res/screen/windows/splashscreenphone.png" target="SplashScreenPhone"/>
+</platform>
+
+<!-- Configuration using image size: -->
+<!--<platform name="windows">
     <splash src="res/screen/windows/splashscreen.png" width="620" height="300"/>
     <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
-</platform>
+</platform>-->
 
 <platform name="blackberry10">
     <!-- Add a rim:splash element for each resolution and locale you wish -->
