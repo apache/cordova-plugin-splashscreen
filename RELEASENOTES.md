@@ -21,6 +21,7 @@
 # Release Notes
 
 ### 4.0.1 (Dec 07, 2016)
+* [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 4.0.1
 * [CB-11751](https://issues.apache.org/jira/browse/CB-11751) 'extendedSplashScreen' is undefined Document that splashscreen needs to be disabled on Windows in case of updating entire document body
 * [CB-9287](https://issues.apache.org/jira/browse/CB-9287) Not enough Icons and Splashscreens for Windows 8.1 and Windows Phone 8.1
 * [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
