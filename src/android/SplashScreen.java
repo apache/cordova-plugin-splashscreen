@@ -53,6 +53,7 @@ public class SplashScreen extends CordovaPlugin {
     private static final boolean HAS_BUILT_IN_SPLASH_SCREEN = Integer.valueOf(CordovaWebView.CORDOVA_VERSION.split("\\.")[0]) < 4;
     private static final int DEFAULT_SPLASHSCREEN_DURATION = 3000;
     private static final int DEFAULT_FADE_DURATION = 500;
+    private static final int DEFAULT_SPLASH_BG_COLOR = Color.parseColor("#ffc8c8c8");
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
@@ -293,8 +294,14 @@ public class SplashScreen extends CordovaPlugin {
                 splashImageView.setMinimumHeight(display.getHeight());
                 splashImageView.setMinimumWidth(display.getWidth());
 
-                // TODO: Use the background color of the webView's parent instead of using the preference.
-                splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
+                int bgColor;
+                if (preferences.contains("SplashScreenBackgroundColor")) {
+                    bgColor = preferences.getInteger("SplashScreenBackgroundColor", DEFAULT_SPLASH_BG_COLOR);
+                } else {
+                    // Fallback to previous behavior for older platform versions:
+                    bgColor = preferences.getInteger("BackgroundColor", Color.BLACK);
+                }
+                splashImageView.setBackgroundColor(bgColor);
 
                 if (isMaintainAspectRatio()) {
                     // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"

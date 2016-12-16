@@ -435,13 +435,16 @@ In your `config.xml`, you can add the following preferences:
 ```xml
 <preference name="SplashMaintainAspectRatio" value="true|false" />
 <preference name="SplashShowOnlyFirstTime" value="true|false" />
+<preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
 ```
 
-"SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
+- `SplashMaintainAspectRatio` preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
 
 The plugin reloads splash drawable whenever orientation changes, so you can specify different drawables for portrait and landscape orientations.
 
-"SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
+- `SplashShowOnlyFirstTime` preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
+
+- `SplashScreenBackgroundColor` (string, defaults to `#FFC8C8C8`): hex notation. Can be used for transparent splash screen images. `BackgroundColor` will be used if `SplashScreenBackgroundColor` not specified. `Color.BLACK` will be used if none of the above is set.
 
 ### Browser Quirks
 
