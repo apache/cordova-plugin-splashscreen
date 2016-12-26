@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "4.0.2-dev",
+  "version": "5.0.0-dev",
   "description": "Cordova Splashscreen Plugin",
   "cordova": {
     "id": "cordova-plugin-splashscreen",
@@ -48,6 +48,10 @@
         "cordova-windows": ">=4.4.0"
       },
       "5.0.0": {
+        "cordova-android": ">=6.2.0",
+        "cordova-windows": ">=4.4.0"
+      },
+      "6.0.0": {
         "cordova": ">100"
       }
     }
