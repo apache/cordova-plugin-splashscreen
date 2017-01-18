@@ -108,14 +108,14 @@
     <!-- windows8 -->
     <platform name="windows8">
         <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
-            <merges target="" />
+            <runs />
         </js-module>
     </platform>
 
     <!-- windows -->
     <platform name="windows">
         <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
-            <merges target="" />
+            <runs />
         </js-module>
     </platform>
 
