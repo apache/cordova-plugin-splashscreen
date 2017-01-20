@@ -57,6 +57,7 @@ public class SplashScreen extends CordovaPlugin {
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
+    private static boolean splashScreenWasVisible;
 
     /**
      * Displays the splash drawable.
@@ -136,12 +137,12 @@ public class SplashScreen extends CordovaPlugin {
     }
 
     @Override
-    public void onPause(boolean multitasking) {
+    public void onStop() {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
-        // hide the splash screen to avoid leaking a window
-        this.removeSplashScreen(true);
+
+        splashScreenWasVisible = splashDialog != null && splashDialog.isShowing();
     }
 
     @Override
@@ -153,6 +154,18 @@ public class SplashScreen extends CordovaPlugin {
         this.removeSplashScreen(true);
         // If we set this to true onDestroy, we lose track when we go from page to page!
         //firstShow = true;
+    }
+
+    @Override
+    public void onRestart() {
+        if (HAS_BUILT_IN_SPLASH_SCREEN) {
+            return;
+        }
+
+        if (splashScreenWasVisible) {
+            boolean autoHide = preferences.getBoolean("AutoHideSplashScreen", true);
+            showSplashScreen(autoHide);
+        }
     }
 
     @Override
@@ -184,6 +197,9 @@ public class SplashScreen extends CordovaPlugin {
         }
         if ("splashscreen".equals(id)) {
             if ("hide".equals(data.toString())) {
+                // SplashScreen might be hidden from code so we should catch this
+                // to avoid showing it on restart.
+                splashScreenWasVisible = false;
                 this.removeSplashScreen(false);
             } else {
                 this.showSplashScreen(false);
