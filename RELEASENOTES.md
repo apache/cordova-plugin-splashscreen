@@ -20,10 +20,16 @@
 -->
 # Release Notes
 
+### 4.0.2 (Feb 28, 2017)
+* [CB-12353](https://issues.apache.org/jira/browse/CB-12353) Corrected merges usage in `plugin.xml`
+* [CB-12369](https://issues.apache.org/jira/browse/CB-12369) Add plugin typings from `DefinitelyTyped` 
+* [CB-12363](https://issues.apache.org/jira/browse/CB-12363) Added build badges for **iOS 9.3** and **iOS 10.0** 
+* [CB-12230](https://issues.apache.org/jira/browse/CB-12230) Removed **Windows 8.1** build badges
+
 ### 4.0.1 (Dec 07, 2016)
 * [CB-12224](https://issues.apache.org/jira/browse/CB-12224) Updated version and RELEASENOTES.md for release 4.0.1
 * [CB-11751](https://issues.apache.org/jira/browse/CB-11751) 'extendedSplashScreen' is undefined Document that splashscreen needs to be disabled on Windows in case of updating entire document body
-* [CB-9287](https://issues.apache.org/jira/browse/CB-9287) Not enough Icons and Splashscreens for Windows 8.1 and Windows Phone 8.1
+* [CB-9287](https://issues.apache.org/jira/browse/CB-9287) Not enough Icons and Splashscreens for **Windows 8.1** and Windows Phone 8.1
 * [CB-11917](https://issues.apache.org/jira/browse/CB-11917) - Remove pull request template checklist item: "iCLA has been submitted…"
 * [CB-11830](https://issues.apache.org/jira/browse/CB-11830) (iOS) Fix doc typos in PR#114
 * [CB-11829](https://issues.apache.org/jira/browse/CB-11829) (iOS) Support for CB-9762; docs (CB-11830)
@@ -92,7 +98,7 @@
 * [CB-3562](https://issues.apache.org/jira/browse/CB-3562): Disable screen rotation for iPhone when splash screen is shown. (closes #47)
 * [CB-8988](https://issues.apache.org/jira/browse/CB-8988): Fix rotation on iOS/iPad (closes #46)
 * [CB-8904](https://issues.apache.org/jira/browse/CB-8904): Don't reset the static variable when it's destroyed, otherwise we might as well just have a member variable
-* Removed wp7 from plugin.xml and package.json
+* Removed wp7 from `plugin.xml` and package.json
 * [CB-8750](https://issues.apache.org/jira/browse/CB-8750) [wp8]: Rewrite resoultion helper
 * [CB-8750](https://issues.apache.org/jira/browse/CB-8750) [wp8]: Allow resolution-specific splashscreen images
 * [CB-8758](https://issues.apache.org/jira/browse/CB-8758) [wp8]: UnauthorizedAccessException on hide()
@@ -144,7 +150,7 @@
 
 ### 0.3.3 (Sep 17, 2014)
 * [CB-7249](https://issues.apache.org/jira/browse/CB-7249) cordova-plugin-splashscreen documentation translation
-* Renamed test dir, added nested plugin.xml
+* Renamed test dir, added nested `plugin.xml`
 * added documentation for manual tests
 * [CB-7196](https://issues.apache.org/jira/browse/CB-7196) port splashscreen tests to framework
 
@@ -190,7 +196,7 @@
 * [CB-5124](https://issues.apache.org/jira/browse/CB-5124) - Remove splashscreen config.xml values from iOS Configuration Docs, move to plugin docs
 
 ### 0.2.4 (Oct 28, 2013)
-* [CB-5128](https://issues.apache.org/jira/browse/CB-5128): add repo + issue tag to plugin.xml for splashscreen plugin
+* [CB-5128](https://issues.apache.org/jira/browse/CB-5128): add repo + issue tag to `plugin.xml` for splashscreen plugin
 * [CB-5010](https://issues.apache.org/jira/browse/CB-5010) Incremented plugin version on dev branch.
 
 ### 0.2.3 (Oct 9, 2013)
