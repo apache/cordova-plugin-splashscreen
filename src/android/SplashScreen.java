@@ -98,7 +98,7 @@ public class SplashScreen extends CordovaPlugin {
                 if (drawableId == 0) {
                     drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getPackageName());
                 }
-                preferences.set("SplashDrawableId", drawableId);
+                //preferences.set("SplashDrawableId", drawableId);
             }
         }
 
