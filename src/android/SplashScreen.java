@@ -32,6 +32,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
@@ -285,7 +286,7 @@ public class SplashScreen extends CordovaPlugin {
                 // Get reference to display
                 Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
                 Context context = webView.getContext();
-
+		Window splashWindow;
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
                 splashImageView.setImageResource(drawableId);
@@ -309,10 +310,11 @@ public class SplashScreen extends CordovaPlugin {
 
                 // Create and show the dialog
                 splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-                // check to see if the splash screen should be full screen
+                splashWindow = splashDialog.getWindow();
+		// check to see if the splash screen should be full screen
                 if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
                         == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-                    splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    splashWindow.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
 
@@ -320,11 +322,11 @@ public class SplashScreen extends CordovaPlugin {
                 String statusBarColor = preferences.getString("StatusBarBackgroundColor", "#000000");
                 if (statusBarColor != null && !statusBarColor.isEmpty() && Build.VERSION.SDK_INT >= 19) {
 
-                    splashDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                    splashDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    splashWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    splashWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                     try {
                         // Using reflection makes sure any 5.0+ device will work without having to compile with SDK level 21
-                        splashDialog.getWindow().getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(splashDialog.getWindow(), Color.parseColor(statusBarColor));
+                        splashWindow.getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(splashWindow, Color.parseColor(statusBarColor));
                     } catch (Exception ignore) {
                         // this should not happen, only in case Android removes this method in a version > 21
                         LOG.w("SplashScreen StatusBarColor", "Method window.setStatusBarColor not found for SDK level " + Build.VERSION.SDK_INT);
