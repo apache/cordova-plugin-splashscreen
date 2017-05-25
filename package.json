@@ -21,6 +21,9 @@
     "type": "git",
     "url": "https://github.com/apache/cordova-plugin-splashscreen"
   },
+  "bugs": {
+    "url": "https://issues.apache.org/jira/browse/CB"
+  },
   "keywords": [
     "cordova",
     "splashscreen",
