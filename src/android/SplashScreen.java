@@ -46,6 +46,10 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.os.Build;
+import android.view.Window;
+import android.graphics.Color;
+
 public class SplashScreen extends CordovaPlugin {
     private static final String LOG_TAG = "SplashScreen";
     // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
@@ -307,6 +311,23 @@ public class SplashScreen extends CordovaPlugin {
 
                 // Create and show the dialog
                 splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+                if (Build.VERSION.SDK_INT >= 21)
+                {
+                    Window window = splashDialog.getWindow();
+    
+                    window.clearFlags(0x04000000);
+                    window.addFlags(0x80000000);
+    
+                    try
+                    {
+                        window.getClass().getDeclaredMethod("setStatusBarColor", int.class)
+                            .invoke(window, Color.parseColor(preferences.getString("StatusBarBackgroundColor", "#000000")));
+                    }
+                    catch (IllegalArgumentException ignore) {}
+                    catch (Exception ignore) {}
+                }
+
                 // check to see if the splash screen should be full screen
                 if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
                         == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
