@@ -81,10 +81,11 @@ If you choose to use legacy launch images, you will use the following syntax in 
 
 Technically the filename for the `src` attribute can be anything you want; the filenames are used because they match what will be used when your project is compiled. The width and height attributes determine which launch images are displayed on which devices as follows:
 
-|    width    |    height    |    device (orientation)   |
-|:-----------:|:------------:|:-------------------------:|
+|    width    |    height    |    device (orientation)          |
+|:-----------:|:------------:|:--------------------------------:|
 |     320     |      480     | All non-retina iPhones and iPods |
-|     640     |      960     | iPhone 4/4s/5/5s (portrait)      |
+|     640     |      960     | iPhone 4/4s (portrait)           |
+|     640     |     1136     | iPhone 5/5s/SE (portrait)        |
 |     750     |     1334     | iPhone 6/6s/7 (portrait)         |
 |    1242     |     2208     | iPhone 6+/6s+/7+ (portrait)      |
 |    2208     |     1242     | iPhone 6+/6s+/7+ (landscape)     |
