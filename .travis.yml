@@ -31,7 +31,6 @@ matrix:
     android:
       components:
       - tools
-      - tools
       - extra-android-m2repository
   - env: PLATFORM=android-5.1
     os: linux
@@ -39,7 +38,6 @@ matrix:
     jdk: oraclejdk8
     android:
       components:
-      - tools
       - tools
       - extra-android-m2repository
   - env: PLATFORM=android-6.0
@@ -49,7 +47,6 @@ matrix:
     android:
       components:
       - tools
-      - tools
       - extra-android-m2repository
   - env: PLATFORM=android-7.0
     os: linux
@@ -57,7 +54,6 @@ matrix:
     jdk: oraclejdk8
     android:
       components:
-      - tools
       - tools
       - extra-android-m2repository
 before_install:
