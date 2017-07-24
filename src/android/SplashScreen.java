@@ -270,6 +270,10 @@ public class SplashScreen extends CordovaPlugin {
 
         lastHideAfterDelay = hideAfterDelay;
 
+        // Prevent to show the splash dialog if the activity is in the process of finishing
+        if (cordova.getActivity().isFinishing()) {
+            return;
+        }
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
