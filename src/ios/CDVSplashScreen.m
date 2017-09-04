@@ -189,8 +189,8 @@
 
 - (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate device:(CDV_iOSDevice)device
 {
-    // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
-    NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
+    // Use LaunchImageFileCustom if specified in plist.  Otherwise, use UILaunchImageFile (Launch Image), otherwise Default.
+    NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"LaunchImageFileCustom"] ? [[NSBundle mainBundle] objectForInfoDictionaryKey:@"LaunchImageFileCustom"] : [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
 
     // detect if we are using CB-9762 Launch Storyboard; if so, return the associated image instead
     if ([self isUsingCDVLaunchScreen]) {
