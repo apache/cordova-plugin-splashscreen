@@ -21,9 +21,9 @@ description: Control the splash screen for your app.
 #         under the License.
 -->
 
-|Android 4.4|Android 5.1|Android 6.0|iOS 9.3|iOS 10.0|Windows 10 Store|Travis CI|
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-4.4,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-4.4,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-5.1,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-5.1,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android-6.0,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android-6.0,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios-9.3,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios-9.3,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios-10.0,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios-10.0,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-splashscreen)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-splashscreen/)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-splashscreen.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-splashscreen)|
+|AppVeyor|Travis CI|
+|:-:|:-:|
+|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-splashscreen?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-splashscreen)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-splashscreen.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-splashscreen)|
 
 # cordova-plugin-splashscreen
 
@@ -81,10 +81,11 @@ If you choose to use legacy launch images, you will use the following syntax in 
 
 Technically the filename for the `src` attribute can be anything you want; the filenames are used because they match what will be used when your project is compiled. The width and height attributes determine which launch images are displayed on which devices as follows:
 
-|    width    |    height    |    device (orientation)   |
-|:-----------:|:------------:|:-------------------------:|
+|    width    |    height    |    device (orientation)          |
+|:-----------:|:------------:|:--------------------------------:|
 |     320     |      480     | All non-retina iPhones and iPods |
-|     640     |      960     | iPhone 4/4s/5/5s (portrait)      |
+|     640     |      960     | iPhone 4/4s (portrait)           |
+|     640     |     1136     | iPhone 5/5s/SE (portrait)        |
 |     750     |     1334     | iPhone 6/6s/7 (portrait)         |
 |    1242     |     2208     | iPhone 6+/6s+/7+ (portrait)      |
 |    2208     |     1242     | iPhone 6+/6s+/7+ (landscape)     |
@@ -450,6 +451,7 @@ You can use the following preferences in your `config.xml`:
 ```xml
 <platform name="browser">
     <preference name="SplashScreen" value="/images/browser/splashscreen.jpg" /> <!-- defaults to "/img/logo.png" -->
+    <preference name="AutoHideSplashScreen" value="true" /> <!-- defaults to "true" -->
     <preference name="SplashScreenDelay" value="3000" /> <!-- defaults to "3000" -->
     <preference name="SplashScreenBackgroundColor" value="green" /> <!-- defaults to "#464646" -->
     <preference name="ShowSplashScreen" value="false" /> <!-- defaults to "true" -->

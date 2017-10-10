@@ -77,6 +77,18 @@ public class SplashScreen extends CordovaPlugin {
         }
     }
 
+    private int getSplashId() {
+        int drawableId = 0;
+        String splashResource = preferences.getString("SplashScreen", "screen");
+        if (splashResource != null) {
+            drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
+            if (drawableId == 0) {
+                drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getPackageName());
+            }
+        }
+        return drawableId;
+    }
+
     @Override
     protected void pluginInitialize() {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
@@ -90,17 +102,7 @@ public class SplashScreen extends CordovaPlugin {
                 getView().setVisibility(View.INVISIBLE);
             }
         });
-        int drawableId = preferences.getInteger("SplashDrawableId", 0);
-        if (drawableId == 0) {
-            String splashResource = preferences.getString("SplashScreen", "screen");
-            if (splashResource != null) {
-                drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
-                if (drawableId == 0) {
-                    drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getPackageName());
-                }
-                preferences.set("SplashDrawableId", drawableId);
-            }
-        }
+        int drawableId = getSplashId();
 
         // Save initial orientation.
         orientation = cordova.getActivity().getResources().getConfiguration().orientation;
@@ -205,7 +207,7 @@ public class SplashScreen extends CordovaPlugin {
 
             // Splash drawable may change with orientation, so reload it.
             if (splashImageView != null) {
-                int drawableId = preferences.getInteger("SplashDrawableId", 0);
+                int drawableId = getSplashId();
                 if (drawableId != 0) {
                     splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
                 }
@@ -263,13 +265,17 @@ public class SplashScreen extends CordovaPlugin {
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", DEFAULT_SPLASHSCREEN_DURATION);
-        final int drawableId = preferences.getInteger("SplashDrawableId", 0);
+        final int drawableId = getSplashId();
 
         final int fadeSplashScreenDuration = getFadeDuration();
         final int effectiveSplashDuration = Math.max(0, splashscreenTime - fadeSplashScreenDuration);
 
         lastHideAfterDelay = hideAfterDelay;
 
+        // Prevent to show the splash dialog if the activity is in the process of finishing
+        if (cordova.getActivity().isFinishing()) {
+            return;
+        }
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;

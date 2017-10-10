@@ -31,6 +31,7 @@ var splashScreenDelay = 3000; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
 var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
+var autoHideSplashScreen = true;
 
 function updateImageLocation() {
     position.width = Math.min(splashImageWidth, window.innerWidth);
@@ -66,6 +67,7 @@ var SplashScreen = {
             localSplash = document.createElement("div");
             localSplash.style.backgroundColor = bgColor;
             localSplash.style.position = "absolute";
+            localSplash.style["z-index"] = "99999";
 
             localSplashImage = document.createElement("img");
             localSplashImage.src = imageSrc;
@@ -75,13 +77,34 @@ var SplashScreen = {
 
             localSplash.appendChild(localSplashImage);
             document.body.appendChild(localSplash);
+
+            // deviceready fires earlier than the plugin init on cold-start
+            if (SplashScreen.shouldHideImmediately) {
+                SplashScreen.shouldHideImmediately = false;
+                window.setTimeout(function () {
+                    SplashScreen.hide();
+                }, 1000);
+            }
         }
     },
     hide: function () {
         if(localSplash) {
-            window.removeEventListener("resize", onResize, false);
-            document.body.removeChild(localSplash);
+            var innerLocalSplash = localSplash;
             localSplash = null;
+            window.removeEventListener("resize", onResize, false);
+
+            innerLocalSplash.style.opacity = '0';
+            innerLocalSplash.style["-webkit-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-moz-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-ms-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style["-o-transition"] = "opacity 1s ease-in-out";
+
+            window.setTimeout(function () {
+                document.body.removeChild(innerLocalSplash);
+                innerLocalSplash = null;
+            }, 1000);
+        } else {
+            SplashScreen.shouldHideImmediately = true;
         }
     }
 };
@@ -97,12 +120,16 @@ function readPreferencesFromCfg(cfg) {
         }
 
         splashScreenDelay = cfg.getPreferenceValue('SplashScreenDelay') || splashScreenDelay;
+        splashScreenDelay = parseInt(splashScreenDelay, 10);
+
         imageSrc = cfg.getPreferenceValue('SplashScreen') || imageSrc;
         bgColor = cfg.getPreferenceValue('SplashScreenBackgroundColor') || bgColor;
         splashImageWidth = cfg.getPreferenceValue('SplashScreenWidth') || splashImageWidth;
         splashImageHeight = cfg.getPreferenceValue('SplashScreenHeight') || splashImageHeight;
+        autoHideSplashScreen = cfg.getPreferenceValue('AutoHideSplashScreen') || autoHideSplashScreen;
+        autoHideSplashScreen = (autoHideSplashScreen === true || autoHideSplashScreen.toLowerCase() === 'true');
     } catch(e) {
-        var msg = '[Browser][SplashScreen] Error occured on loading preferences from config.xml: ' + JSON.stringify(e);
+        var msg = '[Browser][SplashScreen] Error occurred on loading preferences from config.xml: ' + JSON.stringify(e);
         console.error(msg);
     }
 }
@@ -121,12 +148,17 @@ function showAndHide() {
 }
 
 /**
- * Tries to read config.xml and override default properties and then shows and hides splashcreen if it is enabled.
+ * Tries to read config.xml and override default properties and then shows and hides splashscreen if it is enabled.
  */
 (function initAndShow() {
     configHelper.readConfig(function(config) {
         readPreferencesFromCfg(config);
-        showAndHide();
+        if (autoHideSplashScreen) {
+            showAndHide();
+        } else {
+            SplashScreen.show();
+        }
+
     }, function(err) {
         console.error(err);
     });

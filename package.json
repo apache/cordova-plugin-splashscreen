@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "4.0.3",
+  "version": "4.0.4-dev",
   "description": "Cordova Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
@@ -20,6 +20,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/cordova-plugin-splashscreen"
+  },
+  "bugs": {
+    "url": "https://issues.apache.org/jira/browse/CB"
   },
   "keywords": [
     "cordova",
