@@ -24,6 +24,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -366,6 +367,27 @@ public class SplashScreen extends CordovaPlugin {
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                 progressBar.setLayoutParams(layoutParams);
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    String colorName = preferences.getString("SplashScreenSpinnerColor", null);
+                    if(colorName != null){
+                        int[][] states = new int[][] {
+                            new int[] { android.R.attr.state_enabled}, // enabled
+                            new int[] {-android.R.attr.state_enabled}, // disabled
+                            new int[] {-android.R.attr.state_checked}, // unchecked
+                            new int[] { android.R.attr.state_pressed}  // pressed
+                        };
+                        int progressBarColor = Color.parseColor(colorName);
+                        int[] colors = new int[] {
+                            progressBarColor,
+                            progressBarColor,
+                            progressBarColor,
+                            progressBarColor
+                        };
+                        ColorStateList colorStateList = new ColorStateList(states, colors);
+                        progressBar.setIndeterminateTintList(colorStateList);
+                    }
+                }
 
                 centeredLayout.addView(progressBar);
 
