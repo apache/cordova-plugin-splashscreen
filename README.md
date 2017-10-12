@@ -59,7 +59,7 @@ There are two mechanisms for displaying a launch screen on iOS:
 
 2. Launch storyboard images: Images are sized based on scale, idiom, and size classes. Supports all devices, and can be used with split-screen/slide-over multitasking.
 
-Apple is moving away from legacy launch images. There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over. If your app doesn't need to support these contexts, then you can continue to use legacy launch images for as long as you like. 
+Apple is moving away from legacy launch images. There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over. If your app doesn't need to support these contexts, then you can continue to use legacy launch images for as long as you like.
 
 The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch. For non-native app developers who don't wish to learn Interface Builder, however, this plugin simulates the legacy launch image method as much as is feasible.
 
@@ -118,7 +118,7 @@ Instead, the following tips should enable you to create a launch image that work
 
      - You _can_ fine-tune the placement and size of these graphics, but you don't have the same fine-grained control as you did with legacy launch images.
 
- - Use a simple color wash. If you use two colors, you'll want one color to fill the top half of the image, and the second to fill the bottom half.  If you use a gradient, you'll probably want to ensure that the middle of the gradient lines up with the center of the image. 
+ - Use a simple color wash. If you use two colors, you'll want one color to fill the top half of the image, and the second to fill the bottom half.  If you use a gradient, you'll probably want to ensure that the middle of the gradient lines up with the center of the image.
 
  - Don't worry about pixel perfection -- because the images are scaled, there's almost no chance the images will be perfectly fit to the pixel grid. Since all supported iOS devices use retina screens, users will be hard pressed to notice it anyway.
 
@@ -148,7 +148,7 @@ You only need to provide universal images unless you need to fine-tune for a spe
 
 ##### Size classes
 
-There are two size classes applies to both screen axes. Narrow viewports are considered to be the "compact" size class, and remaining viewports are considered "regular". When supplying images to Xcode, however, one must choose between "any & compact" and "any & regular". To stay consistent with the native terminology, this feature will match based on "any" and "compact". `any` will match regular-sized viewports. 
+There are two size classes applies to both screen axes. Narrow viewports are considered to be the "compact" size class, and remaining viewports are considered "regular". When supplying images to Xcode, however, one must choose between "any & compact" and "any & regular". To stay consistent with the native terminology, this feature will match based on "any" and "compact". `any` will match regular-sized viewports.
 
 Note: this feature uses `com` as an abbreviation for "compact" classes.
 
@@ -173,7 +173,7 @@ If your launch image is simple, you may be able to avoid creating a lot of diffe
 
  - anything important should fit within the center
 
- Keep in mind that the image will be cropped, possibly quite severely, depending upon the viewport. 
+ Keep in mind that the image will be cropped, possibly quite severely, depending upon the viewport.
 
 Once the image is created, you can include it in your project by adding the following to `config.xml`:
 
@@ -250,13 +250,23 @@ The above looks like the following in `config.xml`:
    When Xcode deploys to a specific simulator, it only copies the assets that match the simulator's characteristics. For example, if you try to run an app on the iPhone 6s Plus simulator, only @3x launch images are copied. When compiling from the CLI, however, the default is to assume an iPhone 5s, which means only @2x launch images are copied. Unless your launch images are markedly different, chances are good the difference would go unnoticed, but this does mean that the only accurate method of testing is to test on a physical device.
 
 3. **`anyany` must be provided for other variations to be used**
-   If you don't provide an `anyany` version of the launch image for a specific scale and idiom, the other variations (like `anycom`, `comany`, and `comcom`) will ignored. 
+   If you don't provide an `anyany` version of the launch image for a specific scale and idiom, the other variations (like `anycom`, `comany`, and `comcom`) will ignored.
+
+## Android-specific information
+
+You can use dots spinner animation:
+
+<preference name="ShowSplashScreenDotsSpinner" value="true" />
+
+But to make it work don't forget to set:
+
+<preference name="ShowSplashScreenSpinner" value="false" />
 
 ## Windows-specific information
 
-Splash screen images can be defined using the [MRT](https://cordova.apache.org/docs/en/dev/config_ref/images.html#windows) concept.  
-If you specify src="res/windows/splashscreen.png" the following files will be copied into the application's images folder:  
-`res/windows/splashscreen.png` | `res/windows/splashscreen.scale-100.png`, `res/windows/splashscreen.scale-125.png`, etc.  
+Splash screen images can be defined using the [MRT](https://cordova.apache.org/docs/en/dev/config_ref/images.html#windows) concept.
+If you specify src="res/windows/splashscreen.png" the following files will be copied into the application's images folder:
+`res/windows/splashscreen.png` | `res/windows/splashscreen.scale-100.png`, `res/windows/splashscreen.scale-125.png`, etc.
 The following are supported:
 
 |   Scale, %   |       Project       |    Width    |    Height    |             Filename              |
@@ -272,8 +282,8 @@ The following are supported:
 |     140      |  Windows Phone 8.1  |     672     |     1120     | `splashscreenphone.scale-140.png` |
 |     240      |  Windows Phone 8.1  |     1152    |     1920     | `splashscreenphone.scale-240.png` |
 
-__Note__: SplashScreens size for Windows 10 project should not exceed 200 KBytes.  
-__Note__: Supported formats are `.png`, `.jpg`, `.jpeg`. Mixing of the extensions within a target is not supported. I.e. you can have `splashscreen.jpg` and `splashscreenphone.png` but not `splashscreen.scale-100.png`, `splashscreen.scale-400.jpg`.  
+__Note__: SplashScreens size for Windows 10 project should not exceed 200 KBytes.
+__Note__: Supported formats are `.png`, `.jpg`, `.jpeg`. Mixing of the extensions within a target is not supported. I.e. you can have `splashscreen.jpg` and `splashscreenphone.png` but not `splashscreen.scale-100.png`, `splashscreen.scale-400.jpg`.
 __Note__: You may need to reopen Visual Studio solution after changing the images and doing a `cordova prepare` for the changes to take effect.
 
 ## Example Configuration
@@ -328,7 +338,7 @@ projectRoot
     <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
     <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
     <!-- Storyboard method (supports all devices):
-      -- Important: If you use the storyboard method, legacy images are 
+      -- Important: If you use the storyboard method, legacy images are
       -- copied but ignored.
       -- Note: images are determined by scale, idiom, and size traits. The following
       -- are suggested based on current device form factors -->
@@ -338,7 +348,7 @@ projectRoot
     <splash src="res/screen/ios/Default@3x~universal~anyany.png" />
     <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
     <splash src="res/screen/ios/Default@3x~universal~comany.png" />
-    
+
 </platform>
 
 <!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
@@ -385,7 +395,7 @@ To disable the splashscreen add the following preference to `config.xml`:
 <preference name="SplashScreenDelay" value="0"/>
 ```
 
-**Windows Quirk**: You should disable the splashscreen in case you are updating the entire document body dynamically (f.e. with a SPA router) to avoid affecting UI/controls.  
+**Windows Quirk**: You should disable the splashscreen in case you are updating the entire document body dynamically (f.e. with a SPA router) to avoid affecting UI/controls.
 Note that you should also directly reference `WinJS/base.js` in the page HTML in this case to avoid the issues with activation context ([CB-11658](https://issues.apache.org/jira/browse/CB-11658)).
 
 **iOS Quirk**: to disable the splashscreen on `ios` platform you should also add `<preference name="FadeSplashScreenDuration" value="0"/>` to `config.xml`.

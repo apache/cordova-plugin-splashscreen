@@ -27,6 +27,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -38,7 +39,10 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.RelativeLayout;
+import android.util.TypedValue;
+import android.graphics.Typeface;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -55,6 +59,7 @@ public class SplashScreen extends CordovaPlugin {
     private static final int DEFAULT_FADE_DURATION = 500;
     private static Dialog splashDialog;
     private static ProgressDialog spinnerDialog;
+    private static TextView textDots;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
 
@@ -63,6 +68,8 @@ public class SplashScreen extends CordovaPlugin {
      */
     private ImageView splashImageView;
 
+    private Handler mTextSwitchingHandler;
+    private Runnable mTextSwitchingRunnable;    
     /**
      * Remember last device orientation to detect orientation changes.
      */
@@ -325,6 +332,9 @@ public class SplashScreen extends CordovaPlugin {
 
                 if (preferences.getBoolean("ShowSplashScreenSpinner", true)) {
                     spinnerStart();
+                } else if (preferences.getBoolean("ShowSplashScreenDotsSpinner", true)) {
+                    // by default ShowSplashScreenSpinner is true, so we need to set it false to got there
+                    dotsStart();
                 }
 
                 // Set Runnable to remove splash screen just in case
@@ -338,6 +348,45 @@ public class SplashScreen extends CordovaPlugin {
                         }
                     }, effectiveSplashDuration);
                 }
+            }
+        });
+    }
+    
+    private void dotsStart() {
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            public void run() {
+                spinnerStop();
+
+                spinnerDialog = new ProgressDialog(webView.getContext());
+                spinnerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                        spinnerDialog = null;
+                    }
+                });
+
+                spinnerDialog.setCancelable(false);
+                spinnerDialog.setIndeterminate(true);
+
+                RelativeLayout centeredLayout = new RelativeLayout(cordova.getActivity());
+                centeredLayout.setGravity(Gravity.CENTER);
+                centeredLayout.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+                textDots = new TextView(cordova.getActivity());
+                textDots.setMinimumWidth((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 30, cordova.getActivity().getResources().getDisplayMetrics()));
+                textDots.setText("...");
+                textDots.setTextSize(TypedValue.COMPLEX_UNIT_SP, 34);
+                textDots.setTextColor(Color.WHITE);
+                textDots.setTypeface(Typeface.DEFAULT_BOLD);
+
+                centeredLayout.addView(textDots);
+
+                startLoadingDotsAnimation();
+
+                spinnerDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                spinnerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                spinnerDialog.show();
+                spinnerDialog.setContentView(centeredLayout);
             }
         });
     }
@@ -378,6 +427,46 @@ public class SplashScreen extends CordovaPlugin {
         });
     }
 
+    private void startLoadingDotsAnimation() {
+        if(mTextSwitchingHandler == null) {
+            mTextSwitchingHandler = new Handler(Looper.getMainLooper());
+            mTextSwitchingRunnable = new Runnable() {
+                int loadingIndex = 0;
+                @Override
+                public void run() {
+                    switch(loadingIndex % 4) {
+                        case 0:
+                            changeLoadingMessage(".");
+                            break;
+                        case 1:
+                            changeLoadingMessage("..");
+                            break;
+                        case 2:
+                            changeLoadingMessage("...");
+                            break;
+                        case 3:
+                            changeLoadingMessage("");
+                            break;
+                    }
+                    loadingIndex++;
+                    mTextSwitchingHandler.postDelayed(this, 500);
+                }
+            };
+            mTextSwitchingHandler.post(mTextSwitchingRunnable);
+        }
+    }
+    
+    private void changeLoadingMessage(String msg) {
+        textDots.setText(msg);
+    }
+
+    private void dotsStop() {
+        if (mTextSwitchingHandler != null) {
+            mTextSwitchingHandler.removeMessages(0);        
+            mTextSwitchingHandler = null;
+        }
+    }
+
     private void spinnerStop() {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
@@ -385,6 +474,7 @@ public class SplashScreen extends CordovaPlugin {
                     spinnerDialog.dismiss();
                     spinnerDialog = null;
                 }
+                dotsStop();
             }
         });
     }
