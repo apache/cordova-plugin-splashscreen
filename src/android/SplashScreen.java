@@ -58,6 +58,7 @@ public class SplashScreen extends CordovaPlugin {
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
+    private static boolean removeOnPause = true;
 
     /**
      * Displays the splash drawable.
@@ -116,6 +117,10 @@ public class SplashScreen extends CordovaPlugin {
         if (preferences.getBoolean("SplashShowOnlyFirstTime", true)) {
             firstShow = false;
         }
+
+        if (! preferences.getBoolean("RemoveSplashScreenOnPause", true)) {
+            removeOnPause = false;
+        }
     }
 
     /**
@@ -143,8 +148,11 @@ public class SplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
-        // hide the splash screen to avoid leaking a window
-        this.removeSplashScreen(true);
+        // hide the splash screen to avoid leaking a window,
+        // though allow app to override
+        if (removeOnPause) {
+            this.removeSplashScreen(true);
+        }
     }
 
     @Override
