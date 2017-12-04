@@ -174,7 +174,7 @@
     // this is appropriate for detecting the runtime screen environment
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
-
+    device.iPhoneX = (device.iPhone && limit == 812.0);
     return device;
 }
 
@@ -283,7 +283,11 @@
             }
         }
     }
-
+    // return this image if device is IPnone X
+ 
+    if (device.iPhoneX) { // does not support landscape
+         imageName = @"LaunchImage-1100-Portrait-2436h@3x";
+    }
     return imageName;
 }
 
