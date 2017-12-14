@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="cordova-plugin-splashscreen"
-      version="4.1.1-dev">
+      version="5.0.0-dev">
     <name>Splashscreen</name>
     <description>Cordova Splashscreen Plugin</description>
     <license>Apache 2.0</license>
@@ -49,23 +49,6 @@
         <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
     </platform>
 
-    <!-- amazon-fireos -->
-    <platform name="amazon-fireos">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="SplashScreen">
-            <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
-    </platform>
-
-    <!-- ubuntu -->
-    <platform name="ubuntu">
-        <header-file src="src/ubuntu/splashscreen.h" />
-        <source-file src="src/ubuntu/splashscreen.cpp" />
-    </platform>
-
     <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -83,45 +66,9 @@
 	    <framework src="CoreGraphics.framework" />
     </platform>
 
-    <!-- blackberry10 -->
-    <platform name="blackberry10">
-        <source-file src="src/blackberry10/index.js" target-dir="SplashScreen" />
-        <config-file target="www/config.xml" parent="/widget">
-            <feature name="SplashScreen" value="SplashScreen"/>
-        </config-file>
-    </platform>
-
-    <!-- wp8 -->
-    <platform name="wp8">
-        <config-file target="config.xml" parent="/*">
-            <feature name="SplashScreen">
-                <param name="wp-package" value="SplashScreen"/>
-                <param name="onload" value="true"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/wp/SplashScreen.cs" />
-        <source-file src="src/wp/ResolutionHelper.cs" />
-
-    </platform>
-
-    <!-- windows8 -->
-    <platform name="windows8">
-        <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
-            <runs />
-        </js-module>
-    </platform>
-
     <!-- windows -->
     <platform name="windows">
         <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
-            <runs />
-        </js-module>
-    </platform>
-
-    <!-- tizen -->
-    <platform name="tizen">
-        <js-module src="src/tizen/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
         </js-module>
     </platform>

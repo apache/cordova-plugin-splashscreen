@@ -1,20 +1,16 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "4.1.1-dev",
+  "version": "5.0.0-dev",
   "description": "Cordova Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
     "id": "cordova-plugin-splashscreen",
     "platforms": [
       "android",
-      "amazon-fireos",
       "ubuntu",
       "ios",
-      "blackberry10",
-      "wp8",
-      "windows8",
       "windows",
-      "tizen"
+      "browser"
     ]
   },
   "repository": {
@@ -29,14 +25,8 @@
     "splashscreen",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-amazon-fireos",
-    "cordova-ubuntu",
     "cordova-ios",
-    "cordova-blackberry10",
-    "cordova-wp8",
-    "cordova-windows8",
-    "cordova-windows",
-    "cordova-tizen"
+    "cordova-windows"
   ],
   "scripts": {
     "test": "npm run jshint",

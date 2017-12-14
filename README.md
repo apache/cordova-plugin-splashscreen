@@ -41,11 +41,8 @@ Report issues with this plugin on the [Apache Cordova issue tracker][Apache Cord
 
 ## Supported Platforms
 
-- Amazon Fire OS
 - Android
-- BlackBerry 10
 - iOS
-- Windows Phone 7 and 8
 - Windows (`cordova-windows` version >= 4.4.0 is required)
 - Browser
 
@@ -353,12 +350,6 @@ projectRoot
     <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
 </platform>-->
 
-<platform name="blackberry10">
-    <!-- Add a rim:splash element for each resolution and locale you wish -->
-    <!-- http://developer.blackberry.com/html5/documentation/rim_splash_element.html -->
-    <rim:splash src="res/screen/blackberry/splashscreen.png"/>
-</platform>
-
 <preference name="SplashScreenDelay" value="10000" />
 ```
 
@@ -499,7 +490,7 @@ navigator.splashscreen.hide();
 ```
 
 
-### BlackBerry 10, WP8, iOS Quirk
+### iOS Quirk
 
 The `config.xml` file's `AutoHideSplashScreen` setting must be
 `false`. To delay hiding the splash screen for two seconds, add a
