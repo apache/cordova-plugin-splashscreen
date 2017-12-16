@@ -20,6 +20,9 @@
 -->
 # Release Notes
 
+### 5.0.0 (Dec 15, 2017)
+* [CB-13677](https://issues.apache.org/jira/browse/CB-13677) Remove deprecated platforms
+
 ### 4.1.0 (Nov 06, 2017)
 * [CB-13473](https://issues.apache.org/jira/browse/CB-13473) (CI) Removed **Browser** builds from AppVeyor
 * [CB-12011](https://issues.apache.org/jira/browse/CB-12011) (android) added the possibility to change the spinner color on **Android 5.0**+ apps
