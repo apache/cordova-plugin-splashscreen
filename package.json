@@ -41,7 +41,7 @@
         "cordova-android": ">=3.6.0",
         "cordova-windows": ">=4.4.0"
       },
-      "5.0.0": {
+      "6.0.0": {
         "cordova": ">100"
       }
     }
