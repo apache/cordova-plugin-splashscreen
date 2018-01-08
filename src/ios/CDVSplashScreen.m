@@ -174,6 +174,7 @@
     // this is appropriate for detecting the runtime screen environment
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
+    device.iPhoneX = (device.iPhone && limit == 812.0);
 
     return device;
 }
@@ -259,6 +260,26 @@
         }
         imageName = [imageName stringByAppendingString:@"-736h"];
 
+    }
+    else if (device.iPhoneX)
+    { // supports landscape
+        if (isOrientationLocked)
+        {
+            imageName = [imageName stringByAppendingString:(supportsLandscape ? @"-Landscape" : @"")];
+        }
+        else
+        {
+            switch (currentOrientation)
+            {
+                case UIInterfaceOrientationLandscapeLeft:
+                case UIInterfaceOrientationLandscapeRight:
+                    imageName = [imageName stringByAppendingString:@"-Landscape"];
+                    break;
+                default:
+                    break;
+            }
+        }
+        imageName = [imageName stringByAppendingString:@"-2436h"];
     }
     else if (device.iPad)
     {   // supports landscape
@@ -370,7 +391,7 @@
      * correctly.
      */
     CDV_iOSDevice device = [self getCurrentDevice];
-    if (UIInterfaceOrientationIsLandscape(orientation) && !device.iPhone6Plus && !device.iPad)
+    if (UIInterfaceOrientationIsLandscape(orientation) && !device.iPhone6Plus && !device.iPhoneX && !device.iPad)
     {
         imgTransform = CGAffineTransformMakeRotation(M_PI / 2);
         imgBounds.size = CGSizeMake(imgBounds.size.height, imgBounds.size.width);
