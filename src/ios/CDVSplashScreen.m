@@ -60,6 +60,63 @@
     [self updateImage];
 }
 
+- (UIColor *)colorFromHexString:(NSString *)hexString {
+    unsigned rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner setScanLocation:1]; // bypass '#' character
+    [scanner scanHexInt:&rgbValue];
+    return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
+}
+
+-(UIImage*) drawText:(NSString*) text inImage:(UIImage*) image gravity:(NSString*) gravity fontSize:(CGFloat) fontSize fontColor:(NSString*) fontColor
+{
+
+    UIFont *font = [UIFont boldSystemFontOfSize:fontSize];
+    UIGraphicsBeginImageContext(image.size);
+    [image drawInRect:CGRectMake(0,0,image.size.width,image.size.height)];
+
+    UIScreen* mainScreen = [UIScreen mainScreen];
+    CGFloat mainScreenHeight = mainScreen.bounds.size.height;
+    CGFloat mainScreenWidth = mainScreen.bounds.size.width;
+
+    CGSize textSize = [text sizeWithFont:font];
+    CGFloat padding = 15.0;
+    CGFloat position = mainScreenWidth - (textSize.width + padding);
+
+    if([gravity isEqualToString:@"left"]) {
+        position = padding;
+    } else if ([gravity isEqualToString:@"center"]) {
+        position = (mainScreenWidth / 2) - padding;
+    }
+
+    CGRect rect = CGRectMake(position, mainScreenHeight - 30.0, textSize.width, textSize.height);
+    UIColor *color = [self colorFromHexString:fontColor];
+    [color set];
+    [text drawInRect:CGRectIntegral(rect) withFont:font];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return newImage;
+}
+
+
+-(NSString*) getAppVersion
+{
+    NSString* version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+
+    if (version == nil) {
+      NSLog(@"CFBundleShortVersionString was nil, attempting CFBundleVersion");
+      version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    }
+
+
+    if(version != nil) {
+        version = [NSString stringWithFormat:@"v%@", version];
+    }
+
+    return version;
+}
+
 - (void)createViews
 {
     /*
@@ -340,6 +397,38 @@
     if (![imageName isEqualToString:_curImageName])
     {
         UIImage* img = [UIImage imageNamed:imageName];
+
+        id showSplashScreenAppVersion = [self.commandDelegate.settings objectForKey:[@"ShowSplashScreenAppVersion" lowercaseString]];
+
+        if(showSplashScreenAppVersion) {
+
+            // add Version
+            NSString *app_version = [self getAppVersion];
+
+            if(app_version != nil) {
+
+              NSString *Gravity = [self.commandDelegate.settings objectForKey:[@"SplashScreenAppVersionGravity" lowercaseString]];
+
+              NSString *splashScreenAppVersionSize = [self.commandDelegate.settings objectForKey:[@"SplashScreenAppVersionSize" lowercaseString]];
+
+              if(splashScreenAppVersionSize == nil) {
+                  splashScreenAppVersionSize = @"20";
+              }
+
+
+              CGFloat size = [splashScreenAppVersionSize integerValue];
+
+              NSString *color = [self.commandDelegate.settings objectForKey:[@"SplashScreenAppVersionColor" lowercaseString]];
+
+              if(color == nil) {
+                  color = @"#FFFFFF";
+              }
+
+              img = [self drawText:app_version inImage:img gravity:Gravity fontSize:size fontColor:color];
+            }
+
+        }
+
         _imageView.image = img;
         _curImageName = imageName;
     }
@@ -362,7 +451,7 @@
         CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
         _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        return; 
+        return;
     }
 
     UIImage* img = _imageView.image;
