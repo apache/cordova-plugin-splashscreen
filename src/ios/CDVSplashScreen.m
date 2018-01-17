@@ -111,7 +111,15 @@
 
 
     if(version != nil) {
-        version = [NSString stringWithFormat:@"v%@", version];
+
+        id prefix = [self.commandDelegate.settings objectForKey:[@"SplashScreenAppVersionPrefix" lowercaseString]];
+
+        if(prefix != nil) {
+            version = [NSString stringWithFormat:@"%@%@", prefix, version];
+        } else {
+          version = [NSString stringWithFormat:@"%@", version];
+        }
+
     }
 
     return version;

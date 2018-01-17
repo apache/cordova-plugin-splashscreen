@@ -376,22 +376,35 @@ To disable the splashscreen add the following preference to `config.xml`:
 <preference name="SplashScreenDelay" value="0"/>
 ```
 
-#### Display app version (Android, iOS)
+##### Display app version (Android, iOS)
 
 To display your app version on splashscreen add the following preference to `config.xml`:
 ```xml
 <preference name="ShowSplashScreenAppVersion" value="true" />
 ```
 
-To customise the version color, size and position add the following preference to `config.xml`:
+Now just configure your app version into the widget version attribute, like that : 
+```xml
+<widget version="1.0" >...</widget>
+```
+
+
+###### Prefix app version
+To set a prefix version add the following preference to `config.xml`:
+```xml
+<preference name="ShowSplashScreenAppPrefix" value="v" />
+```
+In this case you'll have `v1.0`
+
+
+###### Customize app version
+To customise the version color, size and horizontal position add the following preference to `config.xml`:
 ```xml
 <preference name="SplashScreenAppVersionColor" value="#FFFFFF" />
 <preference name="SplashScreenAppVersionSize" value="20" />
-<preference name="SplashScreenAppVersionGravity" value="right" />
+<preference name="SplashScreenAppVersionGravity" value="left|center|right" />
 ```
-**Note**: those values are defaults.
-For the horizontal gravity, you may choose between `left`, `center` and `right`.
-For the vertical gravity, you don't have choice, text is placed at the bottom of the splashscreen.
+
 
 **Windows Quirk**: You should disable the splashscreen in case you are updating the entire document body dynamically (f.e. with a SPA router) to avoid affecting UI/controls.  
 Note that you should also directly reference `WinJS/base.js` in the page HTML in this case to avoid the issues with activation context ([CB-11658](https://issues.apache.org/jira/browse/CB-11658)).

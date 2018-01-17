@@ -439,7 +439,7 @@ public class SplashScreen extends CordovaPlugin {
         PackageManager packageManager = cordova.getActivity().getApplicationContext().getPackageManager();
         PackageInfo pi = packageManager.getPackageInfo(packageName, 0);
 
-        appVersion = "v" + pi.versionName;
+        appVersion = preferences.getString("SplashScreenAppVersionPrefix", "") + pi.versionName;
 
       } catch(Exception e) {
         e.printStackTrace();
