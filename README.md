@@ -392,7 +392,7 @@ Now just configure your app version into the widget version attribute, like that
 ###### Prefix app version
 To set a prefix version add the following preference to `config.xml`:
 ```xml
-<preference name="ShowSplashScreenAppPrefix" value="v" />
+<preference name="SplashScreenAppVersionPrefix" value="v" />
 ```
 In this case you'll have `v1.0`
 
