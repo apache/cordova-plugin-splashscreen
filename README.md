@@ -377,28 +377,36 @@ To disable the splashscreen add the following preference to `config.xml`:
 ```
 
 ##### Display app version (Android, iOS)
+- `ShowSplashScreenAppVersion` (boolean, default to `true`): Indicates that you wish to display app version on splashscreen.
 
-To display your app version on splashscreen add the following preference to `config.xml`:
 ```xml
 <preference name="ShowSplashScreenAppVersion" value="true" />
 ```
 
-Now just configure your app version into the widget version attribute, like that : 
-```xml
-<widget version="1.0" >...</widget>
-```
+Please refer to the Cordova documentation, part [config.xml](https://cordova.apache.org/docs/en/latest/config_ref/index.html#widget) to configure your version.
 
 
 ###### Prefix app version
-To set a prefix version add the following preference to `config.xml`:
+- `SplashScreenAppVersionPrefix` (string): Append a prefix version.
+
 ```xml
 <preference name="SplashScreenAppVersionPrefix" value="v" />
 ```
-In this case you'll have `v1.0`
+
+This will be combined with your `version` value to e.g. `v1.0`.
+
+![Splashscreen Version](splash.jpg)
 
 
 ###### Customize app version
-To customise the version color, size and horizontal position add the following preference to `config.xml`:
+To customise the version color, size and horizontal position add the following preferences to `config.xml`:
+
+- `SplashScreenAppVersionColor` (string, default to `#FFFFFF`): Set the hexadecimal color of the label.
+
+- `SplashScreenAppVersionSize` (int, default to `20`): Specify the label size in pixels.
+
+- `SplashScreenAppVersionGravity` (string, default to `right`): Set the horizontal position of the label.
+
 ```xml
 <preference name="SplashScreenAppVersionColor" value="#FFFFFF" />
 <preference name="SplashScreenAppVersionSize" value="20" />
