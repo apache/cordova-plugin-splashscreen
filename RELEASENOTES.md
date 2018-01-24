@@ -20,6 +20,10 @@
 -->
 # Release Notes
 
+### 5.0.2 (Jan 24, 2018)
+* [CB-13750](https://issues.apache.org/jira/browse/CB-13750) Add build-tools-26.0.2 to travis
+* [CB-13737](https://issues.apache.org/jira/browse/CB-13737) (iOS): fix Splash screen images for iPhone X
+
 ### 5.0.1 (Dec 27, 2017)
 * [CB-13709](https://issues.apache.org/jira/browse/CB-13709) Fix to allow 5.0.0 version install (#144)
 
