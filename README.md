@@ -395,9 +395,6 @@ Please refer to the Cordova documentation, part [config.xml](https://cordova.apa
 
 This will be combined with your `version` value to e.g. `v1.0`.
 
-![Splashscreen Version](splash.jpg)
-
-
 ###### Customize app version
 To customise the version color, size and horizontal position add the following preferences to `config.xml`:
 
