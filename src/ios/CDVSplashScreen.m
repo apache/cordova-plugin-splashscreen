@@ -89,7 +89,7 @@
         position = (mainScreenWidth / 2) - padding;
     }
 
-    CGRect rect = CGRectMake(position, mainScreenHeight - 30.0, textSize.width, textSize.height);
+    CGRect rect = CGRectMake(position, mainScreenHeight - 44.0, textSize.width, textSize.height);
     UIColor *color = [self colorFromHexString:fontColor];
     [color set];
     [text drawInRect:CGRectIntegral(rect) withFont:font];
