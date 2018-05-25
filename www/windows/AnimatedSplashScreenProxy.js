@@ -21,7 +21,7 @@
 
 /*jslint sloppy:true */
 
-var splash = require('cordova/splashscreen');
+var splash = require('cordova/animatedSplashScreen');
 
 var SplashScreen = {
     show: function () {
@@ -32,6 +32,6 @@ var SplashScreen = {
     }
 };
 
-module.exports = SplashScreen;
+module.exports = AnimatedSplashScreen;
 
-require("cordova/exec/proxy").add("SplashScreen", SplashScreen);
+require("cordova/exec/proxy").add("AnimatedSplashScreen", AnimatedSplashScreen);

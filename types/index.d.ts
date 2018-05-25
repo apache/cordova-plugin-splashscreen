@@ -8,7 +8,7 @@
 
 interface Navigator {
     /** This plugin displays and hides a splash screen during application launch. */
-    splashscreen: {
+    animatedSplashScreen: {
         /** Dismiss the splash screen. */
         hide(): void;
         /** Displays the splash screen. */

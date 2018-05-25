@@ -17,16 +17,16 @@
  under the License.
  */
 
-#import "CDVSplashScreen.h"
+#import "AnimatedSplashScreen.h"
 #import <Cordova/CDVViewController.h>
 #import <Cordova/CDVScreenOrientationDelegate.h>
-#import "CDVViewController+SplashScreen.h"
+#import "AnimatedViewController+SplashScreen.h"
 
 #define kSplashScreenDurationDefault 3000.0f
 #define kFadeDurationDefault 500.0f
 
 
-@implementation CDVSplashScreen
+@implementation AnimatedSplashScreen
 
 - (void)pluginInitialize
 {
@@ -339,8 +339,24 @@
 
     if (![imageName isEqualToString:_curImageName])
     {
-        UIImage* img = [UIImage imageNamed:imageName];
-        _imageView.image = img;
+//        UIImage* img = [UIImage imageNamed:imageName];
+        NSMutableArray *animatedImagesArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"animated-1.png"], [UIImage imageNamed:@"animated-2.png"],  [UIImage imageNamed:@"animated-3.png"],  [UIImage imageNamed:@"animated-4.png"], [UIImage imageNamed:@"animated-5.png"], nil];
+        //OR:
+//        for (int i = 1; i < 6; i++)
+//        {
+//            [animatedImagesArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"animated-%d%@", i, @".png"]]];
+//        }
+
+        _imageView.animationImages = animatedImagesArray;
+        _imageView.animationDuration = 5.0f;
+        _imageView.animationRepeatCount = 5.0f;
+
+        CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
+        _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+
+        [_imageView startAnimating];
+//        _imageView.image = img;
         _curImageName = imageName;
     }
 

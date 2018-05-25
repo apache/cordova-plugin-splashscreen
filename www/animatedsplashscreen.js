@@ -21,13 +21,13 @@
 
 var exec = require('cordova/exec');
 
-var splashscreen = {
+var animatedSplashScreen = {
     show:function() {
-        exec(null, null, "SplashScreen", "show", []);
+        exec(null, null, "AnimatedSplashScreen", "show", []);
     },
     hide:function() {
-        exec(null, null, "SplashScreen", "hide", []);
+        exec(null, null, "AnimatedSplashScreen", "hide", []);
     }
 };
 
-module.exports = splashscreen;
+module.exports = animatedSplashScreen;

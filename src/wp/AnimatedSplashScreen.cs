@@ -38,7 +38,7 @@ namespace WPCordovaClassLib.Cordova.Commands
     /// Listens for changes to the state of the battery on the device.
     /// Currently only the "isPlugged" parameter available via native APIs.
     /// </summary>
-    public class SplashScreen : BaseCommand
+    public class AnimatedSplashScreen : BaseCommand
     {
         private Popup popup;
 
@@ -55,11 +55,11 @@ namespace WPCordovaClassLib.Cordova.Commands
         // subsequent page loads should not cause the SplashScreen to be shown.
         private static bool WasShown = false;
 
-        public SplashScreen()
+        public AnimatedSplashScreen()
         {
             LoadConfigPrefs();
 
-            Image SplashScreen = new Image()
+            Image AnimatedSplashScreen = new Image()
             {
                 Height = Application.Current.Host.Content.ActualHeight,
                 Width = Application.Current.Host.Content.ActualWidth,
@@ -71,12 +71,12 @@ namespace WPCordovaClassLib.Cordova.Commands
             {
                 BitmapImage splash_image = new BitmapImage();
                 splash_image.SetSource(imageResource.Stream);
-                SplashScreen.Source = splash_image;
+                AnimatedSplashScreen.Source = splash_image;
             }
 
             // Instansiate the popup and set the Child property of Popup to SplashScreen
             popup = new Popup() { IsOpen = false,
-                                  Child = SplashScreen,
+                                  Child = AnimatedSplashScreen,
                                   HorizontalAlignment = HorizontalAlignment.Stretch,
                                   VerticalAlignment = VerticalAlignment.Center
 
@@ -87,9 +87,9 @@ namespace WPCordovaClassLib.Cordova.Commands
         {
             // we only want to autoload on the first page load.
             // but OnInit is called for every page load.
-            if (!SplashScreen.WasShown)
+            if (!AnimatedSplashScreen.WasShown)
             {
-                SplashScreen.WasShown = true;
+                AnimatedSplashScreen.WasShown = true;
                 show();
             }
         }
@@ -106,7 +106,7 @@ namespace WPCordovaClassLib.Cordova.Commands
 
                     string configAutoHide = configFile.Descendants()
                                         .Where(x => x.Name.LocalName == "preference")
-                                        .Where(x => (string)x.Attribute("name") == "AutoHideSplashScreen")
+                                        .Where(x => (string)x.Attribute("name") == "AutoHideAnimatedSplashScreen")
                                         .Select(x => (string)x.Attribute("value"))
                                         .FirstOrDefault();
 
@@ -115,7 +115,7 @@ namespace WPCordovaClassLib.Cordova.Commands
 
                     string configDelay = configFile.Descendants()
                                       .Where(x => x.Name.LocalName == "preference")
-                                      .Where(x => (string)x.Attribute("name") == "SplashScreenDelay")
+                                      .Where(x => (string)x.Attribute("name") == "AnimatedSplashScreenDelay")
                                       .Select(x => (string)x.Attribute("value"))
                                       .FirstOrDefault();
                     int nVal;
@@ -123,7 +123,7 @@ namespace WPCordovaClassLib.Cordova.Commands
 
                     string configImage = configFile.Descendants()
                                         .Where(x => x.Name.LocalName == "preference")
-                                        .Where(x => (string)x.Attribute("name") == "SplashScreen")
+                                        .Where(x => (string)x.Attribute("name") == "AnimatedSplashScreen")
                                         .Select(x => (string)x.Attribute("value"))
                                         .FirstOrDefault();
 
@@ -176,7 +176,7 @@ namespace WPCordovaClassLib.Cordova.Commands
                 imageResource = Application.GetResourceStream(imageUri);
             }
 
-            if (imageUri != null) Debug.WriteLine("INFO :: SplashScreen: using image {0}", imageUri.OriginalString);
+            if (imageUri != null) Debug.WriteLine("INFO :: AnimatedSplashScreen: using image {0}", imageUri.OriginalString);
 
             return imageResource;
         }
