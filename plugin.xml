@@ -20,12 +20,12 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-animated-splashscreen"
       version="5.0.3-dev">
-    <name>Splashscreen</name>
+    <name>AnimatedSplashScreen</name>
     <description>Cordova Animated Splashscreen Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,splashscreen,animated,animation</keywords>
-    <repo>https://github.com/kitolog/cordova-plugin-splashscreen</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320653</issue>
+    <repo>https://github.com/kitolog/cordova-plugin-animated-splashscreen</repo>
+    <issue>https://github.com/kitolog/cordova-plugin-animated-splashscreen</issue>
 
     <engines>
         <engine name="cordova-android" version=">=3.6.0" /><!-- Requires CordovaPlugin.preferences -->
