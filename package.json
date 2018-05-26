@@ -7,10 +7,7 @@
     "id": "cordova-plugin-animated-splashscreen",
     "platforms": [
       "android",
-      "ubuntu",
-      "ios",
-      "windows",
-      "browser"
+      "ios"
     ]
   },
   "repository": {
@@ -27,8 +24,7 @@
     "animated splashscreen",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-ios",
-    "cordova-windows"
+    "cordova-ios"
   ],
   "scripts": {
     "test": "npm run jshint",

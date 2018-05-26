@@ -12,14 +12,57 @@ and
 3. API is the same as in [cordova-plugin-splashscreen](https://github.com/apache/cordova-plugin-splashscreen) 
 
 ###Add to config.xml:
+####Common:
+Duration in seconds
+
+`<preference name="AnimatedSplashScreenAnimationDuration" value="5" />`
+
+Repeat count
+
+0 - no repeat
+
+`<preference name="AnimatedSplashScreenAnimationRepeatCount" value="0" />`
+
 ####iOS
-`<platform name="ios">
-...
-<custom-resource type="image" src="resources/ios/splash/animated-1.png" catalog="animated-splashscreen" scale="1x" idiom="universal" />
-        <custom-resource type="image" src="resources/ios/splash/animated-2.png" catalog="animated-splashscreen" scale="1x" idiom="universal" />
-        ...</platform>
+
+IOS Images Order:
+
+`<preference name="AnimatedSplashScreenIosImages" value="animated-1.png,animated-2.png,animated-3.png,animated-4.png,animated-5.png" />`
+
+`...`
+
+IOS Images paths:
+
+`<platform name="ios">`
+
+`...`
+
+`<custom-resource catalog="animated-1" idiom="universal" scale="1x" src="resources/ios/splash/animated-1.png" type="image" />`
+
+`<custom-resource catalog="animated-2" idiom="universal" scale="1x" src="resources/ios/splash/animated-2.png" type="image" />`
+
+`...</platform>`
 `
 ####Android
+
+Android Images Order:
+
+`<preference name="AnimatedSplashScreenAndroidImages" value="animated-1.png,animated-2.png,animated-3.png,animated-4.png,animated-5.png" />`
+
+`...`
+
+Android Images paths:
+
+`<platform name="ios">`
+
+`...`
+
+`<custom-resource catalog="animated-1" idiom="universal" scale="1x" src="resources/ios/splash/animated-1.png" type="image" />`
+
+`<custom-resource catalog="animated-2" idiom="universal" scale="1x" src="resources/ios/splash/animated-2.png" type="image" />`
+
+`...</platform>`
+
 not ready yet
 
 

@@ -340,16 +340,35 @@
     if (![imageName isEqualToString:_curImageName])
     {
 //        UIImage* img = [UIImage imageNamed:imageName];
-        NSMutableArray *animatedImagesArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"animated-1.png"], [UIImage imageNamed:@"animated-2.png"],  [UIImage imageNamed:@"animated-3.png"],  [UIImage imageNamed:@"animated-4.png"], [UIImage imageNamed:@"animated-5.png"], nil];
-        //OR:
-//        for (int i = 1; i < 6; i++)
-//        {
-//            [animatedImagesArray addObject:[UIImage imageNamed:[NSString stringWithFormat:@"animated-%d%@", i, @".png"]]];
-//        }
+//        AnimatedSplashScreenIosImages
+        NSString *imagesListString = [self.commandDelegate.settings objectForKey:[@"AnimatedSplashScreenIosImages" lowercaseString]];
+        NSString *animationDurationString = [self.commandDelegate.settings objectForKey:[@"AnimatedSplashScreenAnimationDuration" lowercaseString]];
+        float animationDuration = [animationDurationString floatValue];
+        if(!animationDuration){
+            animationDuration = 5.0f;
+        }
+
+        NSNumber *animationRepeatCountString = [self.commandDelegate.settings objectForKey:[@"AnimatedSplashScreenAnimationRepeatCount" lowercaseString]];
+
+        float animationRepeatCount = [animationRepeatCountString floatValue];
+        if(isnan(animationRepeatCount)){
+            animationRepeatCount = 5.0f;
+        }
+
+        NSArray *animationSlides = [imagesListString componentsSeparatedByCharactersInSet:
+                            [NSCharacterSet characterSetWithCharactersInString:@",/"]
+                            ];
+
+        NSMutableArray *animatedImagesArray =  [[NSMutableArray alloc] init];
+        for(int i = 0; i < animationSlides.count; i++){
+            [animatedImagesArray addObject:[UIImage imageNamed: animationSlides[i]]];
+        }
+
+//        NSMutableArray *animatedImagesArray = [[NSMutableArray alloc] initWithObjects:[UIImage imageNamed:@"animated-1.png"], [UIImage imageNamed:@"animated-2.png"],  [UIImage imageNamed:@"animated-3.png"],  [UIImage imageNamed:@"animated-4.png"], [UIImage imageNamed:@"animated-5.png"], nil];
 
         _imageView.animationImages = animatedImagesArray;
-        _imageView.animationDuration = 5.0f;
-        _imageView.animationRepeatCount = 5.0f;
+        _imageView.animationDuration = animationDuration;
+        _imageView.animationRepeatCount = animationRepeatCount;
 
         CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
         _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
@@ -378,7 +397,7 @@
         CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
         _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
-        return; 
+        return;
     }
 
     UIImage* img = _imageView.image;
