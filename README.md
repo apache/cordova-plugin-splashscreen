@@ -57,13 +57,11 @@ Android Images paths:
 
 `...`
 
-`<custom-resource catalog="animated-1" idiom="universal" scale="1x" src="resources/ios/splash/animated-1.png" type="image" />`
-
-`<custom-resource catalog="animated-2" idiom="universal" scale="1x" src="resources/ios/splash/animated-2.png" type="image" />`
+`<resource-file src="resources/android/splash/animated-1.png" target="res/drawable-port-xxxhdpi/animated-1.png" />`
 
 `...</platform>`
 
-not ready yet
+Android not ready yet
 
 
 ## What's new

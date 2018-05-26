@@ -266,6 +266,8 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", DEFAULT_SPLASHSCREEN_DURATION);
+        final int animationDuration = preferences.getInteger("AnimatedSplashScreenAnimationDuration", 5);
+        final int repeatCount = preferences.getInteger("AnimatedSplashScreenAnimationRepeatCount", 1);
         final int drawableId = getSplashId();
 
         final int fadeSplashScreenDuration = getFadeDuration();
@@ -293,6 +295,20 @@ public class AnimatedSplashScreen extends CordovaPlugin {
 
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
+
+                int i = 0;
+                Runnable r = Runnable(){
+                    public void run(){
+                         splashImageView.setImageResource(mThumbIds[i]);
+                         i++;
+                         if(i >= mThumbIds.length){
+                             i = 0;
+                         }
+                         splashImageView.postDelayed(r, 3000); //set to go off again in 3 seconds.
+                     }
+                };
+
+
                 splashImageView.setImageResource(drawableId);
                 LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 splashImageView.setLayoutParams(layoutParams);
