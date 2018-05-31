@@ -47,17 +47,18 @@ IOS Images paths:
 
 Android Images Order:
 
-`<preference name="AnimatedSplashScreenAndroidImages" value="animated-1.png,animated-2.png,animated-3.png,animated-4.png,animated-5.png" />`
+`<preference name="AnimatedSplashScreenAndroidImages" value="animated1,animated2,animated3,animated4,animated5" />`
 
 `...`
 
 Android Images paths:
 
-`<platform name="ios">`
+`<platform name="android">`
 
 `...`
 
-`<resource-file src="resources/android/splash/animated-1.png" target="res/drawable-port-xxxhdpi/animated-1.png" />`
+`<resource-file src="resources/android/splash/animated-1.png" target="app/src/main/res/drawable/animated1.png" />`
+`<resource-file src="resources/android/splash/animated-2.png" target="app/src/main/res/drawable/animated2.png" />`
 
 `...</platform>`
 
@@ -66,3 +67,5 @@ Android not ready yet
 
 ## What's new
  - 1.0.0 - initial code, added iOS support
+ - 1.0.1 - added config params, updated iOS platform
+ - 1.0.2 - added Android package

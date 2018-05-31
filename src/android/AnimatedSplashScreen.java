@@ -28,6 +28,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -58,6 +59,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     private static ProgressDialog spinnerDialog;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
+    private int i = 0; // https://issues.apache.org/jira/browse/CB-9094
 
     /**
      * Displays the splash drawable.
@@ -72,9 +74,9 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     // Helper to be compile-time compatible with both Cordova 3.x and 4.x.
     private View getView() {
         try {
-            return (View)webView.getClass().getMethod("getView").invoke(webView);
+            return (View) webView.getClass().getMethod("getView").invoke(webView);
         } catch (Exception e) {
-            return (View)webView;
+            return (View) webView;
         }
     }
 
@@ -121,13 +123,13 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     /**
      * Shorter way to check value of "SplashMaintainAspectRatio" preference.
      */
-    private boolean isMaintainAspectRatio () {
+    private boolean isMaintainAspectRatio() {
         return preferences.getBoolean("SplashMaintainAspectRatio", false);
     }
 
-    private int getFadeDuration () {
+    private int getFadeDuration() {
         int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ?
-            preferences.getInteger("FadeSplashScreenDuration", DEFAULT_FADE_DURATION) : 0;
+                preferences.getInteger("FadeSplashScreenDuration", DEFAULT_FADE_DURATION) : 0;
 
         if (fadeSplashScreenDuration < 30) {
             // [CB-9750] This value used to be in decimal seconds, so we will assume that if someone specifies 10
@@ -265,9 +267,10 @@ public class AnimatedSplashScreen extends CordovaPlugin {
      */
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
-        final int splashscreenTime = preferences.getInteger("SplashScreenDelay", DEFAULT_SPLASHSCREEN_DURATION);
-        final int animationDuration = preferences.getInteger("AnimatedSplashScreenAnimationDuration", 5);
+        final int splashscreenTime = preferences.getInteger("AnimatedSplashScreenAnimationDuration", 5);
         final int repeatCount = preferences.getInteger("AnimatedSplashScreenAnimationRepeatCount", 1);
+        final String splashScreenImagesString = preferences.getString("AnimatedSplashScreenAndroidImages", "");
+        final String[] imagesArray = splashScreenImagesString.isEmpty() ? null : splashScreenImagesString.split(",");
         final int drawableId = getSplashId();
 
         final int fadeSplashScreenDuration = getFadeDuration();
@@ -287,6 +290,8 @@ public class AnimatedSplashScreen extends CordovaPlugin {
             return;
         }
 
+        this.i = 0;
+        final AnimatedSplashScreen _that = this;
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
                 // Get reference to display
@@ -296,20 +301,25 @@ public class AnimatedSplashScreen extends CordovaPlugin {
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
 
-                int i = 0;
-                Runnable r = Runnable(){
-                    public void run(){
-                         splashImageView.setImageResource(mThumbIds[i]);
-                         i++;
-                         if(i >= mThumbIds.length){
-                             i = 0;
-                         }
-                         splashImageView.postDelayed(r, 3000); //set to go off again in 3 seconds.
-                     }
-                };
+                if ((imagesArray != null) && imagesArray.length > 0) {
+                    String splashResource = imagesArray[i];
+                    int drawableId = 0;
+                    if (splashResource != null) {
+                        drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
+                        if (drawableId != 0) {
+                            splashImageView.setImageResource(drawableId);
+                            _that.i++;
+                            if (_that.i >= imagesArray.length) {
+                                _that.i = 0;
+                            }
 
+                            Log.d(LOG_TAG, "Display splash slide: " + splashResource);
+                            splashImageView.postDelayed(this, 3000); //set to go off again in 3 seconds.
+                        }
+                    }
+                }
 
-                splashImageView.setImageResource(drawableId);
+//                splashImageView.setImageResource(drawableId);
                 LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 splashImageView.setLayoutParams(layoutParams);
 
@@ -322,8 +332,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
                 if (isMaintainAspectRatio()) {
                     // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
                     splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                else {
+                } else {
                     // FIT_XY scales image non-uniformly to fit into image view.
                     splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 }
@@ -386,19 +395,19 @@ public class AnimatedSplashScreen extends CordovaPlugin {
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     String colorName = preferences.getString("SplashScreenSpinnerColor", null);
-                    if(colorName != null){
-                        int[][] states = new int[][] {
-                            new int[] { android.R.attr.state_enabled}, // enabled
-                            new int[] {-android.R.attr.state_enabled}, // disabled
-                            new int[] {-android.R.attr.state_checked}, // unchecked
-                            new int[] { android.R.attr.state_pressed}  // pressed
+                    if (colorName != null) {
+                        int[][] states = new int[][]{
+                                new int[]{android.R.attr.state_enabled}, // enabled
+                                new int[]{-android.R.attr.state_enabled}, // disabled
+                                new int[]{-android.R.attr.state_checked}, // unchecked
+                                new int[]{android.R.attr.state_pressed}  // pressed
                         };
                         int progressBarColor = Color.parseColor(colorName);
-                        int[] colors = new int[] {
-                            progressBarColor,
-                            progressBarColor,
-                            progressBarColor,
-                            progressBarColor
+                        int[] colors = new int[]{
+                                progressBarColor,
+                                progressBarColor,
+                                progressBarColor,
+                                progressBarColor
                         };
                         ColorStateList colorStateList = new ColorStateList(states, colors);
                         progressBar.setIndeterminateTintList(colorStateList);
