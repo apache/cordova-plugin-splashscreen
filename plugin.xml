@@ -45,8 +45,8 @@
         </config-file>
 
         <source-file src="src/android/AnimatedSplashScreen.java" target-dir="src/com/applurk/animatedsplashscreen" />
-        <source-file src="src/android/xml/launch_screen.xml" target-dir="res/xml" />
-        <source-file src="src/android/xml/styles.xml" target-dir="res/xml" />
+        <source-file src="src/android/xml/launch_screen.xml" target-dir="res/values" />
+        <source-file src="src/android/xml/styles.xml" target-dir="res/values" />
     </platform>
 
     <!-- ios -->
