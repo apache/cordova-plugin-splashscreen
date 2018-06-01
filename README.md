@@ -72,4 +72,5 @@ Android not ready yet
 ## What's new
  - 1.0.0 - initial code, added iOS support
  - 1.0.1 - added config params, updated iOS platform
- - 1.0.2 - added Android package
+ - 1.0.2 - added Android source
+ - 1.0.4 - optimized Android source
