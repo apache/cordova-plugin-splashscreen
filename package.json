@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-animated-splashscreen",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "Cordova Animated Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {

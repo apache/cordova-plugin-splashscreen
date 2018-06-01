@@ -18,7 +18,7 @@
   under the License.
 -->
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-animated-splashscreen" version="1.0.4">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-animated-splashscreen" version="1.0.7">
     <name>AnimatedSplashScreen</name>
     <description>Cordova Animated Splashscreen Plugin</description>
     <license>Apache 2.0</license>
@@ -45,6 +45,8 @@
         </config-file>
 
         <source-file src="src/android/AnimatedSplashScreen.java" target-dir="src/com/applurk/animatedsplashscreen" />
+        <resource-file src="src/android/launch_screen.xml" target-dir="res/values/launch_screen.xml" />
+        <resource-file src="src/android/styles.xml" target-dir="res/values/styles.xml" />
     </platform>
 
     <!-- ios -->
