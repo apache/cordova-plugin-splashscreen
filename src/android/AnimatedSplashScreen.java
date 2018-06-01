@@ -41,6 +41,8 @@ import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.concurrent.TimeUnit;
+
 public class AnimatedSplashScreen extends CordovaPlugin {
     private static final String LOG_TAG = "AnimatedSplashScreen";
     // Cordova 3.x.x has a copy of this plugin bundled with it (SplashScreenInternal.java).
@@ -51,8 +53,10 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     private static Dialog splashDialog;
     private static boolean firstShow = true;
     private static boolean lastHideAfterDelay; // https://issues.apache.org/jira/browse/CB-9094
-    private int animationImageIndex = 0;
+    //    private int animationImageIndex = 0;
     private int repeatIndex = 0;
+    private int drawableSlideId = 0;
+    Handler animationHandler;
 
     /**
      * Displays the splash drawable.
@@ -76,6 +80,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     private int getSplashId() {
         int drawableId = 0;
         String splashResource = preferences.getString("SplashScreen", "screen");
+        splashResource = "screen";
         if (splashResource != null) {
             drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
             if (drawableId == 0) {
@@ -158,13 +163,13 @@ public class AnimatedSplashScreen extends CordovaPlugin {
         if (action.equals("hide")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    webView.postMessage("splashscreen", "hide");
+                    webView.postMessage("animatedsplashscreen", "hide");
                 }
             });
         } else if (action.equals("show")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    webView.postMessage("splashscreen", "show");
+                    webView.postMessage("animatedsplashscreen", "show");
                 }
             });
         } else {
@@ -180,7 +185,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return null;
         }
-        if ("splashscreen".equals(id)) {
+        if ("animatedsplashscreen".equals(id)) {
             if ("hide".equals(data.toString())) {
                 this.removeSplashScreen(false);
             } else {
@@ -260,14 +265,27 @@ public class AnimatedSplashScreen extends CordovaPlugin {
      */
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
-        final int splashscreenTime = preferences.getInteger("AnimatedSplashScreenAnimationDuration", 5);
-        final int animationRepeatCount = preferences.getInteger("AnimatedSplashScreenAnimationRepeatCount", 1);
+        int splashscreenTime = preferences.getInteger("AnimatedSplashScreenAnimationDuration", 5);
+        if (splashscreenTime > 90) {
+            splashscreenTime = 90;
+        }
+
+        final int splashscreenTimeFinal = splashscreenTime;
+
+        int animationRepeatCount = preferences.getInteger("AnimatedSplashScreenAnimationRepeatCount", 1);
+        if (animationRepeatCount > 10) {
+            animationRepeatCount = 10;
+        }
+
+        final int animationRepeatCountFinal = animationRepeatCount;
+//        final int animationRepeatCount = 2;
         final String splashScreenImagesString = preferences.getString("AnimatedSplashScreenAndroidImages", "");
         final String[] imagesArray = splashScreenImagesString.isEmpty() ? null : splashScreenImagesString.split(",");
         final int drawableId = getSplashId();
 
+        this.animationHandler = new Handler();
+
         final int fadeSplashScreenDuration = getFadeDuration();
-        final int effectiveSplashDuration = Math.max(0, splashscreenTime - fadeSplashScreenDuration);
 
         lastHideAfterDelay = hideAfterDelay;
 
@@ -283,89 +301,98 @@ public class AnimatedSplashScreen extends CordovaPlugin {
             return;
         }
 
-        this.animationImageIndex = 0;
+        drawableSlideId = 0;
         this.repeatIndex = 0;
-        final AnimatedSplashScreen _that = this;
-        cordova.getActivity().runOnUiThread(new Runnable() {
+
+        Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
+        Context context = webView.getContext();
+
+        // Use an ImageView to render the image because of its flexible scaling options.
+        splashImageView = new ImageView(context);
+        LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        splashImageView.setLayoutParams(layoutParams);
+
+        splashImageView.setMinimumHeight(display.getHeight());
+        splashImageView.setMinimumWidth(display.getWidth());
+
+        // TODO: Use the background color of the webView's parent instead of using the preference.
+        splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
+
+        if (isMaintainAspectRatio()) {
+            // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
+            splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        } else {
+            // FIT_XY scales image non-uniformly to fit into image view.
+            splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        }
+
+        // Create and show the dialog
+        splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+        // check to see if the splash screen should be full screen
+        if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+            splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
+        Thread t = new Thread(new Runnable() {
             public void run() {
-                // Get reference to display
-                Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
-                Context context = webView.getContext();
+                try {
+                    if ((imagesArray != null) && imagesArray.length > 0) {
+                        while (true) {
+                            for (int i = 0; i < imagesArray.length; i++) {
+                                String splashResource = imagesArray[i];
+                                int drawableId = 0;
+                                if (splashResource != null) {
+                                    drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
+                                    if (drawableId != 0) {
+                                        drawableSlideId = drawableId;
+                                        animationHandler.post(changeSlide);
+                                        int timeoutValue = Math.round(splashscreenTimeFinal / imagesArray.length);
+                                        if (timeoutValue <= 0) {
+                                            timeoutValue = 1;
+                                        }
 
-                // Use an ImageView to render the image because of its flexible scaling options.
-                splashImageView = new ImageView(context);
+                                        timeoutValue = timeoutValue * 1000;
 
-                if ((imagesArray != null) && imagesArray.length > 0) {
-                    String splashResource = imagesArray[_that.animationImageIndex];
-                    int drawableId = 0;
-                    if (splashResource != null) {
-                        drawableId = cordova.getActivity().getResources().getIdentifier(splashResource, "drawable", cordova.getActivity().getClass().getPackage().getName());
-                        if (drawableId != 0) {
-                            splashImageView.setImageResource(drawableId);
-                            _that.animationImageIndex++;
-                            if (_that.animationImageIndex >= imagesArray.length) {
-                                _that.animationImageIndex = 0;
-                                _that.repeatIndex++;
-                            }
+                                        Log.d(LOG_TAG, "Display splash slide: " + splashResource + " in " + timeoutValue);
 
-                            /**
-                             * IF animationRepeatCount = 0 infinite repeats
-                             */
-                            if ((animationRepeatCount > 0) && (_that.repeatIndex >= animationRepeatCount)) {
-                                Log.d(LOG_TAG, "Max animation repeats: " + _that.repeatIndex);
-
-                                final Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    public void run() {
-//                                        if (lastHideAfterDelay) {
-                                        removeSplashScreen(false);
-//                                        }
+                                        TimeUnit.MILLISECONDS.sleep(timeoutValue);
                                     }
-                                }, effectiveSplashDuration);
+                                }
+                            }
+                            repeatIndex++;
 
-                            } else {
-                                Log.d(LOG_TAG, "Display splash slide: " + splashResource);
-                                splashImageView.postDelayed(this, 3000); //set to go off again in 3 seconds.
+                            if ((animationRepeatCountFinal > 0) && (repeatIndex >= animationRepeatCountFinal)) {
+                                Log.d(LOG_TAG, "Max animation repeats: " + repeatIndex);
+                                animationHandler.removeCallbacks(changeSlide);
+                                removeSplashScreen(false);
                             }
                         }
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
-//                splashImageView.setImageResource(drawableId);
-                LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                splashImageView.setLayoutParams(layoutParams);
-
-                splashImageView.setMinimumHeight(display.getHeight());
-                splashImageView.setMinimumWidth(display.getWidth());
-
-                // TODO: Use the background color of the webView's parent instead of using the preference.
-                splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
-
-                if (isMaintainAspectRatio()) {
-                    // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
-                    splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                } else {
-                    // FIT_XY scales image non-uniformly to fit into image view.
-                    splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                }
-
-                // Create and show the dialog
-                splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-                // check to see if the splash screen should be full screen
-                if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                        == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-                    splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                }
-                splashDialog.setContentView(splashImageView);
-                splashDialog.setCancelable(false);
-                splashDialog.show();
-
-//                // Set Runnable to remove splash screen just in case
-//                if (hideAfterDelay) {
-//
-//                }
             }
         });
+        t.start();
+
+
+        splashDialog.setContentView(splashImageView);
+        splashDialog.setCancelable(false);
+        splashDialog.show();
     }
+
+    Runnable changeSlide = new Runnable() {
+        public void run() {
+            if (drawableSlideId == 0) {
+                Log.w(LOG_TAG, "drawableSlideId is 0!");
+            } else if (splashImageView == null) {
+                Log.d(LOG_TAG, "No splashImageView found!");
+            } else {
+                Log.d(LOG_TAG, "changeSlide: " + drawableSlideId);
+                splashImageView.setImageResource(drawableSlideId);
+            }
+        }
+    };
 }

@@ -17,6 +17,10 @@ Duration in seconds
 
 `<preference name="AnimatedSplashScreenAnimationDuration" value="5" />`
 
+Disable original splashscreen plugin, it's not needed
+
+`<preference name="SplashScreen" value="false" />`
+
 Repeat count
 
 0 - no repeat
