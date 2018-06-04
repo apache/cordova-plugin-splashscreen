@@ -11,7 +11,7 @@
 
         <bitmap
                 android:src="@drawable/animated_splash"
-                android:gravity="center"/>
+                android:gravity="fill_horizontal|fill_vertical"/>
 
     </item>
 

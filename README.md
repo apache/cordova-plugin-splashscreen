@@ -74,3 +74,4 @@ Android not ready yet
  - 1.0.1 - added config params, updated iOS platform
  - 1.0.2 - added Android source
  - 1.0.4 - optimized Android source
+ - 1.0.8 - updated Android theme
