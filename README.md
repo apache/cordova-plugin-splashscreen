@@ -66,9 +66,6 @@ Android Images paths:
 
 `...</platform>`
 
-Android not ready yet
-
-
 ## What's new
  - 1.0.0 - initial code, added iOS support
  - 1.0.1 - added config params, updated iOS platform

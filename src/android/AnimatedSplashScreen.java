@@ -314,17 +314,20 @@ public class AnimatedSplashScreen extends CordovaPlugin {
 
         splashImageView.setMinimumHeight(display.getHeight());
         splashImageView.setMinimumWidth(display.getWidth());
+        splashImageView.setMaxWidth(display.getWidth());
 
         // TODO: Use the background color of the webView's parent instead of using the preference.
         splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
 
-        if (isMaintainAspectRatio()) {
-            // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
-            splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        } else {
-            // FIT_XY scales image non-uniformly to fit into image view.
-            splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        }
+
+        splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//        if (isMaintainAspectRatio()) {
+//            // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
+//            splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//        } else {
+//            // FIT_XY scales image non-uniformly to fit into image view.
+//            splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//        }
 
         // Create and show the dialog
         splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
