@@ -9,10 +9,19 @@ and
 
 1. Animation based on changing images one-by-one. Created animation slides and place to the resourses directory
 2. Update config.xml file (listed below)
-3. API is the same as in [cordova-plugin-splashscreen](https://github.com/apache/cordova-plugin-splashscreen) 
+3. API is the same as in [cordova-plugin-splashscreen](https://github.com/apache/cordova-plugin-splashscreen)
 
-###Add to config.xml:
-####Common:
+### Installation
+// npm hosted (new) id
+cordova plugin add cordova-plugin-animated-splashscreen
+
+// you may also install directly from this repo
+cordova plugin add https://github.com/kitolog/cordova-plugin-animated-splashscreen
+ 
+
+### Setup:
+#### Add to config.xml:
+#### Common:
 Duration in seconds
 
 `<preference name="AnimatedSplashScreenAnimationDuration" value="5" />`
@@ -27,7 +36,7 @@ Repeat count
 
 `<preference name="AnimatedSplashScreenAnimationRepeatCount" value="0" />`
 
-####iOS
+#### iOS
 
 IOS Images Order:
 
@@ -47,7 +56,7 @@ IOS Images paths:
 
 `...</platform>`
 `
-####Android
+#### Android
 
 Android Images Order:
 
