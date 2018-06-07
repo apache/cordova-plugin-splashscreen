@@ -57,6 +57,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
     private int repeatIndex = 0;
     private int drawableSlideId = 0;
     Handler animationHandler;
+    Thread slidesThread = null;
 
     /**
      * Displays the splash drawable.
@@ -256,6 +257,10 @@ public class AnimatedSplashScreen extends CordovaPlugin {
                         splashImageView = null;
                     }
                 }
+
+                if (slidesThread != null) {
+                    slidesThread.interrupt();
+                }
             }
         });
     }
@@ -338,7 +343,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
 
-        Thread t = new Thread(new Runnable() {
+        slidesThread = new Thread(new Runnable() {
             public void run() {
                 try {
                     if ((imagesArray != null) && imagesArray.length > 0) {
@@ -378,7 +383,7 @@ public class AnimatedSplashScreen extends CordovaPlugin {
                 }
             }
         });
-        t.start();
+        slidesThread.start();
 
 
         splashDialog.setContentView(splashImageView);

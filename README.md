@@ -28,7 +28,7 @@ Duration in seconds
 
 Disable original splashscreen plugin, it's not needed
 
-`<preference name="SplashScreen" value="false" />`
+`<preference name="SplashScreen" value="none" />`
 
 Repeat count
 
