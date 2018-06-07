@@ -71,13 +71,13 @@ Android Images paths:
 
 `...`
 
-`<resource-file src="resources/android/splash/animated-1.png" target="app/src/main/res/drawable-land-xxxhdpi/animated1.png" />`
-`<resource-file src="resources/android/splash/animated-2.png" target="app/src/main/res/drawable-land-xxxhdpi/animated2.png" />`
+`<resource-file src="resources/android/splash/animated-1.png" target="app/src/main/res/drawable-port-xxxhdpi/animated1.png" />`
+`<resource-file src="resources/android/splash/animated-2.png" target="app/src/main/res/drawable-port-xxxhdpi/animated2.png" />`
 
 `...</platform>`
 
 ##### NOTE: Android screen sizes:
-(in example code, image has 1920 x 1280 px size, so it should be placed to drawable-land-xxxhdpi)
+(in example code, image has 1920 x 1280 px size, so it should be placed to drawable-port-xxxhdpi)
 
 LDPI:
 * Portrait: 200 x 320 px
