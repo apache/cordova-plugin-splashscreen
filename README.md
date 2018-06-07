@@ -66,14 +66,42 @@ Android Images Order:
 
 Android Images paths:
 
+
 `<platform name="android">`
 
 `...`
 
-`<resource-file src="resources/android/splash/animated-1.png" target="app/src/main/res/drawable/animated1.png" />`
-`<resource-file src="resources/android/splash/animated-2.png" target="app/src/main/res/drawable/animated2.png" />`
+`<resource-file src="resources/android/splash/animated-1.png" target="app/src/main/res/drawable-land-xxxhdpi/animated1.png" />`
+`<resource-file src="resources/android/splash/animated-2.png" target="app/src/main/res/drawable-land-xxxhdpi/animated2.png" />`
 
 `...</platform>`
+
+##### NOTE: Android screen sizes:
+(in example code, image has 1920 x 1280 px size, so it should be placed to drawable-land-xxxhdpi)
+
+LDPI:
+* Portrait: 200 x 320 px
+* Landscape: 320 x 200 px
+
+MDPI:
+* Portrait: 320 x 480 px
+* Landscape: 480 x 320 px
+
+HDPI:
+* Portrait: 480 x 800 px
+* Landscape: 800 x 480 px
+
+XHDPI:
+* Portrait: 720 x 1280 px
+* Landscape: 1280 x 720 px
+
+XXHDPI:
+* Portrait: 960 x 1600 px
+* Landscape: 1600 x 960 px
+
+XXXHDPI:
+* Portrait: 1280 x 1920 px
+* Landscape: 1920 x 1280 px
 
 ## What's new
  - 1.0.0 - initial code, added iOS support
@@ -81,3 +109,5 @@ Android Images paths:
  - 1.0.2 - added Android source
  - 1.0.4 - optimized Android source
  - 1.0.8 - updated Android theme
+ - 1.1.0 - stable version with iOS and Android support
+ - 1.1.2 - Android image paths fixes
