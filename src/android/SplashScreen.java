@@ -26,11 +26,13 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
@@ -43,6 +45,7 @@ import android.widget.RelativeLayout;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.LOG;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -283,6 +286,7 @@ public class SplashScreen extends CordovaPlugin {
                 // Get reference to display
                 Display display = cordova.getActivity().getWindowManager().getDefaultDisplay();
                 Context context = webView.getContext();
+                Window splashWindow;
 
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
@@ -307,12 +311,45 @@ public class SplashScreen extends CordovaPlugin {
 
                 // Create and show the dialog
                 splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+                splashWindow = splashDialog.getWindow();
                 // check to see if the splash screen should be full screen
                 if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
                         == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
                     splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                             WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 }
+
+                // Inspirated in https://github.com/apache/cordova-plugin-splashscreen/pull/124/files
+                String statusBarColor = preferences.getString("SplashStatusBarBackgroundColor", "#000000");
+
+                if (statusBarColor != null && !statusBarColor.isEmpty() && Build.VERSION.SDK_INT >= 19) {
+
+                    splashWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    splashWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    try {
+                        // Using reflection makes sure any 5.0+ device will work without having to compile with SDK level 21
+                        splashWindow.getClass().getDeclaredMethod("setStatusBarColor", int.class).invoke(splashWindow, Color.parseColor(statusBarColor));
+                    } catch (Exception ignore) {
+                        // this should not happen, only in case Android removes this method in a version > 21
+                        LOG.w("SplashScreen StatusBarColor", "Method window.setStatusBarColor not found for SDK level " + Build.VERSION.SDK_INT);
+                    }
+                }
+                String navigationBarColor = preferences.getString("SplashNavigationBarBackgroundColor", "#000000");
+
+                if (navigationBarColor != null && !navigationBarColor.isEmpty() && Build.VERSION.SDK_INT >= 19) {
+
+                    splashWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                    splashWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    try {
+                        // Using reflection makes sure any 5.0+ device will work without having to compile with SDK level 21
+                        splashWindow.getClass().getDeclaredMethod("setNavigationBarColor", int.class).invoke(splashWindow, Color.parseColor(navigationBarColor));
+                    } catch (Exception ignore) {
+                        // this should not happen, only in case Android removes this method in a version > 21
+                        LOG.w("SplashScreen StatusBarColor", "Method window.setNavigationBarColor not found for SDK level " + Build.VERSION.SDK_INT);
+                    }
+                }
+
+
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 splashDialog.show();
