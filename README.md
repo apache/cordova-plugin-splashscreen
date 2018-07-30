@@ -241,7 +241,7 @@ The above looks like the following in `config.xml`:
 ##### Quirks and Known Issues
 
 1. **App on target may not reflect changes to images**
-   Once you run the app on a target, iOS caches the launch image. Unfortunately, when you chance the images, iOS does _not_ invalidate the cache, which means you'll still see the old launch image. You should either: delete the app, or reset content & settings (simulator).
+   Once you run the app on a target, iOS caches the launch image. Unfortunately, when you change the image, iOS does _not_ invalidate the cache, which means you'll still see the old launch image. You should either: delete the app, or reset content & settings (simulator).
 
 2. **Simulator may not show expected images when launched from CLI**
    When Xcode deploys to a specific simulator, it only copies the assets that match the simulator's characteristics. For example, if you try to run an app on the iPhone 6s Plus simulator, only @3x launch images are copied. When compiling from the CLI, however, the default is to assume an iPhone 5s, which means only @2x launch images are copied. Unless your launch images are markedly different, chances are good the difference would go unnoticed, but this does mean that the only accurate method of testing is to test on a physical device.
