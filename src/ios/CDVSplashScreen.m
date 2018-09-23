@@ -270,10 +270,10 @@
         if (device.iPhoneX || device.iPhoneXSMax) {
             if (device.iPhoneX) {
             imageName = [imageName stringByAppendingString:@"-2436h"];
-        	   } 
-        	   if (device.iPhoneXSMax) {
+        	} 
+        	if (device.iPhoneXSMax) {
             imageName = [imageName stringByAppendingString:@"-2688h"];
-        	   }
+        	}
         } else {
             imageName = [imageName stringByAppendingString:@"-736h"];
         }
