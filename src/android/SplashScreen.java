@@ -19,18 +19,22 @@
 
 package org.apache.cordova.splashscreen;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AlphaAnimation;
@@ -90,6 +94,35 @@ public class SplashScreen extends CordovaPlugin {
                 getView().setVisibility(View.INVISIBLE);
             }
         });
+
+
+        // Save theme id if specified
+        int themeId = preferences.getInteger( "SplashScreenThemeId", 0 );
+
+        if ( themeId == 0 ) {
+            String theme = preferences.getString( "SplashScreenTheme", null );
+
+            if ( theme != null ) {
+                Activity activity = cordova.getActivity();
+                Resources resources = activity.getResources();
+
+                themeId = resources.getIdentifier(
+                    theme, "style", activity.getPackageName() );
+
+                if (themeId == 0) {
+                    themeId = resources.getIdentifier(
+                        theme, "style", "android" );
+                }
+            }
+
+            if ( themeId == 0 ) {
+                themeId = android.R.style.Theme_Translucent_NoTitleBar;
+            }
+
+            preferences.set( "SplashScreenThemeId", themeId );
+        }
+
+
         int drawableId = preferences.getInteger("SplashDrawableId", 0);
         if (drawableId == 0) {
             String splashResource = preferences.getString("SplashScreen", "screen");
@@ -121,6 +154,13 @@ public class SplashScreen extends CordovaPlugin {
     private boolean isMaintainAspectRatio () {
         return preferences.getBoolean("SplashMaintainAspectRatio", false);
     }
+
+	private boolean isActivityFullScreen() {
+		int flags = cordova.getActivity().getWindow().getAttributes().flags;
+		int fullScreenFlag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
+
+        return (( flags & fullScreenFlag ) == fullScreenFlag );
+	}
 
     private int getFadeDuration () {
         int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ?
@@ -263,13 +303,41 @@ public class SplashScreen extends CordovaPlugin {
     @SuppressWarnings("deprecation")
     private void showSplashScreen(final boolean hideAfterDelay) {
         final int splashscreenTime = preferences.getInteger("SplashScreenDelay", DEFAULT_SPLASHSCREEN_DURATION);
+        final int themeId = preferences.getInteger( "SplashScreenThemeId", 0 );
         final int drawableId = preferences.getInteger("SplashDrawableId", 0);
 
         final int fadeSplashScreenDuration = getFadeDuration();
         final int effectiveSplashDuration = Math.max(0, splashscreenTime - fadeSplashScreenDuration);
 
+        final int backgroundColor;
+
+        if ( preferences.contains( "SplashScreenBackgroundColor" ) ) {
+            backgroundColor = preferences.getInteger(
+                "SplashScreenBackgroundColor", 0 );
+        }
+        else {
+            // TODO: Use the background color of the webView's parent instead of using the preference.
+            backgroundColor = preferences.getInteger(
+                "backgroundColor", Color.BLACK );
+        }
+
+        final ImageView.ScaleType scaleType;
+
+        if (isMaintainAspectRatio()) {
+            // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
+            scaleType = ImageView.ScaleType.CENTER_CROP;
+        }
+        else {
+            // FIT_XY scales image non-uniformly to fit into image view.
+            scaleType = ImageView.ScaleType.FIT_XY;
+        }
+
         lastHideAfterDelay = hideAfterDelay;
 
+        // Prevent to show the splash dialog if the activity is in the process of finishing
+        if (cordova.getActivity().isFinishing()) {
+            return;
+        }
         // If the splash dialog is showing don't try to show it again
         if (splashDialog != null && splashDialog.isShowing()) {
             return;
@@ -287,32 +355,26 @@ public class SplashScreen extends CordovaPlugin {
                 // Use an ImageView to render the image because of its flexible scaling options.
                 splashImageView = new ImageView(context);
                 splashImageView.setImageResource(drawableId);
-                LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                splashImageView.setLayoutParams(layoutParams);
+                splashImageView.setLayoutParams(
+                    new LinearLayout.LayoutParams(
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT ) );
 
                 splashImageView.setMinimumHeight(display.getHeight());
                 splashImageView.setMinimumWidth(display.getWidth());
 
-                // TODO: Use the background color of the webView's parent instead of using the preference.
-                splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
-
-                if (isMaintainAspectRatio()) {
-                    // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
-                    splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                else {
-                    // FIT_XY scales image non-uniformly to fit into image view.
-                    splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                }
+                splashImageView.setBackgroundColor( backgroundColor );
+                splashImageView.setScaleType( scaleType );
 
                 // Create and show the dialog
-                splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+                splashDialog = new Dialog( context, themeId );
+
                 // check to see if the splash screen should be full screen
-                if ((cordova.getActivity().getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
-                        == WindowManager.LayoutParams.FLAG_FULLSCREEN) {
-                    splashDialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                if ( isActivityFullScreen() ) {
+                    splashDialog.getWindow().addFlags(
+						WindowManager.LayoutParams.FLAG_FULLSCREEN );
                 }
+
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 splashDialog.show();
