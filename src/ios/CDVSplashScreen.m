@@ -74,7 +74,7 @@
     // Determine whether rotation should be enabled for this device
     // Per iOS HIG, landscape is only supported on iPad and iPhone 6+
     CDV_iOSDevice device = [self getCurrentDevice];
-    BOOL autorotateValue = (device.iPad || device.iPhone6Plus || device.iPhoneX || device.iPhoneXSMax) ?
+    BOOL autorotateValue = (device.iPad || device.iPhone6Plus || device.iPhoneX || device.iPhoneXSMax || device.iPhoneXR) ?
         [(CDVViewController *)self.viewController shouldAutorotateDefaultValue] :
         NO;
 
@@ -161,7 +161,10 @@
     UIScreen* mainScreen = [UIScreen mainScreen];
     CGFloat mainScreenHeight = mainScreen.bounds.size.height;
     CGFloat mainScreenWidth = mainScreen.bounds.size.width;
-
+    
+    CGFloat mainScreenNativeHeight = mainScreen.nativeBounds.size.height;
+    NSLog(@"%2f",mainScreenNativeHeight);
+ 
     int limit = MAX(mainScreenHeight,mainScreenWidth);
 
     device.iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
@@ -175,9 +178,8 @@
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
     device.iPhoneX  = (device.iPhone && limit == 812.0);
-    // iPhone XR and iPhone XSMax use same limit below
-    device.iPhoneXSMax  = (device.iPhone && limit == 896.0);
-
+    device.iPhoneXSMax  = (device.iPhone && mainScreenNativeHeight == 2688.0);
+    device.iPhoneXR  = (device.iPhone && mainScreenNativeHeight == 1792.0);
     return device;
 }
 
@@ -225,13 +227,17 @@
             imageName = [imageName stringByAppendingString:@"-700"];
         } else if(device.iPhone6) {
             imageName = [imageName stringByAppendingString:@"-800"];
-        } else if(device.iPhone6Plus || device.iPhoneX  || device.iPhoneXSMax) {
+        } else if(device.iPhone6Plus || device.iPhoneX || device.iPhoneXSMax || device.iPhoneXR) {
             if(device.iPhone6Plus) {
                 imageName = [imageName stringByAppendingString:@"-800"];
             } 
             if(device.iPhoneX) {
                 imageName = [imageName stringByAppendingString:@"-1100"];
-            } else {
+            } 
+            if(device.iPhoneXSMax) {
+                imageName = [imageName stringByAppendingString:@"-1200"];
+            }
+            if(device.iPhoneXR) {
                 imageName = [imageName stringByAppendingString:@"-1200"];
             }
             if (currentOrientation == UIInterfaceOrientationPortrait || currentOrientation == UIInterfaceOrientationPortraitUpsideDown)
@@ -249,7 +255,7 @@
     { // does not support landscape
         imageName = [imageName stringByAppendingString:@"-667h"];
     }
-    else if (device.iPhone6Plus || device.iPhoneX || device.iPhoneXSMax)
+    else if (device.iPhone6Plus || device.iPhoneX || device.iPhoneXSMax || device.iPhoneXR)
     { // supports landscape
         if (isOrientationLocked)
         {
@@ -267,15 +273,17 @@
                     break;
             }
         }
-        if (device.iPhoneX || device.iPhoneXSMax) {
-            if (device.iPhoneX) {
-            imageName = [imageName stringByAppendingString:@"-2436h"];
-        	} 
-        	if (device.iPhoneXSMax) {
-            imageName = [imageName stringByAppendingString:@"-2688h"];
-        	}
-        } else {
+        if (device.iPhone6Plus) {
             imageName = [imageName stringByAppendingString:@"-736h"];
+        }
+        if (device.iPhoneX) {
+            imageName = [imageName stringByAppendingString:@"-2436h"];
+        }
+        if (device.iPhoneXSMax) {
+            imageName = [imageName stringByAppendingString:@"-2688h"];
+        }
+        if (device.iPhoneXR) {
+            imageName = [imageName stringByAppendingString:@"-1792h"];
         }
     }
     else if (device.iPad)
@@ -388,7 +396,7 @@
      * correctly.
      */
     CDV_iOSDevice device = [self getCurrentDevice];
-    if (UIInterfaceOrientationIsLandscape(orientation) && !device.iPhone6Plus && !device.iPad && !device.iPhoneX && !device.iPhoneXSMax)
+    if (UIInterfaceOrientationIsLandscape(orientation) && !device.iPhone6Plus && !device.iPad && !device.iPhoneX && !device.iPhoneXSMax && !device.iPhoneXR)
     {
         imgTransform = CGAffineTransformMakeRotation(M_PI / 2);
         imgBounds.size = CGSizeMake(imgBounds.size.height, imgBounds.size.width);
