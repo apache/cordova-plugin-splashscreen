@@ -162,10 +162,13 @@
     CGFloat mainScreenHeight = mainScreen.bounds.size.height;
     CGFloat mainScreenWidth = mainScreen.bounds.size.width;
     
-    CGFloat mainScreenNativeHeight = mainScreen.nativeBounds.size.height;
-    NSLog(@"%2f",mainScreenNativeHeight);
- 
     int limit = MAX(mainScreenHeight,mainScreenWidth);
+    
+    CGFloat mainScreenNativeHeight = mainScreen.nativeBounds.size.height;
+    CGFloat mainScreenNativeWidth = mainScreen.nativeBounds.size.width;
+    
+    int limitNative = MAX(mainScreenNativeHeight,mainScreenNativeWidth);
+    NSLog(@"%d", limitNative);
 
     device.iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
     device.iPhone = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
@@ -178,8 +181,8 @@
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
     device.iPhoneX  = (device.iPhone && limit == 812.0);
-    device.iPhoneXSMax  = (device.iPhone && mainScreenNativeHeight == 2688.0);
-    device.iPhoneXR  = (device.iPhone && mainScreenNativeHeight == 1792.0);
+    device.iPhoneXSMax  = (device.iPhone && limitNativ == 2688.0);
+    device.iPhoneXR  = (device.iPhone && limitNativ == 1792.0);
     return device;
 }
 
