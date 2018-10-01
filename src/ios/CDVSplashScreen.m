@@ -360,7 +360,15 @@
     if ([self isUsingCDVLaunchScreen]) {
         // CB-9762's launch screen expects the image to fill the screen and be scaled using AspectFill.
         CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
-        _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
+        CGFloat imageHeight = viewportSize.height;
+        
+        // make LaunchStoryboard bottom space constraint work with iOS 11 safe areas
+        if (@available(iOS 11.0, *)) {
+            UIEdgeInsets safeAreaInsets = [UIApplication sharedApplication].delegate.window.safeAreaInsets;
+            imageHeight -= safeAreaInsets.bottom;
+        }
+        
+        _imageView.frame = CGRectMake(0, 0, viewportSize.width, imageHeight);
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
         return; 
     }
