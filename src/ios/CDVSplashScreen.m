@@ -181,8 +181,8 @@
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
     device.iPhoneX  = (device.iPhone && limit == 812.0);
-    device.iPhoneXSMax  = (device.iPhone && limitNativ == 2688.0);
-    device.iPhoneXR  = (device.iPhone && limitNativ == 1792.0);
+    device.iPhoneXSMax  = (device.iPhone && limitNative == 2688.0);
+    device.iPhoneXR  = (device.iPhone && limitNative == 1792.0);
     return device;
 }
 
