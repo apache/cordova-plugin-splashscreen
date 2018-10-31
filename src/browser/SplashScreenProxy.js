@@ -135,7 +135,7 @@ function readPreferencesFromCfg(cfg) {
 }
 
 /**
- * Shows and hides splashscreen if it is enabled, with a delay according the current preferences.
+  * Shows and hides splashscreen, with a delay according the current preferences.
  */
 function showAndHide() {
     SplashScreen.show();
