@@ -138,13 +138,11 @@ function readPreferencesFromCfg(cfg) {
  * Shows and hides splashscreen if it is enabled, with a delay according the current preferences.
  */
 function showAndHide() {
-    if(showSplashScreen) {
-        SplashScreen.show();
+    SplashScreen.show();
 
-        window.setTimeout(function() {
-            SplashScreen.hide();
-        }, splashScreenDelay);
-    }
+    window.setTimeout(function() {
+        SplashScreen.hide();
+    }, splashScreenDelay);
 }
 
 /**
@@ -153,10 +151,12 @@ function showAndHide() {
 (function initAndShow() {
     configHelper.readConfig(function(config) {
         readPreferencesFromCfg(config);
-        if (autoHideSplashScreen) {
-            showAndHide();
-        } else {
-            SplashScreen.show();
+        if (showSplashScreen) {
+            if (autoHideSplashScreen) {
+                showAndHide();
+            } else {
+                SplashScreen.show();
+            }
         }
 
     }, function(err) {
