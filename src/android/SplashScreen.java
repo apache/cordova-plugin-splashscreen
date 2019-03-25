@@ -97,7 +97,7 @@ public class SplashScreen extends CordovaPlugin {
         }
         // Make WebView invisible while loading URL
         // CB-11326 Ensure we're calling this on UI thread
-        if (Build.VERSION.SDK_INT >= 28) {
+        if (Build.VERSION.SDK_INT < 28) {
                cordova.getActivity().runOnUiThread(new Runnable() {
                    @Override
                    public void run() {
