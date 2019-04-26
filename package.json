@@ -13,13 +13,8 @@
       "browser"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/cordova-plugin-splashscreen"
-  },
-  "bugs": {
-    "url": "https://issues.apache.org/jira/browse/CB"
-  },
+  "repository": "github:apache/cordova-plugin-splashscreen",
+  "bugs": "https://github.com/apache/cordova-plugin-splashscreen/issues",
   "keywords": [
     "cordova",
     "splashscreen",
@@ -44,11 +39,13 @@
       "6.0.0": {
         "cordova": ">100"
       }
-    }
+    },
+    "node": ">=6.0.0"
   },
   "author": "Apache Software Foundation",
   "license": "Apache-2.0",
   "devDependencies": {
     "jshint": "^2.6.0"
-  }
+  },
+  "homepage": "https://cordova.apache.org/"
 }
