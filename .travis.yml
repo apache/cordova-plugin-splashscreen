@@ -88,5 +88,5 @@ install:
 
 script:
 - npm test
-- if [[ "$PLATFORM" != local ]]; then cordova-paramedic --config pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME --shouldUseSauce; fi
+- if [[ "$PLATFORM" != local* ]]; then cordova-paramedic --config pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME --shouldUseSauce; fi
 - if [[ "$PLATFORM" =~ local ]]; then cordova-paramedic --config pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME; fi
