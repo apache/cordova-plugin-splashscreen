@@ -29,6 +29,22 @@ description: Control the splash screen for your app.
 
 This plugin is required to work with splash screens. This plugin displays and hides a splash screen during application launch.
 
+- [Installation](#installation)
+- [Supported Platforms](#supported-platforms)
+  * [iOS-specific information](#ios-specific-information)
+  * [Windows-specific information](#windows-specific-information)
+- [Example Configuration](#example-configuration)
+- [Preferences](#preferences)
+    + [config.xml](#configxml)
+  * [Quirks](#quirks)
+    + [Android Quirks](#android-quirks)
+    + [Browser Quirks](#browser-quirks)
+    + [iOS Quirks](#ios-quirks)
+    + [Windows Quirks](#windows-quirks)
+- [Methods](#methods)
+  * [splashscreen.hide](#splashscreenhide)
+  * [splashscreen.show](#splashscreenshow)
+
 ## Installation
 
     // npm hosted (new) id
