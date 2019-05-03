@@ -377,13 +377,13 @@ projectRoot
 - `AutoHideSplashScreen` (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. Splash screen hidden after amount of time specified in the `SplashScreenDelay` preference.
 
     ```xml
-        <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="AutoHideSplashScreen" value="true" />
     ```
 
 - `SplashScreenDelay` (number, default to 3000). Amount of time in milliseconds to wait before automatically hide splash screen.
 
     ```xml
-        <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="3000" />
     ```
 
     Note also that this value used to be seconds, and not milliseconds, so values less than 30 will still be treated as seconds. (Consider this a deprecated patch that will disapear in some future version.)
@@ -403,14 +403,14 @@ projectRoot
   state changes.
 
     ```xml
-        <preference name="FadeSplashScreen" value="false"/>
+    <preference name="FadeSplashScreen" value="false"/>
     ```
 
 - `FadeSplashScreenDuration` (float, defaults to `500`): Specifies the
   number of milliseconds for the splash screen fade effect to execute.
 
     ```xml
-        <preference name="FadeSplashScreenDuration" value="750"/>
+    <preference name="FadeSplashScreenDuration" value="750"/>
     ```
 
     _Note_: `FadeSplashScreenDuration` is included into `SplashScreenDelay`, for example if you have `<preference name="SplashScreenDelay" value="3000" />` and `<preference name="FadeSplashScreenDuration" value="1000"/>` defined in `config.xml`:
@@ -434,7 +434,7 @@ projectRoot
   to hide the splash-screen spinner.
 
     ```xml
-        <preference name="ShowSplashScreenSpinner" value="false"/>
+    <preference name="ShowSplashScreenSpinner" value="false"/>
     ```
 
 ### Quirks
@@ -537,5 +537,3 @@ defeat the purpose of the splash screen.  Providing some configuration in
 app launch and before it has fully started and received the `deviceready`
 event. For this reason, it is unlikely you need to call `navigator.splashscreen.show()` to make the splash
 screen visible for app startup.
-
-[Apache Cordova issue tracker]: https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Splashscreen%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC
