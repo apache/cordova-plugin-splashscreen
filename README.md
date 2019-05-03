@@ -31,11 +31,12 @@ This plugin is required to allow your application to work with splash screens. T
 
 - [Installation](#installation)
 - [Supported Platforms](#supported-platforms)
+- [Platform splash screen image configuration](#platform-splash-screen-image-configuration)
+  * [Example Configuration](#example-configuration)
   * [iOS-specific information](#ios-specific-information)
   * [Windows-specific information](#windows-specific-information)
-- [Example Configuration](#example-configuration)
 - [Preferences](#preferences)
-    + [config.xml](#configxml)
+  * [config.xml](#configxml)
   * [Quirks](#quirks)
     + [Android Quirks](#android-quirks)
     + [Browser Quirks](#browser-quirks)
@@ -61,7 +62,90 @@ This plugin is required to allow your application to work with splash screens. T
   __Note__: Extended splashscreen does not require the plugin on Windows (as opposed to Android and iOS) in case you don't use the plugin API, i.e. programmatic hide/show.
 - Browser
 
+## Platform splash screen image configuration
 
+## Example Configuration
+
+In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
+
+The value of the "src" attribute is relative to the project root directory and NOT to the `www` directory (see `Directory structure` below). You can name the source image file whatever you like. The internal name in the application is automatically determined by Cordova.
+
+Directory structure:
+
+```
+projectRoot
+    hooks
+    platforms
+    plugins
+    www
+        css
+        img
+        js
+    res
+        screen
+            android
+            ios
+            windows
+```
+
+```xml
+<platform name="android">
+    <!-- you can use any density that exists in the Android project -->
+    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
+    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
+    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
+    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
+    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi"/>
+
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi"/>
+</platform>
+
+<platform name="ios">
+    <!-- There are two mechanisms for showing launch images.
+      -- Legacy method (supports all devices except iPad Pro 12.9):
+      -- Note: Images are determined by width and height. The following are supported -->
+    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
+    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
+    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
+    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
+    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
+    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
+    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
+    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
+    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
+    <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
+    <!-- Storyboard method (supports all devices):
+      -- Important: If you use the storyboard method, legacy images are 
+      -- copied but ignored.
+      -- Note: images are determined by scale, idiom, and size traits. The following
+      -- are suggested based on current device form factors -->
+    <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+    <splash src="res/screen/ios/Default@2x~universal~comany.png" />
+    <splash src="res/screen/ios/Default@2x~universal~comcom.png" />
+    <splash src="res/screen/ios/Default@3x~universal~anyany.png" />
+    <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
+    <splash src="res/screen/ios/Default@3x~universal~comany.png" />
+    
+</platform>
+
+<!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
+<platform name="windows">
+    <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
+    <splash src="res/screen/windows/splashscreenphone.png" target="SplashScreenPhone"/>
+</platform>
+
+<!-- Configuration using image size: -->
+<!--<platform name="windows">
+    <splash src="res/screen/windows/splashscreen.png" width="620" height="300"/>
+    <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
+</platform>-->
+
+<preference name="SplashScreenDelay" value="10000" />
+```
 
 ### iOS-specific information
 
@@ -289,92 +373,9 @@ __Note__: SplashScreens size for Windows 10 project should not exceed 200 KBytes
 __Note__: Supported formats are `.png`, `.jpg`, `.jpeg`. Mixing of the extensions within a target is not supported. I.e. you can have `splashscreen.jpg` and `splashscreenphone.png` but not `splashscreen.scale-100.png`, `splashscreen.scale-400.jpg`.  
 __Note__: You may need to reopen Visual Studio solution after changing the images and doing a `cordova prepare` for the changes to take effect.
 
-## Example Configuration
-
-In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
-
-The value of the "src" attribute is relative to the project root directory and NOT to the `www` directory (see `Directory structure` below). You can name the source image file whatever you like. The internal name in the application is automatically determined by Cordova.
-
-Directory structure:
-
-```
-projectRoot
-    hooks
-    platforms
-    plugins
-    www
-        css
-        img
-        js
-    res
-        screen
-            android
-            ios
-            windows
-```
-
-```xml
-<platform name="android">
-    <!-- you can use any density that exists in the Android project -->
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
-    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi"/>
-
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi"/>
-</platform>
-
-<platform name="ios">
-    <!-- There are two mechanisms for showing launch images.
-      -- Legacy method (supports all devices except iPad Pro 12.9):
-      -- Note: Images are determined by width and height. The following are supported -->
-    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-    <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
-    <!-- Storyboard method (supports all devices):
-      -- Important: If you use the storyboard method, legacy images are 
-      -- copied but ignored.
-      -- Note: images are determined by scale, idiom, and size traits. The following
-      -- are suggested based on current device form factors -->
-    <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
-    <splash src="res/screen/ios/Default@2x~universal~comany.png" />
-    <splash src="res/screen/ios/Default@2x~universal~comcom.png" />
-    <splash src="res/screen/ios/Default@3x~universal~anyany.png" />
-    <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
-    <splash src="res/screen/ios/Default@3x~universal~comany.png" />
-    
-</platform>
-
-<!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
-<platform name="windows">
-    <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
-    <splash src="res/screen/windows/splashscreenphone.png" target="SplashScreenPhone"/>
-</platform>
-
-<!-- Configuration using image size: -->
-<!--<platform name="windows">
-    <splash src="res/screen/windows/splashscreen.png" width="620" height="300"/>
-    <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
-</platform>-->
-
-<preference name="SplashScreenDelay" value="10000" />
-```
-
 ## Preferences
 
-#### config.xml
+### config.xml
 
 - `AutoHideSplashScreen` (boolean, default to `true`). Indicates whether to hide splash screen automatically or not. The splash screen is hidden after the amount of time specified in the `SplashScreenDelay` preference.
 
