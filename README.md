@@ -33,10 +33,10 @@ Note that this plugin is not about native loading screens, like e.g. ["Launch Sc
 
 - [Installation](#installation)
 - [Supported Platforms](#supported-platforms)
-- [Platform splash screen image configuration](#platform-splash-screen-image-configuration)
+- [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
   * [Example Configuration](#example-configuration)
-  * [iOS-specific information](#ios-specific-information)
-  * [Windows-specific information](#windows-specific-information)
+  * [iOS-specific Information](#ios-specific-information)
+  * [Windows-specific Information](#windows-specific-information)
 - [Preferences](#preferences)
   * [config.xml](#configxml)
   * [Quirks](#quirks)
@@ -64,7 +64,7 @@ Note that this plugin is not about native loading screens, like e.g. ["Launch Sc
   __Note__: Extended splashscreen does not require the plugin on Windows (as opposed to Android and iOS) in case you don't use the plugin API, i.e. programmatic hide/show.
 - Browser
 
-## Platform splash screen image configuration
+## Platform Splash Screen Image Configuration
 
 ## Example Configuration
 
@@ -149,7 +149,7 @@ projectRoot
 <preference name="SplashScreenDelay" value="10000" />
 ```
 
-### iOS-specific information
+### iOS-specific Information
 
 There are two mechanisms for displaying a launch screen on iOS:
 
@@ -350,7 +350,7 @@ The above looks like the following in `config.xml`:
 3. **`anyany` must be provided for other variations to be used**
    If you don't provide an `anyany` version of the launch image for a specific scale and idiom, the other variations (like `anycom`, `comany`, and `comcom`) will ignored. 
 
-### Windows-specific information
+### Windows-specific Information
 
 Splash screen images can be defined using the [MRT](https://cordova.apache.org/docs/en/dev/config_ref/images.html#windows) concept.  
 If you specify `src="res/windows/splashscreen.png"` the following files will be copied into the application's images folder:  
