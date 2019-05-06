@@ -29,8 +29,6 @@ description: Control the splash screen for your app.
 
 This plugin displays and hides a splash screen while your web application is launching. Using its methods you can also show and hide the splash screen manually.
 
-Note that this plugin is not about native loading screens, like e.g. ["Launch Screens" of iOS](https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/launch-screen/). This plugin's splash screens are shown _after_ the native app has already started.
-
 - [Installation](#installation)
 - [Supported Platforms](#supported-platforms)
 - [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
