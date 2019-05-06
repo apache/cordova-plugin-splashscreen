@@ -66,7 +66,7 @@ Note that this plugin is not about native loading screens, like e.g. ["Launch Sc
 
 ## Platform Splash Screen Image Configuration
 
-## Example Configuration
+### Example Configuration
 
 In the top-level `config.xml` file (not the one in `platforms`), add configuration elements like those specified here.
 
