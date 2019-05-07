@@ -148,8 +148,10 @@ public class SplashScreen extends CordovaPlugin {
         if (HAS_BUILT_IN_SPLASH_SCREEN) {
             return;
         }
-        // hide the splash screen to avoid leaking a window,
-        // though allow app to override
+        // Hide the splash screen to avoid leaking a window, though allow app to override.
+        // This avoids user unfriendly transient screen flickering during app transition when
+        // the cordova app launches another activity during startup (the cordova webview might
+        // also not be ready for display to the user).
         if (removeOnPause) {
             this.removeSplashScreen(true);
         }

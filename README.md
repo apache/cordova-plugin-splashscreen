@@ -437,6 +437,7 @@ In your `config.xml`, you can add the following preferences:
 <preference name="SplashMaintainAspectRatio" value="true|false" />
 <preference name="SplashShowOnlyFirstTime" value="true|false" />
 <preference name="SplashScreenSpinnerColor" value="white" />
+<preference name="RemoveSplashScreenOnPause" value="true|false" />
 ```
 
 "SplashMaintainAspectRatio" preference is optional. If set to true, splash screen drawable is not stretched to fit screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
@@ -446,6 +447,8 @@ The plugin reloads splash drawable whenever orientation changes, so you can spec
 "SplashShowOnlyFirstTime" preference is also optional and defaults to `true`. When set to `true` splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close application and force splash screen appear on next launch, you should set this property to `false` (this also applies to closing the App with Back button).
 
 "SplashScreenSpinnerColor" preference is also optional and is ignored when not set. Setting it to a valid color name or HEX color code will change the color of the spinner on Android 5.0+ devices.
+
+"RemoveSplashScreenOnPause" preference is also optional and defaults to `true`. When set to `true`, the splash screen window is automatically removed when the application is paused by Android (that is, when Android calls `onPause()` activity method). Setting it to `false` allows for instance to keep the splash screen when the cordova app launches another activity during startup, and avoids user unfriendly screen flickering during the app transition animation (the cordova webview might also not be ready for display to the user).
 
 ### Browser Quirks
 
