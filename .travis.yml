@@ -37,6 +37,8 @@ _android: &_android
 matrix:
   include:
     # one local test, without saucelabs
+    - env: PLATFORM=local/browser
+      <<: *_ios
     - env: PLATFORM=local/ios-10.0
       <<: *_ios
 
