@@ -28,6 +28,7 @@ typedef struct {
     BOOL iPhone6;
     BOOL iPhone6Plus;
     BOOL retina;
+    BOOL iPhoneX;
     
 } CDV_iOSDevice;
 

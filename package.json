@@ -1,42 +1,27 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "4.1.0",
+  "version": "5.0.3-dev",
   "description": "Cordova Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
     "id": "cordova-plugin-splashscreen",
     "platforms": [
       "android",
-      "amazon-fireos",
       "ubuntu",
       "ios",
-      "blackberry10",
-      "wp8",
-      "windows8",
       "windows",
-      "tizen"
+      "browser"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/cordova-plugin-splashscreen"
-  },
-  "bugs": {
-    "url": "https://issues.apache.org/jira/browse/CB"
-  },
+  "repository": "github:apache/cordova-plugin-splashscreen",
+  "bugs": "https://github.com/apache/cordova-plugin-splashscreen/issues",
   "keywords": [
     "cordova",
     "splashscreen",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-amazon-fireos",
-    "cordova-ubuntu",
     "cordova-ios",
-    "cordova-blackberry10",
-    "cordova-wp8",
-    "cordova-windows8",
-    "cordova-windows",
-    "cordova-tizen"
+    "cordova-windows"
   ],
   "scripts": {
     "test": "npm run jshint",
@@ -51,14 +36,16 @@
         "cordova-android": ">=3.6.0",
         "cordova-windows": ">=4.4.0"
       },
-      "5.0.0": {
+      "6.0.0": {
         "cordova": ">100"
       }
-    }
+    },
+    "node": ">=6.0.0"
   },
   "author": "Apache Software Foundation",
   "license": "Apache-2.0",
   "devDependencies": {
     "jshint": "^2.6.0"
-  }
+  },
+  "homepage": "https://cordova.apache.org/"
 }
