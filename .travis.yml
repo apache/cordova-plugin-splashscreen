@@ -78,7 +78,7 @@ before_install:
   - if [[ "$PLATFORM" =~ local ]]; then npm install -g ios-deploy; fi
   - if [[ "$PLATFORM" =~ android ]]; then gradle --version; fi
   
-  - npm install -g github:apache/cordova-paramedic\#erisu-config-test
+  - npm install -g github:apache/cordova-paramedic
   - PARAMEDIC_BUILDNAME=travis-plugin-splashscreen-$TRAVIS_JOB_NUMBER
 
   - npm install -g cordova
