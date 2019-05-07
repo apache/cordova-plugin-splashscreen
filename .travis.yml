@@ -71,22 +71,18 @@ matrix:
       <<: *_android
 
 before_install:
-  # `language: android` has no Node.js installed, therefore we need to install it manually
-  - if [[ "$PLATFORM" =~ android ]]; then nvm install $TRAVIS_NODE_VERSION; fi
+  - if [[ "$PLATFORM" =~ android ]]; then nvm install $TRAVIS_NODE_VERSION; fi # manually install Node for `language: android`
   - node --version
-  - if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
-  - if [[ "$PLATFORM" =~ local ]]; then npm install -g ios-deploy; fi
   - if [[ "$PLATFORM" =~ android ]]; then gradle --version; fi
-  
-  - npm install -g github:apache/cordova-paramedic
-  - PARAMEDIC_BUILDNAME=travis-plugin-splashscreen-$TRAVIS_JOB_NUMBER
-
+  - if [[ "$PLATFORM" =~ ios ]]; then npm install -g ios-deploy; fi
   - npm install -g cordova
-
+  - npm install -g github:apache/cordova-paramedic
 install:
   - npm install
 
+before_script:
+  - PARAMEDIC_BUILDNAME=travis-plugin-splashscreen-$TRAVIS_JOB_NUMBER
+
 script:
-- npm test
-- if [[ "$PLATFORM" != local* ]]; then cordova-paramedic --config pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME --shouldUseSauce; fi
-- if [[ "$PLATFORM" =~ local ]]; then cordova-paramedic --config pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME; fi
+  - npm test
+  - cordova-paramedic --config ./pr/$PLATFORM --plugin $(pwd) --buildName $PARAMEDIC_BUILDNAME
