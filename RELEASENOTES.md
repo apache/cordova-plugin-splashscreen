@@ -20,6 +20,12 @@
 -->
 # Release Notes
 
+### 5.0.3 (May 09, 2019)
+* Update CI configuration and README ([#210](https://github.com/apache/cordova-plugin-splashscreen/pull/210), [#208](https://github.com/apache/cordova-plugin-splashscreen/pull/208), [#198](https://github.com/apache/cordova-plugin-splashscreen/pull/198), [#194](https://github.com/apache/cordova-plugin-splashscreen/pull/194))
+* Add or update GitHub pull request and issue template
+* [CB-13826](https://issues.apache.org/jira/browse/CB-13826) Incremented plugin version.
+* [CB-12277](https://issues.apache.org/jira/browse/CB-12277) (android) avoid NullPointerException on splashImageView when removing splashscreen
+
 ### 5.0.2 (Jan 24, 2018)
 * [CB-13750](https://issues.apache.org/jira/browse/CB-13750) Add build-tools-26.0.2 to travis
 * [CB-13737](https://issues.apache.org/jira/browse/CB-13737) (iOS): fix Splash screen images for iPhone X
