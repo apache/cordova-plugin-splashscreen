@@ -49,8 +49,6 @@ matrix:
     - env: PLATFORM=browser-safari
     - env: PLATFORM=browser-edge
 
-    - env: PLATFORM=ios-10.0
-      <<: *_ios
     - env: PLATFORM=ios-11.3
       <<: *_ios
     - env: PLATFORM=ios-12.0
