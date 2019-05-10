@@ -37,6 +37,10 @@ _android: &_android
 
 matrix:
   include:
+    # additional `npm test` in directory
+    - env: ADDITIONAL_TESTS_DIR=./tests/ios
+      <<: *_ios
+
     # one local test, without saucelabs
     - env: PLATFORM=local/browser
       <<: *_ios
