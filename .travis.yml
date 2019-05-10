@@ -37,6 +37,10 @@ _android: &_android
 
 matrix:
   include:
+    # additional `npm test` in directory
+    - env: ADDITIONAL_TESTS_DIR=./tests/ios
+      <<: *_ios
+
     # one local test, without saucelabs
     - env: PLATFORM=local/browser
       <<: *_ios
@@ -89,7 +93,7 @@ before_script:
     if [[ "$TRAVIS_REPO_SLUG" =~ cordova-paramedic ]]; then 
       # when used in the cordova-paramedic repo
       TEST_COMMAND="npm run eslint"
-      PARAMEDIC_PLUGIN_TO_TEST=""./spec/testable-plugin/""
+      PARAMEDIC_PLUGIN_TO_TEST="./spec/testable-plugin/"
       PARAMEDIC_COMMAND="node main.js"
     else 
       # when used in any other (plugin) repo
@@ -98,7 +102,18 @@ before_script:
       PARAMEDIC_COMMAND="cordova-paramedic"
     fi
   - PARAMEDIC_BUILDNAME=travis-$TRAVIS_REPO_SLUG-$TRAVIS_JOB_NUMBER
-  
+  - |
+    echo "Variables now are set to:"
+    echo "TEST_COMMAND=$TEST_COMMAND"
+    echo "ADDITIONAL_TESTS=$ADDITIONAL_TESTS"
+    echo "PARAMEDIC_COMMAND=$PARAMEDIC_COMMAND"
+    echo "PLATFORM=$PLATFORM"
+    echo "PARAMEDIC_PLUGIN_TO_TEST=$PARAMEDIC_PLUGIN_TO_TEST"
+    echo "PARAMEDIC_BUILDNAME=$PARAMEDIC_BUILDNAME"
 script:
   - $TEST_COMMAND
-  - $PARAMEDIC_COMMAND --config ./pr/$PLATFORM --plugin $PARAMEDIC_PLUGIN_TO_TEST --buildName $PARAMEDIC_BUILDNAME
+  - if [[ "$ADDITIONAL_TESTS_DIR" != "" ]]; then
+      cd $ADDITIONAL_TESTS_DIR && npm install && npm test;
+    else 
+      $PARAMEDIC_COMMAND --config ./pr/$PLATFORM --plugin $PARAMEDIC_PLUGIN_TO_TEST --buildName $PARAMEDIC_BUILDNAME; 
+    fi
