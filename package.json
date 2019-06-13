@@ -1,6 +1,6 @@
 {
-  "name": "dc-cordova-plugin-splashscreen",
-  "version": "6.0.4",
+  "name": "cordova-plugin-splashscreen",
+  "version": "5.0.4-dev",
   "description": "Cordova Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
