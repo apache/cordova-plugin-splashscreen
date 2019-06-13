@@ -60,6 +60,30 @@
     [self updateImage];
 }
 
+- (UIViewController*)getCurrentViewController {
+    // Grab the view controller that is currently presented.
+    UIViewController *currentViewController = [[[UIApplication sharedApplication] delegate] window].rootViewController;
+    UIViewController *keyRootController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    // Now present the alert on the view controller that is currently presenting.
+    if (currentViewController) {
+        // Note that since Cordova's view controller may not be the one that is currently
+        // presented (eg if another plugin that uses native controllers such as the InAppBrowser
+        // is currently presenting) we have to do some extra checking. So here we dig down
+        // and find the current view controller.
+        if (currentViewController.presentedViewController != nil){
+            currentViewController = currentViewController.presentedViewController;
+        }else if(keyRootController.presentedViewController != nil){
+            currentViewController = keyRootController.presentedViewController;
+        }
+        return currentViewController;
+    }
+    else {
+        // Fallback and present on Cordova's view controller.
+        return self.viewController;
+    }
+}
+
 - (void)createViews
 {
     /*
@@ -95,8 +119,8 @@
     {
         topActivityIndicatorStyle = UIActivityIndicatorViewStyleGray;
     }
-
-    UIView* parentView = self.viewController.view;
+    UIViewController* currentController = [self getCurrentViewController];
+    UIView* parentView = currentController.view;
     parentView.userInteractionEnabled = NO;  // disable user interaction while splashscreen is shown
     _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:topActivityIndicatorStyle];
     _activityView.center = CGPointMake(parentView.bounds.size.width / 2, parentView.bounds.size.height / 2);
@@ -141,7 +165,8 @@
     _activityView = nil;
     _curImageName = nil;
 
-    self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
+    UIViewController* currentController = [self getCurrentViewController];
+    currentController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
     @try {
         [self.viewController.view removeObserver:self forKeyPath:@"frame"];
         [self.viewController.view removeObserver:self forKeyPath:@"bounds"];

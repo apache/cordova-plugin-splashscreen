@@ -42,5 +42,6 @@ typedef struct {
 
 - (void)show:(CDVInvokedUrlCommand*)command;
 - (void)hide:(CDVInvokedUrlCommand*)command;
+- (UIViewController*)getCurrentViewController;
 
 @end
