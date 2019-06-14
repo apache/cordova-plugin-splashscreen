@@ -65,7 +65,7 @@
     UIViewController *currentViewController = [[[UIApplication sharedApplication] delegate] window].rootViewController;
     UIViewController *keyRootController = [UIApplication sharedApplication].keyWindow.rootViewController;
     
-    // Now present the alert on the view controller that is currently presenting.
+    // Now get the view controller that is currently presenting.
     if (currentViewController) {
         // Note that since Cordova's view controller may not be the one that is currently
         // presented (eg if another plugin that uses native controllers such as the InAppBrowser
@@ -79,7 +79,7 @@
         return currentViewController;
     }
     else {
-        // Fallback and present on Cordova's view controller.
+        // Fallback and get Cordova's view controller.
         return self.viewController;
     }
 }
