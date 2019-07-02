@@ -27,6 +27,7 @@ import android.content.res.Configuration;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.view.Display;
 import android.view.Gravity;
@@ -97,12 +98,14 @@ public class SplashScreen extends CordovaPlugin {
         }
         // Make WebView invisible while loading URL
         // CB-11326 Ensure we're calling this on UI thread
-        cordova.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                getView().setVisibility(View.INVISIBLE);
-            }
-        });
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    getView().setVisibility(View.INVISIBLE);
+                }
+            });
+        }
         int drawableId = getSplashId();
 
         // Save initial orientation.
@@ -368,7 +371,7 @@ public class SplashScreen extends CordovaPlugin {
                 layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                 progressBar.setLayoutParams(layoutParams);
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     String colorName = preferences.getString("SplashScreenSpinnerColor", null);
                     if(colorName != null){
                         int[][] states = new int[][] {
