@@ -91,12 +91,23 @@ projectRoot
 ```xml
 <platform name="android">
     <!-- you can use any density that exists in the Android project -->
+    <!-- Note: you should specify default resources for each density.
+      -- For instance, if the device(hdpi) is in landscape orientation and [density="land-hdpi"] 
+      -- does not exists, [density="hdpi"] will be selected -->
+    <splash src="res/screen/android/splash-port-hdpi.png" density="hdpi"/>
+    <splash src="res/screen/android/splash-port-ldpi.png" density="ldpi"/>
+    <splash src="res/screen/android/splash-port-mdpi.png" density="mdpi"/>
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="xhdpi"/>
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="xxhdpi"/>
+ 
+    <!-- When devices are in landscape orientation, those resources are selected -->
     <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
     <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
     <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
     <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
     <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi"/>
-
+ 
+    <!-- When devices are in portrait orientation, those resources are selected -->
     <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
     <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
     <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
