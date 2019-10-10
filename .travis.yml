@@ -1,3 +1,7 @@
+# This Travis configuration file is built after a Cordova Paramedic 
+# specific template with minimal modifications and adaptations:
+# https://github.com/apache/cordova-paramedic/blob/master/.travis.yml
+
 sudo: false
 
 addons:
@@ -8,12 +12,12 @@ addons:
 env:
   global:
     - SAUCE_USERNAME=snay
-    - TRAVIS_NODE_VERSION=6
+    - TRAVIS_NODE_VERSION=8
     - ANDROID_API_LEVEL=28
     - ANDROID_BUILD_TOOLS_VERSION=28.0.3
 
 language: node_js
-node_js: 6
+node_js: 8
 
 # yaml anchor/alias: https://medium.com/@tommyvn/travis-yml-dry-with-anchors-8b6a3ac1b027
 
@@ -60,8 +64,6 @@ matrix:
     - env: PLATFORM=ios-12.2
       <<: *_ios
 
-    - env: PLATFORM=android-4.4
-      <<: *_android
     - env: PLATFORM=android-5.1
       <<: *_android
     - env: PLATFORM=android-6.0
@@ -73,6 +75,8 @@ matrix:
     - env: PLATFORM=android-8.0
       <<: *_android
     - env: PLATFORM=android-8.1
+      <<: *_android
+    - env: PLATFORM=android-9.0
       <<: *_android
 
 before_install:
