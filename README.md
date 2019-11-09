@@ -125,12 +125,14 @@ projectRoot
       -- copied but ignored.
       -- Note: images are determined by scale, idiom, and size traits. The following
       -- are suggested based on current device form factors -->
-    <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
-    <splash src="res/screen/ios/Default@2x~universal~comany.png" />
-    <splash src="res/screen/ios/Default@2x~universal~comcom.png" />
-    <splash src="res/screen/ios/Default@3x~universal~anyany.png" />
-    <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
-    <splash src="res/screen/ios/Default@3x~universal~comany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
+    <splash src="res/screen/ios/Default@2x~iphone~comcom.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~anyany.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~anycom.png" />
+    <splash src="res/screen/ios/Default@3x~iphone~comany.png" />
+    <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
+    <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
     
 </platform>
 
