@@ -161,7 +161,7 @@ Apple is moving away from legacy launch images. There is no official support for
 
 The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch. For non-native app developers who don't wish to learn Interface Builder, however, this plugin simulates the legacy launch image method as much as is feasible.
 
-**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add viewport-fit=cover to the viewport meta tag in your `index.html` file to display the app correctly, and make some modification to your app style (css file) by using: `padding: env(safe-area-inset-top)` to avoid the unsafe areas behind notches in the screen.
+**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top)` to your `index.css` file to avoid the unsafe areas behind notches in the screen.
 
 #### Legacy launch images
 
