@@ -91,17 +91,19 @@ projectRoot
 ```xml
 <platform name="android">
     <!-- you can use any density that exists in the Android project -->
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi"/>
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi"/>
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi"/>
-    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi"/>
+    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
+    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
+    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
+    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi" />
+    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
+    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
 
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi"/>
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi"/>
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi"/>
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi"/>
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
+    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" /> 
 </platform>
 
 <platform name="ios">
@@ -158,6 +160,8 @@ There are two mechanisms for displaying a launch screen on iOS:
 Apple is moving away from legacy launch images. There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over. If your app doesn't need to support these contexts, then you can continue to use legacy launch images for as long as you like. 
 
 The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch. For non-native app developers who don't wish to learn Interface Builder, however, this plugin simulates the legacy launch image method as much as is feasible.
+
+**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top)` to your `index.css` file to avoid the unsafe areas behind notches in the screen.
 
 #### Legacy launch images
 
