@@ -140,7 +140,7 @@ Launch storyboard images: Images are sized based on scale, idiom, and size class
 
 The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch.
 
-**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should use the Storyboard splash screens, taking into account to add `viewport-fit=cover` inside `viewport` meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">` and make some modifications to your app style by adding: `padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);` inside `body { }` element in your `index.css` file to avoid the unsafe areas behind notches in the screen.
+**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should add `viewport-fit=cover` inside `viewport` meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">` and make some modifications to your app style by adding: `padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);` inside `body { }` element in your `index.css` file to avoid the unsafe areas behind notches in the screen.
 
 #### Launch storyboard images
 
