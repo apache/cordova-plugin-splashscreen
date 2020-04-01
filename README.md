@@ -107,22 +107,7 @@ projectRoot
 </platform>
 
 <platform name="ios">
-    <!-- There are two mechanisms for showing launch images.
-      -- Legacy method (supports all devices except iPad Pro 12.9):
-      -- Note: Images are determined by width and height. The following are supported -->
-    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-    <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
     <!-- Storyboard method (supports all devices):
-      -- Important: If you use the storyboard method, legacy images are 
-      -- copied but ignored.
       -- Note: images are determined by scale, idiom, and size traits. The following
       -- are suggested based on current device form factors -->
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
@@ -151,50 +136,11 @@ projectRoot
 
 ### iOS-specific Information
 
-There are two mechanisms for displaying a launch screen on iOS:
-
-1. Legacy launch images: images are sized exactly for the device's screen size. Does not support the iPad Pro 12.9's native resolution or split-screen/slide-over multitasking.
-
-2. Launch storyboard images: Images are sized based on scale, idiom, and size classes. Supports all devices, and can be used with split-screen/slide-over multitasking.
-
-Apple is moving away from legacy launch images. There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over. If your app doesn't need to support these contexts, then you can continue to use legacy launch images for as long as you like. 
+Launch storyboard images: Images are sized based on scale, idiom, and size classes. Supports all devices, and can be used with split-screen/slide-over multitasking.
 
 The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch. For non-native app developers who don't wish to learn Interface Builder, however, this plugin simulates the legacy launch image method as much as is feasible.
 
-**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top)` to your `index.css` file to avoid the unsafe areas behind notches in the screen.
-
-#### Legacy launch images
-
-If you choose to use legacy launch images, you will use the following syntax in `config.xml`:
-
-```
-    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-```
-
-Technically the filename for the `src` attribute can be anything you want; the filenames are used because they match what will be used when your project is compiled. The width and height attributes determine which launch images are displayed on which devices as follows:
-
-|    width    |    height    |    device (orientation)          |
-|:-----------:|:------------:|:--------------------------------:|
-|     320     |      480     | All non-retina iPhones and iPods |
-|     640     |      960     | iPhone 4/4s (portrait)           |
-|     640     |     1136     | iPhone 5/5s/SE (portrait)        |
-|     750     |     1334     | iPhone 6/6s/7 (portrait)         |
-|    1242     |     2208     | iPhone 6+/6s+/7+ (portrait)      |
-|    2208     |     1242     | iPhone 6+/6s+/7+ (landscape)     |
-|     768     |     1024     | All non-retina iPads (portrait)  |
-|    1024     |      768     | All non-retina iPads (landscape) |
-|    1536     |     2048     | All retina iPads (portrait)      |
-|    2048     |     1536     | All retina iPads (landscape)     |
-
-Note: It is vitally important that the source image actually matches the size specified in the `width` and `height` attributes. If it does not, the device may fail to render it properly, if at all.
+**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px)` to `index.css` file to avoid the unsafe areas behind notches in the screen.
 
 #### Launch storyboard images
 
