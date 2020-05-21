@@ -30,6 +30,7 @@
 
     <engines>
         <engine name="cordova-android" version=">=3.6.0" /><!-- Requires CordovaPlugin.preferences -->
+        <engine name="cordova-ios" version="<=5.1.1" />
         <engine name="cordova-windows" version=">=4.4.0" />
     </engines>
 
