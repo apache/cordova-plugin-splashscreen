@@ -29,22 +29,32 @@ description: Control the splash screen for your app.
 
 This plugin displays and hides a splash screen while your web application is launching. Using its methods you can also show and hide the splash screen manually.
 
-- [Installation](#installation)
-- [Supported Platforms](#supported-platforms)
-- [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
-  * [Example Configuration](#example-configuration)
-  * [iOS-specific Information](#ios-specific-information)
-  * [Windows-specific Information](#windows-specific-information)
-- [Preferences](#preferences)
-  * [config.xml](#configxml)
-  * [Quirks](#quirks)
-    + [Android Quirks](#android-quirks)
-    + [Browser Quirks](#browser-quirks)
-    + [iOS Quirks](#ios-quirks)
-    + [Windows Quirks](#windows-quirks)
-- [Methods](#methods)
-  * [splashscreen.hide](#splashscreenhide)
-  * [splashscreen.show](#splashscreenshow)
+- [cordova-plugin-splashscreen](#cordova-plugin-splashscreen)
+  - [Installation](#installation)
+  - [Supported Platforms](#supported-platforms)
+  - [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
+    - [Example Configuration](#example-configuration)
+    - [iOS-specific Information](#ios-specific-information)
+      - [Launch Storyboard Images](#launch-storyboard-images)
+        - [Designing Launch Storyboard Images](#designing-launch-storyboard-images)
+        - [Scale](#scale)
+        - [Idioms](#idioms)
+        - [Size classes](#size-classes)
+        - [Single-image launch screen](#single-image-launch-screen)
+        - [Multi-image launch screen](#multi-image-launch-screen)
+        - [Quirks and Known Issues](#quirks-and-known-issues)
+    - [Windows-specific Information](#windows-specific-information)
+  - [Preferences](#preferences)
+    - [config.xml](#configxml)
+    - [Quirks](#quirks)
+      - [Android Quirks](#android-quirks)
+      - [Browser Quirks](#browser-quirks)
+      - [iOS Quirks](#ios-quirks)
+      - [Windows Quirks](#windows-quirks)
+  - [Methods](#methods)
+    - [splashscreen.hide](#splashscreenhide)
+      - [iOS Quirk](#ios-quirk)
+    - [splashscreen.show](#splashscreenshow)
 
 ## Installation
 
@@ -107,22 +117,7 @@ projectRoot
 </platform>
 
 <platform name="ios">
-    <!-- There are two mechanisms for showing launch images.
-      -- Legacy method (supports all devices except iPad Pro 12.9):
-      -- Note: Images are determined by width and height. The following are supported -->
-    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-    <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>
-    <!-- Storyboard method (supports all devices):
-      -- Important: If you use the storyboard method, legacy images are 
-      -- copied but ignored.
+    <!-- Storyboard (supports all devices):
       -- Note: images are determined by scale, idiom, and size traits. The following
       -- are suggested based on current device form factors -->
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
@@ -151,80 +146,36 @@ projectRoot
 
 ### iOS-specific Information
 
-There are two mechanisms for displaying a launch screen on iOS:
+Launch storyboard images are sized based on scale, idiom, and size classes. It supports all devices, and can be used with split-screen/slide-over multitasking.
 
-1. Legacy launch images: images are sized exactly for the device's screen size. Does not support the iPad Pro 12.9's native resolution or split-screen/slide-over multitasking.
+There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over.
 
-2. Launch storyboard images: Images are sized based on scale, idiom, and size classes. Supports all devices, and can be used with split-screen/slide-over multitasking.
+**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), make sure to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top)` to your `index.css` file to avoid the unsafe areas behind notches in the screen.
 
-Apple is moving away from legacy launch images. There is no official support for providing a native-resolution launch image for the iPad Pro 12.9 or for providing launch images that work with split-screen multitasking or slide-over. If your app doesn't need to support these contexts, then you can continue to use legacy launch images for as long as you like. 
+#### Launch Storyboard Images
 
-The preferred method of providing launch images is to use a launch storyboard. For native app developers, the ideal launch storyboard is an unpopulated version of the app's user interface at launch. For non-native app developers who don't wish to learn Interface Builder, however, this plugin simulates the legacy launch image method as much as is feasible.
+To support newer form factors and split-screen/slide-over multitasking, launch storyboard images are used.
 
-**Note:** Since iOS 11, for iPhone X devices and greater (with notch screen), you should switch to the new storyboard splash screens, taking into account to add `viewport-fit=cover` to the viewport meta tag in your `index.html` file to display the app correctly like so: `<meta name="viewport" content="user-scalable=no, initial-scale=1, width=device-width, viewport-fit=cover">` and make some modification to your app style by adding: `padding: env(safe-area-inset-top)` to your `index.css` file to avoid the unsafe areas behind notches in the screen.
+- images are not specific to a given device.
+- images are scaled to fill the available viewport (while maintaining the aspect ratio).
+- the outer edges of the images will be cropped, and the amount will vary based on device an viewport.
+- there is no need to provide an image for each possible device, viewport, and orientation; iOS will choose the best image for the situation automatically.
 
-#### Legacy launch images
-
-If you choose to use legacy launch images, you will use the following syntax in `config.xml`:
-
-```
-    <splash src="res/screen/ios/Default~iphone.png" width="320" height="480"/>
-    <splash src="res/screen/ios/Default@2x~iphone.png" width="640" height="960"/>
-    <splash src="res/screen/ios/Default-Portrait~ipad.png" width="768" height="1024"/>
-    <splash src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" height="2048"/>
-    <splash src="res/screen/ios/Default-Landscape~ipad.png" width="1024" height="768"/>
-    <splash src="res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" height="1536"/>
-    <splash src="res/screen/ios/Default-568h@2x~iphone.png" width="640" height="1136"/>
-    <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
-    <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
-```
-
-Technically the filename for the `src` attribute can be anything you want; the filenames are used because they match what will be used when your project is compiled. The width and height attributes determine which launch images are displayed on which devices as follows:
-
-|    width    |    height    |    device (orientation)          |
-|:-----------:|:------------:|:--------------------------------:|
-|     320     |      480     | All non-retina iPhones and iPods |
-|     640     |      960     | iPhone 4/4s (portrait)           |
-|     640     |     1136     | iPhone 5/5s/SE (portrait)        |
-|     750     |     1334     | iPhone 6/6s/7 (portrait)         |
-|    1242     |     2208     | iPhone 6+/6s+/7+ (portrait)      |
-|    2208     |     1242     | iPhone 6+/6s+/7+ (landscape)     |
-|     768     |     1024     | All non-retina iPads (portrait)  |
-|    1024     |      768     | All non-retina iPads (landscape) |
-|    1536     |     2048     | All retina iPads (portrait)      |
-|    2048     |     1536     | All retina iPads (landscape)     |
-
-Note: It is vitally important that the source image actually matches the size specified in the `width` and `height` attributes. If it does not, the device may fail to render it properly, if at all.
-
-#### Launch storyboard images
-
-In order to support newer form factors and split-screen/slide-over multitasking, you should use launch storyboard images. These are similar to the legacy launch images above, but there are crucial differences:
-
- - images are not specific to a given device.
-
- - images are scaled to fill the available viewport (while maintaining the aspect ratio).
-
- - the outer edges of the images will be cropped, and the amount will vary based on device an viewport.
-
- - there is no need to provide an image for each possible device, viewport, and orientation; iOS will choose the best image for the situation automatically.
-
-##### Designing launch storyboard images
+##### Designing Launch Storyboard Images
 
 The key to designing a launch storyboard image is understanding that the edges of the image will almost certainly be cropped. Therefore, one should not place any important information near the edges of any images provided to the launch storyboard. Only the center is a safe area, and this all but guarantees that following Apple's advice of presenting an unpopulated user interface will not work well.
 
 Instead, the following tips should enable you to create a launch image that works across a multitude of form factors, viewports, and orientations:
 
- - Important graphics (logos, icons, titles) should be centered. The safe bounding region will vary, so you will need to test to ensure that the important graphics are never cropped. Better yet, don't supply any important graphics in the first place.
+- Important graphics (logos, icons, titles) should be centered. The safe bounding region will vary, so you will need to test to ensure that the important graphics are never cropped. Better yet, don't supply any important graphics in the first place.
 
-     - You _can_ fine-tune the placement and size of these graphics, but you don't have the same fine-grained control as you did with legacy launch images.
+  - You _can_ fine-tune the placement and size of these graphics.
 
- - Use a simple color wash. If you use two colors, you'll want one color to fill the top half of the image, and the second to fill the bottom half.  If you use a gradient, you'll probably want to ensure that the middle of the gradient lines up with the center of the image. 
+- Use a simple color wash. If you use two colors, you'll want one color to fill the top half of the image, and the second to fill the bottom half.  If you use a gradient, you'll probably want to ensure that the middle of the gradient lines up with the center of the image.
 
- - Don't worry about pixel perfection -- because the images are scaled, there's almost no chance the images will be perfectly fit to the pixel grid. Since all supported iOS devices use retina screens, users will be hard pressed to notice it anyway.
+- Don't worry about pixel perfection -- because the images are scaled, there's almost no chance the images will be perfectly fit to the pixel grid. Since all supported iOS devices use retina screens, users will be hard pressed to notice it anyway.
 
 It is important to understand the concept of scale, idiom, and size class traits in order to use launch storyboard images effectively. Of the images supplied to the launch storyboard, iOS will choose the image that best matches the device and viewport and render that image. It is possible to supply only one launch image if so desired, but it is also possible to fine-tune the displayed launch image based on traits. When fine-tuning, one can ignore traits that aren't targeted or supported by the app.
-
-> Note: If you are using launch storyboard images, there is no need to include legacy images. If you do, the legacy images will be copied, but not used.
 
 ##### Scale
 
@@ -267,17 +218,15 @@ To see the complete list of size classes associated with devices and viewports, 
 
 If your launch image is simple, you may be able to avoid creating a lot of different launch images and supply only one. The launch image needs to meet the following requirements:
 
- - the image should be square
+- the image should be square
+- the image should be large enough to fit on an iPad Pro 12.9": 2732x2732
+- anything important should fit within the center
 
- - the image should be large enough to fit on an iPad Pro 12.9": 2732x2732
-
- - anything important should fit within the center
-
- Keep in mind that the image will be cropped, possibly quite severely, depending upon the viewport. 
+Keep in mind that the image will be cropped, possibly quite severely, depending upon the viewport.
 
 Once the image is created, you can include it in your project by adding the following to `config.xml`:
 
-```
+```xml
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
 ```
 
@@ -304,7 +253,7 @@ If you don't need to target images to a specific idiom, you should create six im
 
 The above looks like the following snippet when present in `config.xml`:
 
-```
+```xml
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
     <splash src="res/screen/ios/Default@2x~universal~comany.png" />
     <splash src="res/screen/ios/Default@2x~universal~comcom.png" />
@@ -330,7 +279,7 @@ Should one need to further fine tune based upon device idiom, one can do so. Thi
 
 The above looks like the following in `config.xml`:
 
-```
+```xml
     <splash src="res/screen/ios/Default@2x~iphone~anyany.png" />
     <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
     <splash src="res/screen/ios/Default@2x~iphone~comcom.png" />
