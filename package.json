@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-splashscreen",
-  "version": "5.0.3",
+  "version": "5.0.5-dev",
   "description": "Cordova Splashscreen Plugin",
   "types": "./types/index.d.ts",
   "cordova": {
@@ -36,6 +36,9 @@
         "cordova-android": ">=3.6.0",
         "cordova-windows": ">=4.4.0"
       },
+      "<6.0.0": {
+        "cordova-ios": "<6.0.0"
+      },
       "6.0.0": {
         "cordova": ">100"
       }
@@ -47,5 +50,5 @@
   "devDependencies": {
     "jshint": "^2.6.0"
   },
-  "homepage": "https://cordova.apache.org/"
+  "homepage": "https://github.com/apache/cordova-plugin-splashscreen#readme"
 }
