@@ -91,6 +91,21 @@ projectRoot
 ```xml
 <platform name="android">
     <!-- you can use any density that exists in the Android project -->
+    <!--
+            land-hdpi    : 800x480 px
+            land-ldpi    : 320x200 px
+            land-mdpi    : 480x320 px
+            land-xhdpi   : 1280x720 px
+            land-xxhdpi  : 1600x960 px
+            land-xxxhdpi : 1920x1280 px
+
+            port-hdpi    : 480x800 px
+            port-ldpi    : 200x320 px
+            port-mdpi    : 320x480 px
+            port-xhdpi   : 720x1280 px
+            port-xxhdpi  : 960x1600 px
+            port-xxxhdpi : 1280x1920 px
+        -->
     <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
     <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
     <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
