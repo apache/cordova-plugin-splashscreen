@@ -39,7 +39,7 @@ matrix:
   include:
     # one local test, without saucelabs
     - env: PLATFORM=local/browser
-      <<: *_android
+      os: osx
 
     # many tests with saucelabs
     - env: PLATFORM=browser-chrome
