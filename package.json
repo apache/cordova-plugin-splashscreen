@@ -18,7 +18,8 @@
     "splashscreen",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-windows"
+    "cordova-windows",
+    "cordova-browser"
   ],
   "scripts": {
     "test": "npm run lint",
