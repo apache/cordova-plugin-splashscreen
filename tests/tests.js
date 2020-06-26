@@ -21,16 +21,16 @@
 
 exports.defineAutoTests = function () {
     describe('Splashscreen (cordova)', function () {
-        it("splashscreen.spec.1 should exist", function () {
+        it('splashscreen.spec.1 should exist', function () {
             expect(navigator.splashscreen).toBeDefined();
         });
 
-        it("splashscreen.spec.2 show method should exist", function () {
+        it('splashscreen.spec.2 show method should exist', function () {
             expect(navigator.splashscreen.show).toBeDefined();
             expect(typeof navigator.splashscreen.show).toBe('function');
         });
 
-        it("splashscreen.spec.3 hide method should exist", function () {
+        it('splashscreen.spec.3 hide method should exist', function () {
             expect(navigator.splashscreen.hide).toBeDefined();
             expect(typeof navigator.splashscreen.hide).toBe('function');
         });
@@ -38,7 +38,7 @@ exports.defineAutoTests = function () {
 };
 
 exports.defineManualTests = function (contentEl, createActionButton) {
-    function showFor(duration) {
+    function showFor (duration) {
         navigator.splashscreen.show();
         window.setTimeout(function () {
             navigator.splashscreen.hide();

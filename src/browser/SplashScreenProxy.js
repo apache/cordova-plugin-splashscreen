@@ -22,10 +22,10 @@
 // Default parameter values including image size can be changed in `config.xml`
 var splashImageWidth = 170;
 var splashImageHeight = 200;
-var position = { x: 0, y: 0, width: splashImageWidth, height: splashImageHeight }; 
+var position = { x: 0, y: 0, width: splashImageWidth, height: splashImageHeight };
 var localSplash; // the image to display
 var localSplashImage;
-var bgColor = "#464646";
+var bgColor = '#464646';
 var imageSrc = '/img/logo.png';
 var splashScreenDelay = 3000; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
@@ -33,24 +33,24 @@ var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
 var autoHideSplashScreen = true;
 
-function updateImageLocation() {
+function updateImageLocation () {
     position.width = Math.min(splashImageWidth, window.innerWidth);
     position.height = position.width * (splashImageHeight / splashImageWidth);
 
-    localSplash.style.width = window.innerWidth + "px";
-    localSplash.style.height = window.innerHeight + "px";
-    localSplash.style.top = "0px";
-    localSplash.style.left = "0px";
+    localSplash.style.width = window.innerWidth + 'px';
+    localSplash.style.height = window.innerHeight + 'px';
+    localSplash.style.top = '0px';
+    localSplash.style.left = '0px';
 
-    localSplashImage.style.top = "50%";
-    localSplashImage.style.left = "50%";
-    localSplashImage.style.height = position.height + "px";
-    localSplashImage.style.width = position.width + "px";
-    localSplashImage.style.marginTop = (-position.height / 2) + "px";
-    localSplashImage.style.marginLeft = (-position.width / 2) + "px";
+    localSplashImage.style.top = '50%';
+    localSplashImage.style.left = '50%';
+    localSplashImage.style.height = position.height + 'px';
+    localSplashImage.style.width = position.width + 'px';
+    localSplashImage.style.marginTop = (-position.height / 2) + 'px';
+    localSplashImage.style.marginLeft = (-position.width / 2) + 'px';
 }
 
-function onResize() {
+function onResize () {
     updateImageLocation();
 }
 
@@ -62,16 +62,16 @@ var SplashScreen = {
         }
     },
     show: function () {
-        if(!localSplash) {
-            window.addEventListener("resize", onResize, false);
-            localSplash = document.createElement("div");
+        if (!localSplash) {
+            window.addEventListener('resize', onResize, false);
+            localSplash = document.createElement('div');
             localSplash.style.backgroundColor = bgColor;
-            localSplash.style.position = "absolute";
-            localSplash.style["z-index"] = "99999";
+            localSplash.style.position = 'absolute';
+            localSplash.style['z-index'] = '99999';
 
-            localSplashImage = document.createElement("img");
+            localSplashImage = document.createElement('img');
             localSplashImage.src = imageSrc;
-            localSplashImage.style.position = "absolute";
+            localSplashImage.style.position = 'absolute';
 
             updateImageLocation();
 
@@ -88,16 +88,16 @@ var SplashScreen = {
         }
     },
     hide: function () {
-        if(localSplash) {
+        if (localSplash) {
             var innerLocalSplash = localSplash;
             localSplash = null;
-            window.removeEventListener("resize", onResize, false);
+            window.removeEventListener('resize', onResize, false);
 
             innerLocalSplash.style.opacity = '0';
-            innerLocalSplash.style["-webkit-transition"] = "opacity 1s ease-in-out";
-            innerLocalSplash.style["-moz-transition"] = "opacity 1s ease-in-out";
-            innerLocalSplash.style["-ms-transition"] = "opacity 1s ease-in-out";
-            innerLocalSplash.style["-o-transition"] = "opacity 1s ease-in-out";
+            innerLocalSplash.style['-webkit-transition'] = 'opacity 1s ease-in-out';
+            innerLocalSplash.style['-moz-transition'] = 'opacity 1s ease-in-out';
+            innerLocalSplash.style['-ms-transition'] = 'opacity 1s ease-in-out';
+            innerLocalSplash.style['-o-transition'] = 'opacity 1s ease-in-out';
 
             window.setTimeout(function () {
                 document.body.removeChild(innerLocalSplash);
@@ -112,10 +112,10 @@ var SplashScreen = {
 /**
  * Reads preferences via ConfigHelper and substitutes default parameters.
  */
-function readPreferencesFromCfg(cfg) {
+function readPreferencesFromCfg (cfg) {
     try {
         var value = cfg.getPreferenceValue('ShowSplashScreen');
-        if(typeof value != 'undefined') {
+        if (typeof value !== 'undefined') {
             showSplashScreen = value === 'true';
         }
 
@@ -128,7 +128,7 @@ function readPreferencesFromCfg(cfg) {
         splashImageHeight = cfg.getPreferenceValue('SplashScreenHeight') || splashImageHeight;
         autoHideSplashScreen = cfg.getPreferenceValue('AutoHideSplashScreen') || autoHideSplashScreen;
         autoHideSplashScreen = (autoHideSplashScreen === true || autoHideSplashScreen.toLowerCase() === 'true');
-    } catch(e) {
+    } catch (e) {
         var msg = '[Browser][SplashScreen] Error occurred on loading preferences from config.xml: ' + JSON.stringify(e);
         console.error(msg);
     }
@@ -137,11 +137,11 @@ function readPreferencesFromCfg(cfg) {
 /**
  * Shows and hides splashscreen if it is enabled, with a delay according the current preferences.
  */
-function showAndHide() {
-    if(showSplashScreen) {
+function showAndHide () {
+    if (showSplashScreen) {
         SplashScreen.show();
 
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             SplashScreen.hide();
         }, splashScreenDelay);
     }
@@ -150,21 +150,19 @@ function showAndHide() {
 /**
  * Tries to read config.xml and override default properties and then shows and hides splashscreen if it is enabled.
  */
-(function initAndShow() {
-    configHelper.readConfig(function(config) {
+(function initAndShow () {
+    configHelper.readConfig(function (config) {
         readPreferencesFromCfg(config);
         if (autoHideSplashScreen) {
             showAndHide();
         } else {
             SplashScreen.show();
         }
-
-    }, function(err) {
+    }, function (err) {
         console.error(err);
     });
 })();
 
 module.exports = SplashScreen;
 
-require("cordova/exec/proxy").add("SplashScreen", SplashScreen);
-
+require('cordova/exec/proxy').add('SplashScreen', SplashScreen);
