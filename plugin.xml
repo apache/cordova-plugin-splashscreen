@@ -51,7 +51,7 @@
 
     <!-- windows -->
     <platform name="windows">
-        <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
+        <js-module src="src/windows/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
         </js-module>
     </platform>
