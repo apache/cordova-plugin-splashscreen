@@ -19,8 +19,6 @@
  *
 */
 
-/* jslint sloppy:true */
-
 var splash = require('cordova/splashscreen');
 
 var SplashScreen = {
