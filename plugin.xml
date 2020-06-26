@@ -25,8 +25,8 @@
     <description>Cordova Splashscreen Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,splashscreen</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320653</issue>
+    <repo>https://github.com/apache/cordova-plugin-splashscreen.git</repo>
+    <issue>https://github.com/apache/cordova-plugin-splashscreen/issues</issue>
 
     <engines>
         <engine name="cordova-android" version=">=3.6.0" /><!-- Requires CordovaPlugin.preferences -->
