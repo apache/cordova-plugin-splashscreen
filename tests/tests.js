@@ -19,8 +19,6 @@
  *
 */
 
-/* jshint jasmine: true */
-
 exports.defineAutoTests = function () {
     describe('Splashscreen (cordova)', function () {
         it("splashscreen.spec.1 should exist", function () {
