@@ -38,7 +38,7 @@
         "cordova": ">100"
       }
     },
-    "node": ">=6.0.0"
+    "node": ">=10.0.0"
   },
   "author": "Apache Software Foundation",
   "license": "Apache-2.0",
