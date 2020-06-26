@@ -8,7 +8,6 @@
     "platforms": [
       "android",
       "ubuntu",
-      "ios",
       "windows",
       "browser"
     ]
@@ -20,7 +19,6 @@
     "splashscreen",
     "ecosystem:cordova",
     "cordova-android",
-    "cordova-ios",
     "cordova-windows"
   ],
   "scripts": {
@@ -35,9 +33,6 @@
       "4.0.0": {
         "cordova-android": ">=3.6.0",
         "cordova-windows": ">=4.4.0"
-      },
-      "<6.0.0": {
-        "cordova-ios": "<6.0.0"
       },
       "6.0.0": {
         "cordova": ">100"
