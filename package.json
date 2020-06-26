@@ -7,7 +7,6 @@
     "id": "cordova-plugin-splashscreen",
     "platforms": [
       "android",
-      "ubuntu",
       "windows",
       "browser"
     ]
