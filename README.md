@@ -34,6 +34,11 @@ This plugin displays and hides a splash screen while your web application is lau
   - [Supported Platforms](#supported-platforms)
   - [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
     - [Example Configuration](#example-configuration)
+    - [Android-specific Information](#android-specific-information)
+      - [Image Layout](#image-layout)
+      - [`density`](#density)
+      - [Image Sizing Table](#image-sizing-table)
+      - [Example Android Configuration](#example-android-configuration)
     - [iOS-specific Information](#ios-specific-information)
       - [Launch Storyboard Images](#launch-storyboard-images)
         - [Designing Launch Storyboard Images](#designing-launch-storyboard-images)
@@ -100,22 +105,6 @@ projectRoot
 
 ```xml
 <platform name="android">
-    <!-- you can use any density that exists in the Android project -->
-    <!--
-            land-hdpi    : 800x480 px
-            land-ldpi    : 320x200 px
-            land-mdpi    : 480x320 px
-            land-xhdpi   : 1280x720 px
-            land-xxhdpi  : 1600x960 px
-            land-xxxhdpi : 1920x1280 px
-
-            port-hdpi    : 480x800 px
-            port-ldpi    : 200x320 px
-            port-mdpi    : 320x480 px
-            port-xhdpi   : 720x1280 px
-            port-xxhdpi  : 960x1600 px
-            port-xxxhdpi : 1280x1920 px
-        -->
     <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
     <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
     <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
@@ -141,7 +130,6 @@ projectRoot
     <splash src="res/screen/ios/Default@3x~universal~anyany.png" />
     <splash src="res/screen/ios/Default@3x~universal~anycom.png" />
     <splash src="res/screen/ios/Default@3x~universal~comany.png" />
-    
 </platform>
 
 <!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
@@ -157,6 +145,56 @@ projectRoot
 </platform>-->
 
 <preference name="SplashScreenDelay" value="10000" />
+```
+
+### Android-specific Information
+
+To effectively create your Android SplashScreen assets, it is important to understand the idiom and sizes used for the assets.
+
+Android defined its assets by the image's layout and `density`.
+
+#### Image Layout
+
+- `land` short for landscape mode
+- `port` short for portrait mode
+
+#### `density`
+
+The image's density refers to the number of pixels per square inch. Android, interchangeably refers to this as DPI.
+
+Not all devices have the same pixel size so it is important to create images for all DPI to ensure that the quality of the image for each device is great.
+
+If not all DPI images are considered, some devices might not show a SplashScreen or will use an incorrect DPI image that can result in a blurry scaled image.
+
+#### Image Sizing Table
+
+|  size   | portrait  | landscape |
+| :-----: | :-------: | :-------: |
+|  ldpi   |  200x320  |  320x200  |
+|  mdpi   |  320x480  |  480x320  |
+|  hdpi   |  480x800  |  800x480  |
+|  xhdpi  | 720x1280  | 1280x720  |
+| xxhdpi  | 960x1600  | 1600x960  |
+| xxxhdpi | 1280x1920 | 1920x1280 |
+
+#### Example Android Configuration
+
+```xml
+<platform name="android">
+    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
+    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
+    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
+    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi" />
+    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
+    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
+
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
+    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" />
+</platform>
 ```
 
 ### iOS-specific Information
