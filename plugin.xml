@@ -33,10 +33,6 @@
         <engine name="cordova-windows" version=">=4.4.0" />
     </engines>
 
-    <js-module src="www/splashscreen.js" name="SplashScreen">
-        <clobbers target="navigator.splashscreen" />
-    </js-module>
-
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
@@ -47,6 +43,10 @@
         </config-file>
 
         <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
+
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
+        </js-module>
     </platform>
 
     <!-- windows -->
@@ -54,12 +54,20 @@
         <js-module src="src/windows/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
         </js-module>
+
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
+        </js-module>
     </platform>
 
     <!-- browser -->
     <platform name="browser">
         <js-module src="src/browser/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
+        </js-module>
+
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
         </js-module>
     </platform>
 </plugin>
