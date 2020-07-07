@@ -20,6 +20,21 @@
 -->
 # Release Notes
 
+### 6.0.0 (Jul 07, 2020)
+
+* [GH-282](https://github.com/apache/cordova-plugin-splashscreen/pull/282) fix: js `clobber` only on supported platforms
+* [GH-281](https://github.com/apache/cordova-plugin-splashscreen/pull/281) chore: adds `package-lock` file
+* [GH-280](https://github.com/apache/cordova-plugin-splashscreen/pull/280) doc(android): various improvements including size specs
+* [GH-200](https://github.com/apache/cordova-plugin-splashscreen/pull/200) fix(windows): implementation structure
+* [GH-279](https://github.com/apache/cordova-plugin-splashscreen/pull/279) chore: add missing supported platform **Browser** to `npm` keywords
+* [GH-278](https://github.com/apache/cordova-plugin-splashscreen/pull/278) chore: update `engine` checks to cover newer versions
+* [GH-277](https://github.com/apache/cordova-plugin-splashscreen/pull/277) breaking: replace `jshint` with `eslint`
+* [GH-276](https://github.com/apache/cordova-plugin-splashscreen/pull/276) breaking: drop `node` `engine` requirement
+* [GH-275](https://github.com/apache/cordova-plugin-splashscreen/pull/275) chore: cleanup repo
+* [GH-274](https://github.com/apache/cordova-plugin-splashscreen/pull/274) breaking: bump `engine` restriction for cordova dependencies
+* [GH-263](https://github.com/apache/cordova-plugin-splashscreen/pull/263) breaking: remove **iOS** platform code from plugin repo
+* [GH-267](https://github.com/apache/cordova-plugin-splashscreen/pull/267) test: force `cordova-ios`@^5.1.1
+
 ### 5.0.4 (Jun 03, 2020)
 * [GH-261](https://github.com/apache/cordova-plugin-splashscreen/pull/261) chore: add `cordova-ios` requirement <6.0.0
 * chore(asf): update git notification settings
