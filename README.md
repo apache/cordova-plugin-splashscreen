@@ -48,7 +48,7 @@ This plugin displays and hides a splash screen while your web application is lau
         - [Size classes](#size-classes)
         - [Single-image launch screen](#single-image-launch-screen)
         - [Multi-image launch screen](#multi-image-launch-screen)
-        - [Dark Mode](#dark-mode)
+        - [Dark Mode](#dark-mode-1)
         - [Quirks and Known Issues](#quirks-and-known-issues)
     - [Windows-specific Information](#windows-specific-information)
   - [Preferences](#preferences)
@@ -181,7 +181,8 @@ If not all DPI images are considered, some devices might not show a SplashScreen
 
 #### Dark Mode
 
-You can easily provide an extra SplashScreen Image for NightMode/DarkMode enabled Devices. Do this by addign **-night** at the correct Place in the `density`.
+You can easily provide an extra SplashScreen Image for NightMode/DarkMode enabled Devices.
+Do this by addign **-night** at the correct Place in the `density`.
 
 The correct Place is between the Image Layout and the Size. See [the Example Configuration](#example-android-configuration).
 
