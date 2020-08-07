@@ -38,6 +38,7 @@ This plugin displays and hides a splash screen while your web application is lau
       - [Image Layout](#image-layout)
       - [`density`](#density)
       - [Image Sizing Table](#image-sizing-table)
+      - [Dark Mode](#dark-mode)
       - [Example Android Configuration](#example-android-configuration)
     - [iOS-specific Information](#ios-specific-information)
       - [Launch Storyboard Images](#launch-storyboard-images)
@@ -47,6 +48,7 @@ This plugin displays and hides a splash screen while your web application is lau
         - [Size classes](#size-classes)
         - [Single-image launch screen](#single-image-launch-screen)
         - [Multi-image launch screen](#multi-image-launch-screen)
+        - [Dark Mode](#dark-mode)
         - [Quirks and Known Issues](#quirks-and-known-issues)
     - [Windows-specific Information](#windows-specific-information)
   - [Preferences](#preferences)
@@ -177,6 +179,12 @@ If not all DPI images are considered, some devices might not show a SplashScreen
 | xxhdpi  | 960x1600  | 1600x960  |
 | xxxhdpi | 1280x1920 | 1920x1280 |
 
+#### Dark Mode
+
+You can easily provide an extra SplashScreen Image for NightMode/DarkMode enabled Devices. Do this by addign **-night** at the correct Place in the `density`.
+
+The correct Place is between the Image Layout and the Size. See [the Example Configuration](#example-android-configuration).
+
 #### Example Android Configuration
 
 ```xml
@@ -194,6 +202,21 @@ If not all DPI images are considered, some devices might not show a SplashScreen
     <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
     <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
     <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" />
+  
+    <!-- Dark Mode -->
+    <splash src="res/screen/android/splash-land-hdpi.png" density="land-night-hdpi" />
+    <splash src="res/screen/android/splash-land-ldpi.png" density="land-night-ldpi" />
+    <splash src="res/screen/android/splash-land-mdpi.png" density="land-night-mdpi" />
+    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-night-xhdpi" />
+    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-night-xxhdpi" />
+    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-night-xxxhdpi" />
+
+    <splash src="res/screen/android/splash-port-hdpi.png" density="port-night-hdpi" />
+    <splash src="res/screen/android/splash-port-ldpi.png" density="port-night-ldpi" />
+    <splash src="res/screen/android/splash-port-mdpi.png" density="port-night-mdpi" />
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-night-xhdpi" />
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-night-xxhdpi" />
+    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-night-xxxhdpi" />
 </platform>
 ```
 
@@ -341,6 +364,21 @@ The above looks like the following in `config.xml`:
     <splash src="res/screen/ios/Default@3x~iphone~comany.png" />
     <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
     <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
+```
+
+##### Dark Mode
+
+Since [Cordova-ios@6.1.0](https://github.com/apache/cordova-ios) it is now possible to use optionally different splashscreen images when your app is running in dark mode. You can configure these images in config.xml with the ~dark suffix (and ~light is also supported).
+
+```xml
+<!-- Default image to be used for all modes -->
+<splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+
+<!-- Image to use specifically for dark mode devices -->
+<splash src="res/screen/ios/Default@2x~universal~anyany~dark.png" />
+
+<!-- Image to use specifically for light mode devices -->
+<splash src="res/screen/ios/Default@2x~universal~anyany~light.png" />
 ```
 
 ##### Quirks and Known Issues
