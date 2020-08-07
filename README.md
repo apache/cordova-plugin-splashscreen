@@ -181,7 +181,7 @@ If not all DPI images are considered, some devices might not show a SplashScreen
 
 #### Dark Mode
 
-You can easily provide an extra SplashScreen Image for NightMode/DarkMode enabled Devices.
+You can easily provide an extra SplashScreen image for NightMode/DarkMode enabled devices.
 To do this, add the keyword `-night` in between the image's **layout** and **size** keywords of the `density` attribute value. E.g.: `land-night-hdpi`
 
 For more examples, please see [the Example Configuration](#example-android-configuration) section.
