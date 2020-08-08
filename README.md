@@ -181,8 +181,8 @@ If not all DPI images are considered, some devices might not show a SplashScreen
 
 #### Dark Mode (API 28+)
 
-You can easily provide an extra SplashScreen image for NightMode/DarkMode enabled devices.
-To do this, add the keyword `-night` in between the image's **layout** and **size** keywords of the `density` attribute value. E.g.: `land-night-hdpi`
+You can optionally provide an extra SplashScreen image to be used in dark/night mode when enabled on supported devices.
+To do this, add the `-night` keyword in between the **layout** and **size** keywords of the image's `density` attribute value. E.g.: `land-night-hdpi`
 
 For more examples, please see [the Example Configuration](#example-android-configuration) section.
 
@@ -369,7 +369,7 @@ The above looks like the following in `config.xml`:
 
 ##### Dark Mode
 
-Since [Cordova-ios@6.1.0](https://github.com/apache/cordova-ios) it is now possible to use optionally different splashscreen images when your app is running in dark mode. You can configure these images in config.xml with the ~dark suffix (and ~light is also supported).
+Since [Cordova-ios@6.1.0](https://github.com/apache/cordova-ios) it is now possible to optionally specify different SplashScreen images to be used when your app is running in dark mode. You can specify the luminosity of SplashScreen images in config.xml using the ~dark and ~light suffixes.
 
 ```xml
 <!-- Default image to be used for all modes -->
@@ -382,7 +382,7 @@ Since [Cordova-ios@6.1.0](https://github.com/apache/cordova-ios) it is now possi
 <splash src="res/screen/ios/Default@2x~universal~anyany~light.png" />
 ```
 
-**Note:** This works since iOS13+. Version below will use the default SplashScreen without a luminosity suffix specified.
+**Note:** This works since iOS 13. iOS 12 and below will use the default SplashScreen without a luminosity suffix specified.
 
 ##### Quirks and Known Issues
 
