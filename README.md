@@ -369,7 +369,7 @@ The above looks like the following in `config.xml`:
 
 ##### Dark Mode
 
-Since [Cordova-ios@6.1.0](https://github.com/apache/cordova-ios) it is now possible to optionally specify different SplashScreen images to be used when your app is running in dark mode. You can specify the luminosity of SplashScreen images in config.xml using the ~dark and ~light suffixes.
+Since [Cordova-iOS@6.1.0](https://github.com/apache/cordova-ios), it is now possible to optionally specify different SplashScreen images to use when the app is running in dark mode. The luminosity of SplashScreen images can be defined in `config.xml` using the `~dark` and `~light` suffixes.
 
 ```xml
 <!-- Default image to be used for all modes -->
