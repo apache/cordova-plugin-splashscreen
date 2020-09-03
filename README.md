@@ -205,19 +205,19 @@ For more examples, please see [the Example Configuration](#example-android-confi
     <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" />
   
     <!-- Dark Mode -->
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-night-hdpi" />
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-night-ldpi" />
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-night-mdpi" />
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-night-xhdpi" />
-    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-night-xxhdpi" />
-    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-night-xxxhdpi" />
+    <splash src="res/screen/android/splash-land-night-hdpi.png" density="land-night-hdpi" />
+    <splash src="res/screen/android/splash-land-night-ldpi.png" density="land-night-ldpi" />
+    <splash src="res/screen/android/splash-land-night-mdpi.png" density="land-night-mdpi" />
+    <splash src="res/screen/android/splash-land-night-xhdpi.png" density="land-night-xhdpi" />
+    <splash src="res/screen/android/splash-land-night-xxhdpi.png" density="land-night-xxhdpi" />
+    <splash src="res/screen/android/splash-land-night-xxxhdpi.png" density="land-night-xxxhdpi" />
 
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-night-hdpi" />
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-night-ldpi" />
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-night-mdpi" />
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-night-xhdpi" />
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-night-xxhdpi" />
-    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-night-xxxhdpi" />
+    <splash src="res/screen/android/splash-port-night-hdpi.png" density="port-night-hdpi" />
+    <splash src="res/screen/android/splash-port-night-ldpi.png" density="port-night-ldpi" />
+    <splash src="res/screen/android/splash-port-night-mdpi.png" density="port-night-mdpi" />
+    <splash src="res/screen/android/splash-port-night-xhdpi.png" density="port-night-xhdpi" />
+    <splash src="res/screen/android/splash-port-night-xxhdpi.png" density="port-night-xxhdpi" />
+    <splash src="res/screen/android/splash-port-night-xxxhdpi.png" density="port-night-xxxhdpi" />
 </platform>
 ```
 
