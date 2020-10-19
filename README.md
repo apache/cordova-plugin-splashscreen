@@ -193,6 +193,19 @@ For more examples, please see [the Example Configuration](#example-android-confi
 
 ```xml
 <platform name="android">
+    <!-- Default 
+    Note: You should specify default resources for each density.
+      -- For instance, if the device(hdpi) is in landscape orientation and [density="land-hdpi"] 
+      -- does not exists, [density="hdpi"] will be selected 
+      If you do not declare this you will get MissingDefaultResource lint check errors.
+      -->
+    <splash src="res/screen/android/splash-port-hdpi.png" density="hdpi"/>
+    <splash src="res/screen/android/splash-port-ldpi.png" density="ldpi"/>
+    <splash src="res/screen/android/splash-port-mdpi.png" density="mdpi"/>
+    <splash src="res/screen/android/splash-port-xhdpi.png" density="xhdpi"/>
+    <splash src="res/screen/android/splash-port-xxhdpi.png" density="xxhdpi"/>
+
+    <!-- Landscape -->
     <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
     <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
     <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
@@ -200,6 +213,7 @@ For more examples, please see [the Example Configuration](#example-android-confi
     <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
     <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
 
+    <!-- Portrait -->
     <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
     <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
     <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
