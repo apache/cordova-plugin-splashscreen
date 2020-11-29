@@ -396,6 +396,7 @@ public class SplashScreen extends CordovaPlugin {
 
                 spinnerDialog.show();
                 spinnerDialog.setContentView(centeredLayout);
+                spinnerDialog.getWindow().setGravity(Gravity.CENTER);
             }
         });
     }
