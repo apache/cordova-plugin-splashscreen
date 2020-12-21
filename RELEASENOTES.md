@@ -20,6 +20,33 @@
 -->
 # Release Notes
 
+### 6.0.0 (Jul 07, 2020)
+
+* [GH-282](https://github.com/apache/cordova-plugin-splashscreen/pull/282) fix: js `clobber` only on supported platforms
+* [GH-281](https://github.com/apache/cordova-plugin-splashscreen/pull/281) chore: adds `package-lock` file
+* [GH-280](https://github.com/apache/cordova-plugin-splashscreen/pull/280) doc(android): various improvements including size specs
+* [GH-200](https://github.com/apache/cordova-plugin-splashscreen/pull/200) fix(windows): implementation structure
+* [GH-279](https://github.com/apache/cordova-plugin-splashscreen/pull/279) chore: add missing supported platform **Browser** to `npm` keywords
+* [GH-278](https://github.com/apache/cordova-plugin-splashscreen/pull/278) chore: update `engine` checks to cover newer versions
+* [GH-277](https://github.com/apache/cordova-plugin-splashscreen/pull/277) breaking: replace `jshint` with `eslint`
+* [GH-276](https://github.com/apache/cordova-plugin-splashscreen/pull/276) breaking: drop `node` `engine` requirement
+* [GH-275](https://github.com/apache/cordova-plugin-splashscreen/pull/275) chore: cleanup repo
+* [GH-274](https://github.com/apache/cordova-plugin-splashscreen/pull/274) breaking: bump `engine` restriction for cordova dependencies
+* [GH-263](https://github.com/apache/cordova-plugin-splashscreen/pull/263) breaking: remove **iOS** platform code from plugin repo
+* [GH-267](https://github.com/apache/cordova-plugin-splashscreen/pull/267) test: force `cordova-ios`@^5.1.1
+
+### 5.0.4 (Jun 03, 2020)
+* [GH-261](https://github.com/apache/cordova-plugin-splashscreen/pull/261) chore: add `cordova-ios` requirement <6.0.0
+* chore(asf): update git notification settings
+* update CONTRIBUTING.md
+* [GH-251](https://github.com/apache/cordova-plugin-splashscreen/pull/251) chore(npm): adds ignore list
+* [GH-252](https://github.com/apache/cordova-plugin-splashscreen/pull/252) ci: updates Node.js versions
+* [GH-236](https://github.com/apache/cordova-plugin-splashscreen/pull/236) update homepage to github `README` page
+* [GH-239](https://github.com/apache/cordova-plugin-splashscreen/pull/239) update `README`.md by adding missing info
+* ci(travis): Upgrade node from 6 to 8
+* ci(travis): Remove **Android 4.4**, Add **Android** 9.0
+* [GH-212](https://github.com/apache/cordova-plugin-splashscreen/pull/212) ci(travis): Add ADDITIONAL_TESTS_DIR=./tests/ios
+
 ### 5.0.3 (May 09, 2019)
 * Update CI configuration and README ([#210](https://github.com/apache/cordova-plugin-splashscreen/pull/210), [#208](https://github.com/apache/cordova-plugin-splashscreen/pull/208), [#198](https://github.com/apache/cordova-plugin-splashscreen/pull/198), [#194](https://github.com/apache/cordova-plugin-splashscreen/pull/194))
 * Add or update GitHub pull request and issue template
