@@ -125,6 +125,10 @@ public class SplashScreen extends CordovaPlugin {
         return preferences.getBoolean("SplashMaintainAspectRatio", false);
     }
 
+    private String getSplashScaleType() {
+        return preferences.getString("SplashScaleType", "FIT_XY");
+    }
+
     private int getFadeDuration () {
         int fadeSplashScreenDuration = preferences.getBoolean("FadeSplashScreen", true) ?
             preferences.getInteger("FadeSplashScreenDuration", DEFAULT_FADE_DURATION) : 0;
@@ -301,16 +305,9 @@ public class SplashScreen extends CordovaPlugin {
                 splashImageView.setMinimumWidth(display.getWidth());
 
                 // TODO: Use the background color of the webView's parent instead of using the preference.
-                splashImageView.setBackgroundColor(preferences.getInteger("backgroundColor", Color.BLACK));
+                splashImageView.setBackgroundColor(Color.parseColor(preferences.getString("SplashBackgroundColor", "#FFFFFF")));
 
-                if (isMaintainAspectRatio()) {
-                    // CENTER_CROP scale mode is equivalent to CSS "background-size:cover"
-                    splashImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                else {
-                    // FIT_XY scales image non-uniformly to fit into image view.
-                    splashImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                }
+                splashImageView.setScaleType(ImageView.ScaleType.valueOf(getSplashScaleType()));
 
                 // Create and show the dialog
                 splashDialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
@@ -393,6 +390,7 @@ public class SplashScreen extends CordovaPlugin {
 
                 spinnerDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 spinnerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                spinnerDialog.getWindow().setGravity(Gravity.CENTER);
 
                 spinnerDialog.show();
                 spinnerDialog.setContentView(centeredLayout);
