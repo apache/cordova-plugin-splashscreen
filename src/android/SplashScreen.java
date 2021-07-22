@@ -194,6 +194,7 @@ public class SplashScreen extends CordovaPlugin {
         } else if ("spinner".equals(id)) {
             if ("stop".equals(data.toString())) {
                 getView().setVisibility(View.VISIBLE);
+                getView().requestFocus();
             }
         } else if ("onReceivedError".equals(id)) {
             this.spinnerStop();
