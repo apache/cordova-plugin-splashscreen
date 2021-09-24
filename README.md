@@ -21,10 +21,6 @@ description: Control the splash screen for your app.
 #         under the License.
 -->
 
-|AppVeyor|Travis CI|
-|:-:|:-:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/github/apache/cordova-plugin-splashscreen?branch=master)](https://ci.appveyor.com/project/ApacheSoftwareFoundation/cordova-plugin-splashscreen)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-splashscreen.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-splashscreen)|
-
 # cordova-plugin-splashscreen
 
 This plugin displays and hides a splash screen while your web application is launching. Using its methods you can also show and hide the splash screen manually.
