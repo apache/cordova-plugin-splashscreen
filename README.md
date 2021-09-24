@@ -23,6 +23,8 @@ description: Control the splash screen for your app.
 
 # cordova-plugin-splashscreen
 
+[![Android Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/android.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/android.yml) [![Chrome Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml) [![iOS Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/ios.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/ios.yml) [![Lint Test](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml)
+
 This plugin displays and hides a splash screen while your web application is launching. Using its methods you can also show and hide the splash screen manually.
 
 - [cordova-plugin-splashscreen](#cordova-plugin-splashscreen)
