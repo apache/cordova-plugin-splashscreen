@@ -19,24 +19,19 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="cordova-plugin-splashscreen"
-      version="5.0.4">
+        id="cordova-plugin-splashscreen"
+        version="6.0.1-dev">
     <name>Splashscreen</name>
     <description>Cordova Splashscreen Plugin</description>
     <license>Apache 2.0</license>
     <keywords>cordova,splashscreen</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-splashscreen.git</repo>
-    <issue>https://issues.apache.org/jira/browse/CB/component/12320653</issue>
+    <repo>https://github.com/apache/cordova-plugin-splashscreen.git</repo>
+    <issue>https://github.com/apache/cordova-plugin-splashscreen/issues</issue>
 
     <engines>
         <engine name="cordova-android" version=">=3.6.0" /><!-- Requires CordovaPlugin.preferences -->
-        <engine name="cordova-ios" version="<6.0.0" />
         <engine name="cordova-windows" version=">=4.4.0" />
     </engines>
-
-    <js-module src="www/splashscreen.js" name="SplashScreen">
-        <clobbers target="navigator.splashscreen" />
-    </js-module>
 
     <!-- android -->
     <platform name="android">
@@ -48,29 +43,20 @@
         </config-file>
 
         <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
-    </platform>
 
-    <!-- ios -->
-    <platform name="ios">
-        <config-file target="config.xml" parent="/*">
-		    <feature name="SplashScreen">
-			    <param name="ios-package" value="CDVSplashScreen"/>
-			    <param name="onload" value="true"/>
-		    </feature>
-        </config-file>
-
-        <header-file src="src/ios/CDVSplashScreen.h" />
-        <source-file src="src/ios/CDVSplashScreen.m" />
-        <header-file src="src/ios/CDVViewController+SplashScreen.h" />
-        <source-file src="src/ios/CDVViewController+SplashScreen.m" />
-
-	    <framework src="CoreGraphics.framework" />
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
+        </js-module>
     </platform>
 
     <!-- windows -->
     <platform name="windows">
-        <js-module src="www/windows/SplashScreenProxy.js" name="SplashScreenProxy">
+        <js-module src="src/windows/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
+        </js-module>
+
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
         </js-module>
     </platform>
 
@@ -78,6 +64,10 @@
     <platform name="browser">
         <js-module src="src/browser/SplashScreenProxy.js" name="SplashScreenProxy">
             <runs />
+        </js-module>
+
+        <js-module src="www/splashscreen.js" name="SplashScreen">
+            <clobbers target="navigator.splashscreen" />
         </js-module>
     </platform>
 </plugin>
