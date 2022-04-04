@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-splashscreen-tests",
-  "version": "6.0.1",
+  "version": "6.0.2-dev",
   "description": "",
   "cordova": {
     "id": "cordova-plugin-splashscreen-tests",
