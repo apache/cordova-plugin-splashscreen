@@ -74,8 +74,7 @@ This plugin displays and hides a splash screen while your web application is lau
 - Android
   __Note__: Android implementation has been moved to the core framework.
     If using `cordova-android@10.x` or earlier, use `cordova-plugin-splashscreen@6.x`
-    If using `cordova-android@11.x` or later, use `cordova-plugin-splashscreen@7.x` (currently in-development).
-    If developing exclusively for the Android platform, this plugin can be uninstalled.
+    If using `cordova-android@11.x` or later and exclusively developing for Android, this plugin can be uninstalled.
 - iOS  
   __Note__: iOS implementation has been moved to the core framework.  
     If using `cordova-ios@5` or earlier, use `cordova-plugin-splashscreen@5`  
