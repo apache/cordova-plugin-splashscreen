@@ -20,6 +20,13 @@
 -->
 # Release Notes
 
+### 6.0.2 (Jul 12, 2022)
+
+* [GH-331](https://github.com/apache/cordova-plugin-splashscreen/pull/331) doc(ios): remove docs from `README` (migrated to cordova-docs)
+* [GH-329](https://github.com/apache/cordova-plugin-splashscreen/pull/329) chore(android): update **Android** engine requirement `<11.0.0`
+* [GH-327](https://github.com/apache/cordova-plugin-splashscreen/pull/327) docs: fixup spaces for releasnotes
+* [GH-326](https://github.com/apache/cordova-plugin-splashscreen/pull/326) chore(CI): remove **iOS** workflow
+
 ### 6.0.1 (Apr 04, 2022)
 * [GH-325](https://github.com/apache/cordova-plugin-splashscreen/pull/325) chore: update package-lock.json
 * [GH-213](https://github.com/apache/cordova-plugin-splashscreen/pull/213) GH-180 (android): Fixes nav and title bars still appearing when app is fullscreen
