@@ -29,25 +29,8 @@
     <issue>https://github.com/apache/cordova-plugin-splashscreen/issues</issue>
 
     <engines>
-        <engine name="cordova-android" version=">=3.6.0 <11.0.0" /><!-- Requires CordovaPlugin.preferences -->
         <engine name="cordova-windows" version=">=4.4.0" />
     </engines>
-
-    <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="SplashScreen">
-                <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen"/>
-                <param name="onload" value="true"/>
-            </feature>
-        </config-file>
-
-        <source-file src="src/android/SplashScreen.java" target-dir="src/org/apache/cordova/splashscreen" />
-
-        <js-module src="www/splashscreen.js" name="SplashScreen">
-            <clobbers target="navigator.splashscreen" />
-        </js-module>
-    </platform>
 
     <!-- windows -->
     <platform name="windows">

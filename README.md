@@ -23,7 +23,7 @@ description: Control the splash screen for your app.
 
 # cordova-plugin-splashscreen
 
-[![Android Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/android.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/android.yml) [![Chrome Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml) [![Lint Test](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml)
+[![Chrome Testsuite](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/chrome.yml) [![Lint Test](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml/badge.svg)](https://github.com/apache/cordova-plugin-splashscreen/actions/workflows/lint.yml)
 
 This plugin displays and hides a splash screen while your web application is launching. Using its methods you can also show and hide the splash screen manually.
 
@@ -32,17 +32,10 @@ This plugin displays and hides a splash screen while your web application is lau
   - [Supported Platforms](#supported-platforms)
   - [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
     - [Example Configuration](#example-configuration)
-    - [Android-specific Information](#android-specific-information)
-      - [Image Layout](#image-layout)
-      - [`density`](#density)
-      - [Image Sizing Table](#image-sizing-table)
-      - [Dark Mode (API 28+)](#dark-mode-api-28)
-      - [Example Android Configuration](#example-android-configuration)
     - [Windows-specific Information](#windows-specific-information)
   - [Preferences](#preferences)
     - [config.xml](#configxml)
     - [Quirks](#quirks)
-      - [Android Quirks](#android-quirks)
       - [Browser Quirks](#browser-quirks)
       - [Windows Quirks](#windows-quirks)
   - [Methods](#methods)
@@ -59,12 +52,8 @@ This plugin displays and hides a splash screen while your web application is lau
 
 ## Supported Platforms
 
-- Android
-  __Note__: Android implementation has been moved to the core framework.
-    If using `cordova-android@10.x` or earlier, use `cordova-plugin-splashscreen@6.x`
-    If using `cordova-android@11.x` or later and exclusively developing for Android, this plugin can be uninstalled.
 - Windows (`cordova-windows` version >= 4.4.0 is required)  
-  __Note__: Extended splashscreen does not require the plugin on Windows (as opposed to Android) in case you don't use the plugin API, i.e. programmatic hide/show.
+  __Note__: Extended splashscreen does not require the plugin on Windows in case you don't use the plugin API, i.e. programmatic hide/show.
 - Browser
 
 ## Platform Splash Screen Image Configuration
@@ -88,27 +77,10 @@ projectRoot
         js
     res
         screen
-            android
             windows
 ```
 
 ```xml
-<platform name="android">
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi" />
-    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
-    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
-
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
-    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" /> 
-</platform>
-
 <!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
 <platform name="windows">
     <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
@@ -122,92 +94,6 @@ projectRoot
 </platform>-->
 
 <preference name="SplashScreenDelay" value="10000" />
-```
-
-### Android-specific Information
-
-To effectively create your Android SplashScreen assets, it is important to understand the idiom and sizes used for the assets.
-
-Android defined its assets by the image's layout and `density`.
-
-#### Image Layout
-
-- `land` short for landscape mode
-- `port` short for portrait mode
-
-#### `density`
-
-The image's density refers to the number of pixels per square inch. Android, interchangeably refers to this as DPI.
-
-Not all devices have the same pixel size so it is important to create images for all DPI to ensure that the quality of the image for each device is great.
-
-If not all DPI images are considered, some devices might not show a SplashScreen or will use an incorrect DPI image that can result in a blurry scaled image.
-
-#### Image Sizing Table
-
-|  size   | portrait  | landscape |
-| :-----: | :-------: | :-------: |
-|  ldpi   |  200x320  |  320x200  |
-|  mdpi   |  320x480  |  480x320  |
-|  hdpi   |  480x800  |  800x480  |
-|  xhdpi  | 720x1280  | 1280x720  |
-| xxhdpi  | 960x1600  | 1600x960  |
-| xxxhdpi | 1280x1920 | 1920x1280 |
-
-#### Dark Mode (API 28+)
-
-You can optionally provide an extra SplashScreen image to be used in dark/night mode when enabled on supported devices.
-To do this, add the `-night` keyword in between the **layout** and **size** keywords of the image's `density` attribute value. E.g.: `land-night-hdpi`
-
-For more examples, please see [the Example Configuration](#example-android-configuration) section.
-
-#### Example Android Configuration
-
-```xml
-<platform name="android">
-    <!-- Default 
-    Note: You should specify default resources for each density.
-      -- For instance, if the device(hdpi) is in landscape orientation and [density="land-hdpi"] 
-      -- does not exists, [density="hdpi"] will be selected 
-      If you do not declare this you will get MissingDefaultResource lint check errors.
-      -->
-    <splash src="res/screen/android/splash-port-hdpi.png" density="hdpi"/>
-    <splash src="res/screen/android/splash-port-ldpi.png" density="ldpi"/>
-    <splash src="res/screen/android/splash-port-mdpi.png" density="mdpi"/>
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="xhdpi"/>
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="xxhdpi"/>
-
-    <!-- Landscape -->
-    <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi" />
-    <splash src="res/screen/android/splash-land-ldpi.png" density="land-ldpi" />
-    <splash src="res/screen/android/splash-land-mdpi.png" density="land-mdpi" />
-    <splash src="res/screen/android/splash-land-xhdpi.png" density="land-xhdpi" />
-    <splash src="res/screen/android/splash-land-xxhdpi.png" density="land-xxhdpi" />
-    <splash src="res/screen/android/splash-land-xxxhdpi.png" density="land-xxxhdpi" />
-
-    <!-- Portrait -->
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi" />
-    <splash src="res/screen/android/splash-port-ldpi.png" density="port-ldpi" />
-    <splash src="res/screen/android/splash-port-mdpi.png" density="port-mdpi" />
-    <splash src="res/screen/android/splash-port-xhdpi.png" density="port-xhdpi" />
-    <splash src="res/screen/android/splash-port-xxhdpi.png" density="port-xxhdpi" />
-    <splash src="res/screen/android/splash-port-xxxhdpi.png" density="port-xxxhdpi" />
-  
-    <!-- Dark Mode -->
-    <splash src="res/screen/android/splash-land-night-hdpi.png" density="land-night-hdpi" />
-    <splash src="res/screen/android/splash-land-night-ldpi.png" density="land-night-ldpi" />
-    <splash src="res/screen/android/splash-land-night-mdpi.png" density="land-night-mdpi" />
-    <splash src="res/screen/android/splash-land-night-xhdpi.png" density="land-night-xhdpi" />
-    <splash src="res/screen/android/splash-land-night-xxhdpi.png" density="land-night-xxhdpi" />
-    <splash src="res/screen/android/splash-land-night-xxxhdpi.png" density="land-night-xxxhdpi" />
-
-    <splash src="res/screen/android/splash-port-night-hdpi.png" density="port-night-hdpi" />
-    <splash src="res/screen/android/splash-port-night-ldpi.png" density="port-night-ldpi" />
-    <splash src="res/screen/android/splash-port-night-mdpi.png" density="port-night-mdpi" />
-    <splash src="res/screen/android/splash-port-night-xhdpi.png" density="port-night-xhdpi" />
-    <splash src="res/screen/android/splash-port-night-xxhdpi.png" density="port-night-xxhdpi" />
-    <splash src="res/screen/android/splash-port-night-xxxhdpi.png" density="port-night-xxxhdpi" />
-</platform>
 ```
 
 ### Windows-specific Information
@@ -303,24 +189,6 @@ __Note__: You may need to reopen Visual Studio solution after changing the image
     _Note_: Does not work on Browser or Windows platforms.
 
 ### Quirks
-
-#### Android Quirks
-
-In your `config.xml`, you can add the following preferences:
-
-```xml
-<preference name="SplashMaintainAspectRatio" value="true|false" />
-<preference name="SplashShowOnlyFirstTime" value="true|false" />
-<preference name="SplashScreenSpinnerColor" value="white" />
-```
-
-`SplashMaintainAspectRatio` preference is optional. If set to `true`, the splash screen drawable is not stretched to fit the full screen, but instead simply "covers" the screen, like CSS "background-size:cover". This is very useful when splash screen images cannot be distorted in any way, for example when they contain scenery or text. This setting works best with images that have large margins (safe areas) that can be safely cropped on screens with different aspect ratios.
-
-The splash screen plugin reloads the splash screen whenever the orientation changes so that you can specify different splash screen images for portrait and landscape orientations.
-
-`SplashShowOnlyFirstTime` preference is  optional and defaults to `true`. When set to `true` the splash screen will only appear on application launch. However, if you plan to use `navigator.app.exitApp()` to close the application and force the splash screen appear on the application's next launch, you should set this property to `false` (this also applies to closing the application with the Back button).
-
-`SplashScreenSpinnerColor` preference is also optional and is ignored when not set. Setting it to a valid color name or HEX color code will change the color of the spinner on Android 5.0+ devices.
 
 #### Browser Quirks
 
