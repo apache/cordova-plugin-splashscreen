@@ -27,22 +27,6 @@
     <keywords>cordova,splashscreen</keywords>
     <repo>https://github.com/apache/cordova-plugin-splashscreen.git</repo>
     <issue>https://github.com/apache/cordova-plugin-splashscreen/issues</issue>
-
-    <engines>
-        <engine name="cordova-windows" version=">=4.4.0" />
-    </engines>
-
-    <!-- windows -->
-    <platform name="windows">
-        <js-module src="src/windows/SplashScreenProxy.js" name="SplashScreenProxy">
-            <runs />
-        </js-module>
-
-        <js-module src="www/splashscreen.js" name="SplashScreen">
-            <clobbers target="navigator.splashscreen" />
-        </js-module>
-    </platform>
-
     <!-- browser -->
     <platform name="browser">
         <js-module src="src/browser/SplashScreenProxy.js" name="SplashScreenProxy">
