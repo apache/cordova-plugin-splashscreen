@@ -141,7 +141,7 @@ projectRoot
     <preference name="ShowSplashScreenSpinner" value="false"/>
     ```
     
-    _Note_: Does not work on Browser
+    _Note_: Does not work on Browser.
 
 ### Quirks
 
