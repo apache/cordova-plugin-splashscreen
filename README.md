@@ -35,7 +35,6 @@ This plugin displays and hides a splash screen while your web application is lau
   - [Preferences](#preferences)
     - [config.xml](#configxml)
     - [Quirks](#quirks)
-      - [Browser Quirks](#browser-quirks)
   - [Methods](#methods)
     - [splashscreen.hide](#splashscreenhide)
     - [splashscreen.show](#splashscreenshow)
@@ -134,18 +133,7 @@ projectRoot
     }, splashDuration - fadeDuration);
     ```
 
-- `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
-  to hide the splash screen spinner.
-
-    ```xml
-    <preference name="ShowSplashScreenSpinner" value="false"/>
-    ```
-    
-    _Note_: Does not work on Browser.
-
 ### Quirks
-
-#### Browser Quirks
 
 You can use the following preferences in your `config.xml`:
 
@@ -161,7 +149,7 @@ You can use the following preferences in your `config.xml`:
 </platform>
 ```
 
-__Note__: `SplashScreen` value should be absolute in order to work in a sub-page. The `SplashScreen` value is used only for the browser platform. The value will be ignored for other platforms.
+__Note__: `SplashScreen` value should be absolute in order to work in a sub-page.
 
 ## Methods
 
