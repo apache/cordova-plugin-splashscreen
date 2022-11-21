@@ -20,6 +20,63 @@
 -->
 # Release Notes
 
+### 6.0.2 (Jul 12, 2022)
+
+* [GH-331](https://github.com/apache/cordova-plugin-splashscreen/pull/331) doc(ios): remove docs from `README` (migrated to cordova-docs)
+* [GH-329](https://github.com/apache/cordova-plugin-splashscreen/pull/329) chore(android): update **Android** engine requirement `<11.0.0`
+* [GH-327](https://github.com/apache/cordova-plugin-splashscreen/pull/327) docs: fixup spaces for releasnotes
+* [GH-326](https://github.com/apache/cordova-plugin-splashscreen/pull/326) chore(CI): remove **iOS** workflow
+
+### 6.0.1 (Apr 04, 2022)
+* [GH-325](https://github.com/apache/cordova-plugin-splashscreen/pull/325) chore: update package-lock.json
+* [GH-213](https://github.com/apache/cordova-plugin-splashscreen/pull/213) GH-180 (android): Fixes nav and title bars still appearing when app is fullscreen
+* [GH-320](https://github.com/apache/cordova-plugin-splashscreen/pull/320) ci(ios): update workflow w/ **iOS** 15
+* [GH-319](https://github.com/apache/cordova-plugin-splashscreen/pull/319) ci: add action-badge
+* [GH-318](https://github.com/apache/cordova-plugin-splashscreen/pull/318) ci: remove travis & appveyor
+* [GH-317](https://github.com/apache/cordova-plugin-splashscreen/pull/317) ci: add gh-actions workflows
+* [GH-312](https://github.com/apache/cordova-plugin-splashscreen/pull/312) fix: autofocus after splashscreen
+* [GH-314](https://github.com/apache/cordova-plugin-splashscreen/pull/314) fix: refocus after webview visible (#186)
+* [GH-304](https://github.com/apache/cordova-plugin-splashscreen/pull/304) ci: add node-14.x to workflow
+* [GH-291](https://github.com/apache/cordova-plugin-splashscreen/pull/291) chore(docs): Update missing  default resources for **Android** #689
+* [GH-293](https://github.com/apache/cordova-plugin-splashscreen/pull/293) Documentation Enhancement for **Android** Dark Mode
+* [GH-300](https://github.com/apache/cordova-plugin-splashscreen/pull/300) docs: Added **iOS** notes to supported platforms.
+* [GH-296](https://github.com/apache/cordova-plugin-splashscreen/pull/296) chore(pkg): remove default-valued field "homepage"
+* [GH-292](https://github.com/apache/cordova-plugin-splashscreen/pull/292) ci(travis): updates **Android** API level
+* [GH-286](https://github.com/apache/cordova-plugin-splashscreen/pull/286) (docs): Add Information about how to use Dark Mode SplashScreens
+
+### 6.0.0 (Jul 07, 2020)
+
+* [GH-282](https://github.com/apache/cordova-plugin-splashscreen/pull/282) fix: js `clobber` only on supported platforms
+* [GH-281](https://github.com/apache/cordova-plugin-splashscreen/pull/281) chore: adds `package-lock` file
+* [GH-280](https://github.com/apache/cordova-plugin-splashscreen/pull/280) doc(android): various improvements including size specs
+* [GH-200](https://github.com/apache/cordova-plugin-splashscreen/pull/200) fix(windows): implementation structure
+* [GH-279](https://github.com/apache/cordova-plugin-splashscreen/pull/279) chore: add missing supported platform **Browser** to `npm` keywords
+* [GH-278](https://github.com/apache/cordova-plugin-splashscreen/pull/278) chore: update `engine` checks to cover newer versions
+* [GH-277](https://github.com/apache/cordova-plugin-splashscreen/pull/277) breaking: replace `jshint` with `eslint`
+* [GH-276](https://github.com/apache/cordova-plugin-splashscreen/pull/276) breaking: drop `node` `engine` requirement
+* [GH-275](https://github.com/apache/cordova-plugin-splashscreen/pull/275) chore: cleanup repo
+* [GH-274](https://github.com/apache/cordova-plugin-splashscreen/pull/274) breaking: bump `engine` restriction for cordova dependencies
+* [GH-263](https://github.com/apache/cordova-plugin-splashscreen/pull/263) breaking: remove **iOS** platform code from plugin repo
+* [GH-267](https://github.com/apache/cordova-plugin-splashscreen/pull/267) test: force `cordova-ios`@^5.1.1
+
+### 5.0.4 (Jun 03, 2020)
+* [GH-261](https://github.com/apache/cordova-plugin-splashscreen/pull/261) chore: add `cordova-ios` requirement <6.0.0
+* chore(asf): update git notification settings
+* update CONTRIBUTING.md
+* [GH-251](https://github.com/apache/cordova-plugin-splashscreen/pull/251) chore(npm): adds ignore list
+* [GH-252](https://github.com/apache/cordova-plugin-splashscreen/pull/252) ci: updates Node.js versions
+* [GH-236](https://github.com/apache/cordova-plugin-splashscreen/pull/236) update homepage to github `README` page
+* [GH-239](https://github.com/apache/cordova-plugin-splashscreen/pull/239) update `README`.md by adding missing info
+* ci(travis): Upgrade node from 6 to 8
+* ci(travis): Remove **Android 4.4**, Add **Android** 9.0
+* [GH-212](https://github.com/apache/cordova-plugin-splashscreen/pull/212) ci(travis): Add ADDITIONAL_TESTS_DIR=./tests/ios
+
+### 5.0.3 (May 09, 2019)
+* Update CI configuration and README ([#210](https://github.com/apache/cordova-plugin-splashscreen/pull/210), [#208](https://github.com/apache/cordova-plugin-splashscreen/pull/208), [#198](https://github.com/apache/cordova-plugin-splashscreen/pull/198), [#194](https://github.com/apache/cordova-plugin-splashscreen/pull/194))
+* Add or update GitHub pull request and issue template
+* [CB-13826](https://issues.apache.org/jira/browse/CB-13826) Incremented plugin version.
+* [CB-12277](https://issues.apache.org/jira/browse/CB-12277) (android) avoid NullPointerException on splashImageView when removing splashscreen
+
 ### 5.0.2 (Jan 24, 2018)
 * [CB-13750](https://issues.apache.org/jira/browse/CB-13750) Add build-tools-26.0.2 to travis
 * [CB-13737](https://issues.apache.org/jira/browse/CB-13737) (iOS): fix Splash screen images for iPhone X

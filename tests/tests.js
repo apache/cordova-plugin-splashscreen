@@ -19,20 +19,18 @@
  *
 */
 
-/* jshint jasmine: true */
-
 exports.defineAutoTests = function () {
     describe('Splashscreen (cordova)', function () {
-        it("splashscreen.spec.1 should exist", function () {
+        it('splashscreen.spec.1 should exist', function () {
             expect(navigator.splashscreen).toBeDefined();
         });
 
-        it("splashscreen.spec.2 show method should exist", function () {
+        it('splashscreen.spec.2 show method should exist', function () {
             expect(navigator.splashscreen.show).toBeDefined();
             expect(typeof navigator.splashscreen.show).toBe('function');
         });
 
-        it("splashscreen.spec.3 hide method should exist", function () {
+        it('splashscreen.spec.3 hide method should exist', function () {
             expect(navigator.splashscreen.hide).toBeDefined();
             expect(typeof navigator.splashscreen.hide).toBe('function');
         });
@@ -40,7 +38,7 @@ exports.defineAutoTests = function () {
 };
 
 exports.defineManualTests = function (contentEl, createActionButton) {
-    function showFor(duration) {
+    function showFor (duration) {
         navigator.splashscreen.show();
         window.setTimeout(function () {
             navigator.splashscreen.hide();
@@ -48,7 +46,6 @@ exports.defineManualTests = function (contentEl, createActionButton) {
     }
 
     contentEl.innerHTML = '<h1>Splashscreen Tests</h1>' +
-        '<h3>Note for WP: AutoHideSplashScreen must be set to false in config.xml</h3>' +
         '<div id="show1"></div>' +
         'Expected result: Will show the Cordova splashscreen for 1 second' +
         '</p> <div id="show5"></div>' +

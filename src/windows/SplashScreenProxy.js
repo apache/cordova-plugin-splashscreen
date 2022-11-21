@@ -19,15 +19,17 @@
  *
 */
 
-var exec = require('cordova/exec');
+var splash = require('cordova/splashscreen');
 
-var splashscreen = {
+var SplashScreen = {
     show: function () {
-        exec(null, null, 'SplashScreen', 'show', []);
+        splash.show();
     },
     hide: function () {
-        exec(null, null, 'SplashScreen', 'hide', []);
+        splash.hide();
     }
 };
 
-module.exports = splashscreen;
+module.exports = SplashScreen;
+
+require('cordova/exec/proxy').add('SplashScreen', SplashScreen);
