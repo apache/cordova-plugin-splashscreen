@@ -94,13 +94,13 @@ var SplashScreen = {
             localSplash = null;
             window.removeEventListener('resize', onResize, false);
 
-            var transitionCssString = "opacity " + fadeSplashScreenDuration + "ms ease-in-out";
+            var transitionCssString = `opacity ${fadeSplashScreenDuration}ms ease-in-out`;
 
             innerLocalSplash.style.opacity = '0';
-            innerLocalSplash.style["-webkit-transition"] =
-                innerLocalSplash.style["-moz-transition"] =
-                innerLocalSplash.style["-ms-transition"] =
-                innerLocalSplash.style["-o-transition"] = transitionCssString;
+            innerLocalSplash.style['-webkit-transition'] =
+                innerLocalSplash.style['-moz-transition'] =
+                innerLocalSplash.style['-ms-transition'] =
+                innerLocalSplash.style['-o-transition'] = transitionCssString;
 
             window.setTimeout(function () {
                 document.body.removeChild(innerLocalSplash);
