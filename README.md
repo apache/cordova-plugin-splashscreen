@@ -32,12 +32,9 @@ This plugin displays and hides a splash screen while your web application is lau
   - [Supported Platforms](#supported-platforms)
   - [Platform Splash Screen Image Configuration](#platform-splash-screen-image-configuration)
     - [Example Configuration](#example-configuration)
-    - [Windows-specific Information](#windows-specific-information)
   - [Preferences](#preferences)
     - [config.xml](#configxml)
     - [Quirks](#quirks)
-      - [Browser Quirks](#browser-quirks)
-      - [Windows Quirks](#windows-quirks)
   - [Methods](#methods)
     - [splashscreen.hide](#splashscreenhide)
     - [splashscreen.show](#splashscreenshow)
@@ -52,8 +49,6 @@ This plugin displays and hides a splash screen while your web application is lau
 
 ## Supported Platforms
 
-- Windows (`cordova-windows` version >= 4.4.0 is required)  
-  __Note__: Extended splashscreen does not require the plugin on Windows in case you don't use the plugin API, i.e. programmatic hide/show.
 - Browser
 
 ## Platform Splash Screen Image Configuration
@@ -77,49 +72,11 @@ projectRoot
         js
     res
         screen
-            windows
 ```
 
 ```xml
-<!-- Configuration using MRT concept (Recommended, see "Windows-specific information" section for details): -->
-<platform name="windows">
-    <splash src="res/screen/windows/splashscreen.png" target="SplashScreen"/>
-    <splash src="res/screen/windows/splashscreenphone.png" target="SplashScreenPhone"/>
-</platform>
-
-<!-- Configuration using image size: -->
-<!--<platform name="windows">
-    <splash src="res/screen/windows/splashscreen.png" width="620" height="300"/>
-    <splash src="res/screen/windows/splashscreenphone.png" width="1152" height="1920"/>
-</platform>-->
-
 <preference name="SplashScreenDelay" value="10000" />
 ```
-
-### Windows-specific Information
-
-Splash screen images can be defined using the [MRT](https://cordova.apache.org/docs/en/dev/config_ref/images.html#windows) concept.  
-If you specify `src="res/windows/splashscreen.png"` the following files will be copied into the application's images folder:  
-`res/windows/splashscreen.png` | `res/windows/splashscreen.scale-100.png`, `res/windows/splashscreen.scale-125.png`, etc.  
-
-The following are supported:
-
-|   Scale, %   |       Project       |    Width    |    Height    |             Filename              |
-|:------------:|:-------------------:|:-----------:|:------------:|:---------------------------------:|
-|     100      |  Windows 10/8.1     |     620     |     300      | `splashscreen.png` \| `splashscreen.scale-100.png`              |
-|     125      |  Windows 10         |     775     |     375      | `splashscreen.scale-125.png`      |
-|     150      |  Windows 10         |     930     |     450      | `splashscreen.scale-150.png`      |
-|     200      |  Windows 10         |     1240    |     600      | `splashscreen.scale-200.png`      |
-|     400      |  Windows 10         |     2480    |     1200     | `splashscreen.scale-400.png`      |
-|     140      |  Windows 8.1        |     868     |     420      | `splashscreen.scale-140.png`      |
-|     180      |  Windows 8.1        |     1116    |     540      | `splashscreen.scale-180.png`      |
-|     100      |  Windows Phone 8.1  |     480     |     800      | `splashscreenphone.png` \| `splashscreenphone.scale-100.png`         |
-|     140      |  Windows Phone 8.1  |     672     |     1120     | `splashscreenphone.scale-140.png` |
-|     240      |  Windows Phone 8.1  |     1152    |     1920     | `splashscreenphone.scale-240.png` |
-
-__Note__: SplashScreens size for Windows 10 project should not exceed 200 KBytes.  
-__Note__: Supported formats are `.png`, `.jpg`, `.jpeg`. Mixing of the extensions within a target is not supported. I.e. you can have `splashscreen.jpg` and `splashscreenphone.png` but not `splashscreen.scale-100.png`, `splashscreen.scale-400.jpg`.  
-__Note__: You may need to reopen Visual Studio solution after changing the images and doing a `cordova prepare` for the changes to take effect.
 
 ## Preferences
 
@@ -143,9 +100,6 @@ __Note__: You may need to reopen Visual Studio solution after changing the image
     ```xml
     <preference name="SplashScreenDelay" value="0"/>
     ```
-
-    **Windows Quirk**: You should disable the splashscreen in case you are updating the entire document body dynamically (f.e. with a SPA router) to avoid affecting UI/controls.  
-    Note that you should also directly reference `WinJS/base.js` in the page HTML in this case to avoid the issues with activation context ([CB-11658](https://issues.apache.org/jira/browse/CB-11658)).
 
 - `FadeSplashScreen` (boolean, defaults to `true`): Set to `false` to
   prevent the splash screen from fading in and out when its display
@@ -179,18 +133,7 @@ __Note__: You may need to reopen Visual Studio solution after changing the image
     }, splashDuration - fadeDuration);
     ```
 
-- `ShowSplashScreenSpinner` (boolean, defaults to `true`): Set to `false`
-  to hide the splash screen spinner.
-
-    ```xml
-    <preference name="ShowSplashScreenSpinner" value="false"/>
-    ```
-    
-    _Note_: Does not work on Browser or Windows platforms.
-
 ### Quirks
-
-#### Browser Quirks
 
 You can use the following preferences in your `config.xml`:
 
@@ -206,23 +149,7 @@ You can use the following preferences in your `config.xml`:
 </platform>
 ```
 
-__Note__: `SplashScreen` value should be absolute in order to work in a sub-page. The `SplashScreen` value is used only for the browser platform. The value will be ignored for other platforms.
-
-#### Windows Quirks
-
-- `SplashScreenSpinnerColor` (string, defaults to system accent color): hash, rgb notation or CSS color name.
-
-    ```xml
-    <preference name="SplashScreenSpinnerColor" value="#242424"/>
-    <preference name="SplashScreenSpinnerColor" value="DarkRed"/>
-    <preference name="SplashScreenSpinnerColor" value="rgb(50,128,128)"/>
-    ```
-
-- `SplashScreenBackgroundColor` (string, defaults to #464646): hex notation.
-
-    ```xml
-    <preference name="SplashScreenBackgroundColor" value="0xFFFFFFFF"/>
-    ```
+__Note__: `SplashScreen` value should be absolute in order to work in a sub-page.
 
 ## Methods
 
