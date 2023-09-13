@@ -1,6 +1,6 @@
 ---
-title: Splashscreen
-description: Control the splash screen for your app.
+title: Browser Splashscreen
+description: Control the browser platform splash screen for your app.
 ---
 <!--
 # license: Licensed to the Apache Software Foundation (ASF) under one
