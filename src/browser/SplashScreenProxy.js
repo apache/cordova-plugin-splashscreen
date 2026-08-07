@@ -28,6 +28,7 @@ var localSplashImage;
 var bgColor = '#464646';
 var imageSrc = '/img/logo.png';
 var splashScreenDelay = 3000; // in milliseconds
+var fadeSplashScreenDuration = 500; // in milliseconds
 var showSplashScreen = true; // show splashcreen by default
 var cordova = require('cordova');
 var configHelper = cordova.require('cordova/confighelper');
@@ -93,11 +94,13 @@ var SplashScreen = {
             localSplash = null;
             window.removeEventListener('resize', onResize, false);
 
+            var transitionCssString = `opacity ${fadeSplashScreenDuration}ms ease-in-out`;
+
             innerLocalSplash.style.opacity = '0';
-            innerLocalSplash.style['-webkit-transition'] = 'opacity 1s ease-in-out';
-            innerLocalSplash.style['-moz-transition'] = 'opacity 1s ease-in-out';
-            innerLocalSplash.style['-ms-transition'] = 'opacity 1s ease-in-out';
-            innerLocalSplash.style['-o-transition'] = 'opacity 1s ease-in-out';
+            innerLocalSplash.style['-webkit-transition'] =
+                innerLocalSplash.style['-moz-transition'] =
+                innerLocalSplash.style['-ms-transition'] =
+                innerLocalSplash.style['-o-transition'] = transitionCssString;
 
             window.setTimeout(function () {
                 document.body.removeChild(innerLocalSplash);
@@ -126,6 +129,7 @@ function readPreferencesFromCfg (cfg) {
         bgColor = cfg.getPreferenceValue('SplashScreenBackgroundColor') || bgColor;
         splashImageWidth = cfg.getPreferenceValue('SplashScreenWidth') || splashImageWidth;
         splashImageHeight = cfg.getPreferenceValue('SplashScreenHeight') || splashImageHeight;
+        fadeSplashScreenDuration = cfg.getPreferenceValue('FadeSplashScreenDuration') || fadeSplashScreenDuration;
         autoHideSplashScreen = cfg.getPreferenceValue('AutoHideSplashScreen') || autoHideSplashScreen;
         autoHideSplashScreen = (autoHideSplashScreen === true || autoHideSplashScreen.toLowerCase() === 'true');
     } catch (e) {
